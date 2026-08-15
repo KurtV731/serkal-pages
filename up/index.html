@@ -1,0 +1,108 @@
+skt
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>SerKal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: url("icon/bg.png") center/cover no-repeat;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+}
+
+.overlay {
+  background: rgba(0,0,0,0.55);
+  padding: 40px;
+  border-radius: 12px;
+}
+
+.title {
+  font-size: 42px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 16px;
+  margin-bottom: 30px;
+  color: #ddd;
+}
+
+.flags {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.flag {
+  cursor: pointer;
+  transition: 0.2s;
+  color: inherit;
+  text-decoration: none;
+}
+
+.flag img {
+  width: 80px;
+  border-radius: 8px;
+}
+
+.flag:hover {
+  transform: scale(1.1);
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="overlay">
+
+  <div class="title">SerKal</div>
+  <div class="subtitle">Serien clever verwalten – automatisch im Kalender</div>
+
+  <div class="flags">
+
+    <a class="flag" href="/start.html" aria-label="Deutsch">
+      <img src="icon/de.png" alt="Deutsch">
+      <div>Deutsch</div>
+    </a>
+
+    <a class="flag" href="/start-en.html" aria-label="English">
+      <img src="icon/en.png" alt="English">
+      <div>English</div>
+    </a>
+
+  </div>
+
+</div>
+
+
+  <!-- Unsichtbarer Entwickler-Hotspot auf dem "T" im Kalenderbild -->
+  <a  href="/skdevhmb/serkal/skt.html"
+  title="Developer"
+  aria-label="Developer"
+  style="
+    position: fixed;
+    left: 81.2%;
+    top: 20.5%;
+    width: 28px;
+    height: 32px;
+    transform: translate(-50%, -50%);
+    background: transparent;
+    opacity: 1;
+    border: none;
+    box-sizing: border-box;
+    z-index: 9999;
+  ">
+</a>
+ 
+</body>
+</html>

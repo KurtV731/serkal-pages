@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>SerKal – Impressum</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f5f6fa;
+  color: #2c3e50;
+}
+header {
+  background: #e9ecf2;
+  padding: 20px;
+  border-bottom: 1px solid #ccc;
+}
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.header-title {
+  display: flex;
+  align-items: baseline;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+.header-title h1 {
+  margin: 0;
+  font-size: 32px;
+}
+.header-subtitle {
+  font-size: 16px;
+  color: #555;
+  margin: 0;
+}
+.header-logos {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.header-logos img {
+  height: 36px;
+  border-radius: 8px;
+}
+nav.topnav {
+  margin-top: 14px;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+nav.topnav a {
+  text-decoration: none;
+  color: #3b5ca8;
+  font-weight: bold;
+}
+nav.topnav a.active {
+  color: #1f2f44;
+}
+.container {
+  padding: 20px;
+  max-width: 1000px;
+  margin: auto;
+}
+.section {
+  margin-bottom: 30px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.box {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  background: white;
+  padding: 18px;
+  border-radius: 10px;
+  border: 1px solid #dcdfe6;
+  transition: 0.2s;
+}
+.box:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+.box h2, .box h3 {
+  margin-top: 0;
+  color: #3b5ca8;
+}
+.box p, .box li {
+  font-size: 15px;
+}
+.listbox {
+  background: white;
+  padding: 18px 22px;
+  border-radius: 10px;
+  border: 1px solid #dcdfe6;
+  margin-bottom: 18px;
+}
+.lang {
+  margin-top: 40px;
+  padding-top: 15px;
+  border-top: 1px solid #ccc;
+}
+.lang a {
+  text-decoration: none;
+  font-weight: bold;
+  color: #3b5ca8;
+}
+.lang a:hover, nav.topnav a:hover, footer a:hover {
+  text-decoration: underline;
+}
+footer {
+  text-align: center;
+  font-size: 12px;
+  margin-top: 40px;
+  color: #777;
+  padding: 20px;
+}
+footer a {
+  color: #666;
+  text-decoration: none;
+  margin: 0 10px;
+}
+.code {
+  background: #f4f7fc;
+  padding: 10px;
+  border-radius: 8px;
+  font-family: Consolas, monospace;
+}
+.warn {
+  background: #fff3cd;
+  border: 1px solid #ffeeba;
+  padding: 12px;
+  border-radius: 10px;
+  margin: 14px 0;
+}
+@media (max-width: 700px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .header-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .header-title {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+</style>
+</head>
+<body>
+<header>
+  <div class="header-top">
+    <div class="header-title">
+      <h1>SerKal</h1>
+      <p class="header-subtitle">Serien clever verwalten – mit TMDB, Kalender und Übersicht</p>
+    </div>
+    <div class="header-logos">
+      <img src="icon/blue.jpg" alt="SerKal Logo">
+      <img src="icon/chatgptlogo.png" alt="ChatGPT Logo">
+      <img src="icon/tmdblogo.png" alt="TMDB Logo">
+    </div>
+  </div>
+  <nav class="topnav"><a href="/start.html" class="">Start</a> <a href="/download.html" class="">Download</a> <a href="/help.html" class="">Hilfe</a> <a href="/about.html" class="">Über SerKal</a> <a href="/legal.html" class="active">Rechtliches</a></nav>
+</header>
+<div class="container">
+
+  <div class="section">
+    <div class="listbox">
+      <h2>Impressum</h2>
+      <p><strong>Angaben gemäß § 5 TMG</strong></p>
+      <p>
+        Kurt Vogelsaenger<br>
+        Planiger Straße 26<br>
+        55543 Bad Kreuznach<br>
+        Deutschland
+      </p>
+      <p>
+        Telefon: 0172-7153997<br>
+        Festnetz: 0671-9205737<br>
+        E-Mail: k.vogelsaenger@t-online.de<br>
+        E-Mail: kp.vogelsaenger@gmail.com<br>
+        E-Mail: kp.vogelsaenger@serkal.de
+      </p>
+      <p><strong>Verantwortlich für den Inhalt:</strong><br>Kurt Vogelsaenger</p>
+    </div>
+  </div>
+
+  <div class="lang">
+    <strong>Sprache:</strong><br><br>
+    <a href="/legal.html">Deutsch</a> |
+    <a href="/legal-en.html">English</a>
+  </div>
+</div>
+<footer>
+  <a href="/impressum.html">Impressum</a> |
+  <a href="/datenschutz.html">Datenschutzhinweise</a><br><br>
+  © SerKal – 2026
+</footer>
+</body>
+</html>

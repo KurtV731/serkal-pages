@@ -1,0 +1,2567 @@
+==UserScript==
+// @name         hasa 1.0 public preview - horizon assistant
+// @namespace    horiversum.hasa
+// @version      1.0
+// @description  Persönlicher Ascension-Assistent für Horizon
+// @match        https://horiversum.org/game/main/main.php*
+// @grant        GM_getValue
+// @grant        GM_setValue
+// ==/UserScript==
+
+/*
+==========================================================
+ HASA 1.0.2g Audio Manager Test
+ Horizon Ascension Assistant
+
+ Version : 1.0 public preview
+ Status  : public preview
+
+ Idee & Konzept:
+   Styl
+
+ Programmierung:
+   ChatGPT
+
+ Grundsatz:
+   hasa informiert, analysiert und erinnert.
+   hasa spielt nicht.
+
+ Speicherung:
+   Alle Einstellungen werden lokal im Tampermonkey-Speicher
+   (GM_getValue / GM_setValue) gespeichert.
+   Fallback: Browser-localStorage, falls GM-Speicher nicht verfügbar ist.
+
+==========================================================
+*/
+
+(function () {
+    'use strict';
+
+    const HASA_VERSION = '1.0 public preview';
+    const HASA_BUILD_LABEL = '1.0-public-preview-2026-07-11';
+
+    /*
+     * hasa-Positionswerte ab 0.7 Beta
+     *
+     * Die Position der hasa-Box hängt NICHT mehr vom Text „Ascension“ ab.
+     * Ascension entscheidet nur noch über den INHALT der Box.
+     *
+     * Grundlage ist der feste Horizon-Spielbereich:
+     *   - linke Navigation: 128px
+     *   - nutzbarer linker Spielbereich: ca. 642px
+     *   - daraus ergibt sich als Standard-Anker: 128 + 642 = 770px
+     *
+     * Falls Horizon in einem Skin/Zoom minimal abweicht, sind nur diese
+     * Werte anzupassen. Keine Pixelwerte mehr tief in der Funktion.
+     */
+    const HASA_POSITION = {
+        SPIEL_LINKS_X: 128,
+        SPIEL_BREITE_X: 642,
+        BOX_X_OFFSET: 0,
+        BOX_OBEN_Y: 132,
+        BOX_Y_OFFSET: 0,
+        RAND_RECHTS_MIN: 12,
+
+        // 0.8.2 Beta:
+        // Optischer Standardanker:
+        //   oben  = Oberkante der Buddies-Leiste
+        //   links = linke Kante des Nachrichten-/Chatfensters unten
+        // Wenn einer der Anker nicht gefunden wird, greift der alte Fallback.
+        BUDDIES_Y_FALLBACK: 68,
+        CHAT_LINKS_FALLBACK: 286,
+        ANKER_Y_OFFSET: 0,
+        ANKER_X_OFFSET: 0,
+
+        // 0.8.3 Beta:
+        // Anker nur übernehmen, wenn sie plausibel zum großen Horizon-Layout passen.
+        // So vermeiden wir, dass HASA an einer kleinen Mini-Box oben links kleben bleibt.
+        BUDDIES_MIN_LINKS: 350,
+        BUDDIES_MAX_OBEN: 160,
+        CHAT_MIN_OBEN_ANTEIL: 0.45,
+        CHAT_MIN_LINKS: 120,
+        CHAT_MIN_BREITE: 500,
+
+        // 0.9.6 Beta: Magnetisches Einrasten beim Verschieben.
+        SNAP_ABSTAND: 18
+    };
+
+    const STORAGE_FAVORITEN = 'haa_favoriten_v05';
+    const STORAGE_SPALTEN = 'haa_spalten_v05';
+    const STORAGE_ZU = 'haa_zu_v05';
+    const STORAGE_BAUALARM = 'haa_baualarm_v055';
+    const STORAGE_BAUSTATUS = 'haa_baustatus_v060';
+    const STORAGE_ALARM_AUSGELOEST = 'haa_alarm_ausgeloest_v060';
+    const STORAGE_FENSTER_POSITION = 'haa_fenster_position_v090';
+    const STORAGE_ASCENSION_STATUS = 'haa_ascension_status_v091';
+    const STORAGE_ZIEL = 'haa_ziel_v095';
+    const STORAGE_VORLAUF = 'haa_vorlauf_v095';
+    const STORAGE_VORALARM_AUSGELOEST = 'haa_voralarm_ausgeloest_v095';
+    const STORAGE_BAUUEBERWACHUNG = 'haa_bauueberwachung_v099';
+
+    const HASA_ALARM_VORLAUF_SEKUNDEN = 2;
+    const HASA_SYNC_INTERVALL_MS = 60000;
+
+    const STANDARD_FAVORITEN = [
+        'Erhöht Gebäudeausbaugeschwindigkeit',
+        'Reduziert Gebäudepreise',
+        'Ascension-Vervielfältigung'
+    ];
+
+    const STANDARD_SPALTEN = {
+        stufe: true,
+        letzte: true,
+        kosten: true,
+        invest: true
+    };
+
+    function verdopplung(max) {
+        const a = [];
+        let k = 1;
+        for (let i = 0; i < max; i++) {
+            a.push(k);
+            k *= 2;
+        }
+        return a;
+    }
+
+    function skill(kategorie, kosten, max) {
+        return { kategorie, kosten, max };
+    }
+
+    const K31 = verdopplung(31);
+
+    const HASA_SKILLS = {
+        // Produktion
+        'Erhöht Gebäudeausbaugeschwindigkeit': skill('Produktion', K31, 31),
+        'Erhöht Gebäudebauplätze': skill('Produktion', verdopplung(10), 10),
+        'Erhöht Gewinn von Bauplatz durch Infrastruktur': skill('Produktion', K31, 31),
+        'Erhöht die Größe des Mondbauplatzes': skill('Produktion', K31, 31),
+        'Erhöht Schiffsbaugeschwindigkeit': skill('Produktion', K31, 31),
+        'Erhöht Schiffsreparaturgeschwindigkeit': skill('Produktion', K31, 31),
+        'Erhöht Waffenbaugeschwindigkeit': skill('Produktion', K31, 31),
+
+        // Rohstoffe
+        'Erhöhte Metallproduktion': skill('Rohstoffe', K31, 31),
+        'Erhöhte Mineralproduktion': skill('Rohstoffe', K31, 31),
+        'Erhöhte Treibstoffproduktion': skill('Rohstoffe', K31, 31),
+        'Vergrößerte Metalllager': skill('Rohstoffe', K31, 31),
+        'Vergrößerte Minerallager': skill('Rohstoffe', K31, 31),
+        'Vergrößerte Treibstofflager': skill('Rohstoffe', K31, 31),
+        'Erhöhte Bevölkerung': skill('Rohstoffe', K31, 31),
+        'Erhöhte Energieproduktion': skill('Rohstoffe', K31, 31),
+        'Reduziert Gebäudepreise': skill('Rohstoffe', K31, 31),
+        'Reduziert Forschungskosten': skill('Rohstoffe', K31, 31),
+
+        // Flotte
+        'Senkt Treibstoffverbrauch der Schiffe': skill('Flotte', K31, 31),
+        'Erhöht die interplanetare Geschwindigkeit der Schiffe': skill('Flotte', K31, 31),
+        'Erhöht die Flottenkontrolle der Flaggschiffe': skill('Flotte', K31, 31),
+        'Erhöht Rohstoffabbau durch Bergbauschiffe': skill('Flotte', K31, 31),
+        'Erhöht den Laderaume der Schiffe': skill('Flotte', K31, 31),
+        'Reduziert den Bedarf an Hyperraumkontrollzyklen der Schiffe': skill('Flotte', K31, 31),
+        'Erhöht die Größe des Raumhafens': skill('Flotte', K31, 31),
+        'Erhöht die Größe der Raumstation': skill('Flotte', K31, 31),
+        'Erhöht die Größe des Flottenbunkers': skill('Flotte', K31, 31),
+
+        // Gebäude
+        'Grundausstattung des Heimatplaneten': skill('Gebäude', [1, 2, 4], 3),
+        'Grundausstattung der Kolonien': skill('Gebäude', [1, 2], 2),
+
+        // Imperium
+        'Imperium Coloniale Supremum': skill('Imperium', [10, 100, 1000], 3),
+        'Erhöhte Koloniekontrolle': skill('Imperium', [4, 16, 64, 256, 1024], 5),
+       // 'Ascension-Vervielfältigung': skill('Imperium', [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192], 31),
+        'Ascension-Vervielfältigung': skill('Imperium', K31, 31),
+
+        'Panzerbrechende Maschinenkanonen': skill('Waffen', [1, 10, 100], 3),
+        'Aktivkühlung von Maschinenkanonen': skill('Waffen', [1, 10, 100], 3),
+        'Stickstoffkühlung von Protonenkanonen': skill('Waffen', [1, 10, 100], 3),
+        'Magnetische Plasmaverdichtung': skill('Waffen', [1, 10, 100], 3),
+        'Fokussierte Plasmafeldstabilisierung': skill('Waffen', [1, 10, 100], 3),
+        'Resonanzmodulation von Ionenstrahlen': skill('Waffen', [1, 10, 100], 3),
+        'Hochenergetische Ionisierung': skill('Waffen', [1, 10, 100], 3),
+
+        // Perks
+        'Alle Gebäude fertig stellen': skill('Perks', [1], 1),
+        'Aktuelle Forschung fertig stellen': skill('Perks', [1], 1),
+        'Alle Schiffe fertig stellen': skill('Perks', [1], 1),
+        'Alle Verteidigungsanlagen fertig stellen': skill('Perks', [1], 1),
+        'Alle Expeditionen abschließen': skill('Perks', [1], 1),
+        'Alle Planetaren Hypersprünge abschließen': skill('Perks', [1], 1),
+        'Alle Flotten kehren sofort zurück': skill('Perks', [1], 1),
+        'Forschungssprung': skill('Perks', [25], 1),
+        'Aggregatsverbesserung': skill('Perks', [25], 1),
+
+        // Ereignisse
+        'Reduziert Risiko von Alien Flotten': skill('Ereignisse', K31, 31),
+        'Erhöht die Häufigkeit von Motivationsvideos': skill('Ereignisse', K31, 31),
+
+        // Forschung
+        'Grundausstattung an Forschungen': skill('Forschung', [10, 20, 40, 80, 160], 5)
+    };
+
+    function text(el) {
+        return el ? el.textContent.replace(/\s+/g, ' ').trim() : '';
+    }
+
+    function zahl(s) {
+        if (!s || s === 'N/A') return null;
+        s = String(s).replace(',', '.').replace(/[^\d.]/g, '');
+        return s ? Number(s) : null;
+    }
+
+    function esc(s) {
+        return String(s ?? '').replace(/[&<>"']/g, c => ({
+            '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+        }[c]));
+    }
+
+    function summeBis(kosten, stufe) {
+        if (!kosten || stufe <= 0) return 0;
+        let s = 0;
+        for (let i = 0; i < stufe && i < kosten.length; i++) {
+            s += kosten[i];
+        }
+        return s;
+    }
+
+    function letzteAusDatenbank(name, stufe) {
+        const db = HASA_SKILLS[name];
+        if (!db || stufe <= 0) return null;
+        return db.kosten[stufe - 1] ?? null;
+    }
+
+    function investAusDatenbank(name, stufe) {
+        const db = HASA_SKILLS[name];
+        if (!db) return null;
+        return summeBis(db.kosten, stufe);
+    }
+
+    function leseAP() {
+        for (const el of Array.from(document.querySelectorAll('p, div'))) {
+            const m = text(el).match(/Du kannst\s+([\d.,]+)\s+Ascend-Punkte ausgeben/i);
+            if (m) return zahl(m[1]);
+        }
+        return null;
+    }
+
+    function leseAscensions() {
+        const daten = [];
+        const kats = Array.from(document.querySelectorAll('.AscAccCatHeadBox'));
+
+        kats.forEach(catBox => {
+            const kategorie = text(catBox.querySelector('.AscAccCatHead'));
+            const content = catBox.nextElementSibling;
+            if (!kategorie || !content) return;
+
+            const rows = Array.from(content.querySelectorAll('tr.AscAccBldClsBody'));
+
+            for (let i = 0; i < rows.length; i += 2) {
+                const nameEl = rows[i].querySelector('.AscAccCategory');
+                const row2 = rows[i + 1];
+                if (!nameEl || !row2) continue;
+
+                const werte = Array.from(row2.querySelectorAll('.AscAccFuncDescTextright')).map(text);
+                const stufe = zahl(werte[0]);
+                const kostenText = werte[1] || '';
+                const kosten = zahl(kostenText);
+
+                let name = text(nameEl);
+                if (stufe !== null) {
+                    name = name.replace(new RegExp('\\s+' + stufe + '$'), '');
+                }
+
+                daten.push({
+                    kategorie,
+                    name,
+                    stufe,
+                    kosten,
+                    kostenText,
+                    letzte: letzteAusDatenbank(name, stufe),
+                    invest: investAusDatenbank(name, stufe),
+                    meta: HASA_SKILLS[name] || null
+                });
+            }
+        });
+
+        return daten;
+    }
+
+    function ladeFavoriten(daten) {
+        const gespeicherteFavoriten = laden(STORAGE_FAVORITEN, null);
+        if (Array.isArray(gespeicherteFavoriten)) {
+            return gespeicherteFavoriten;
+        }
+
+        return daten.filter(e => STANDARD_FAVORITEN.includes(e.name)).map(e => e.name);
+    }
+
+    function ladeSpalten() {
+        const gespeicherteSpalten = laden(STORAGE_SPALTEN, null);
+        if (gespeicherteSpalten && typeof gespeicherteSpalten === 'object' && !Array.isArray(gespeicherteSpalten)) {
+            return Object.assign({}, STANDARD_SPALTEN, gespeicherteSpalten);
+        }
+
+        return Object.assign({}, STANDARD_SPALTEN);
+    }
+
+    function gmSpeicherVerfuegbar() {
+        return typeof GM_getValue === 'function' && typeof GM_setValue === 'function';
+    }
+
+    function hasaSpeicherName() {
+        return gmSpeicherVerfuegbar() ? 'Tampermonkey GM' : 'localStorage';
+    }
+
+    function baueHasaStatusHtml() {
+        let html = '';
+        html += '<div style="margin-top:8px;border-top:1px solid #777;padding-top:5px;';
+        html += 'font-size:11px;color:#aaa;line-height:1.35;">';
+        html += '<div>Version: <b style="color:#FFD27C;">' + esc(HASA_VERSION) + '</b></div>';
+        html += '<div>Speicher: <b style="color:' + (gmSpeicherVerfuegbar() ? '#7CFF7C' : '#FFD27C') + ';">' + esc(hasaSpeicherName()) + '</b></div>';
+        html += '<div style="font-size:10px;color:#777;">Build: ' + esc(HASA_BUILD_LABEL) + '</div>';
+        html += '</div>';
+        return html;
+    }
+
+    function ladeHasaZiel() {
+        const ziel = laden(STORAGE_ZIEL, null);
+        if (ziel && typeof ziel === 'object' && !Array.isArray(ziel)) {
+            return Object.assign({ typ: 'aktueller-bau', name: 'Aktueller Bau' }, ziel);
+        }
+        return { typ: 'aktueller-bau', name: 'Aktueller Bau' };
+    }
+
+    function speichereHasaZiel(typ) {
+        speichern(STORAGE_ZIEL, {
+            typ: typ || 'aktueller-bau',
+            name: typ === 'cc' ? 'Koloniezentrum / Kolonialverwaltung' : 'Aktueller Bau',
+            gespeichertAm: Date.now()
+        });
+    }
+
+    function ladeVorlaufSekunden() {
+        const wert = Number(laden(STORAGE_VORLAUF, 60));
+        if (!Number.isFinite(wert) || wert < 0) {
+            return 60;
+        }
+        return wert;
+    }
+
+    function speichereVorlaufSekunden(wert) {
+        const sekunden = Number(wert);
+        speichern(STORAGE_VORLAUF, Number.isFinite(sekunden) && sekunden >= 0 ? sekunden : 60);
+    }
+
+    function baueVorlaufOption(wert, label, aktuell) {
+        return '<option value="' + esc(wert) + '" ' + (Number(aktuell) === Number(wert) ? 'selected' : '') + '>' + esc(label) + '</option>';
+    }
+
+    function baueZielUndVorlaufHtml() {
+        const ziel = ladeHasaZiel();
+        const vorlauf = ladeVorlaufSekunden();
+        let html = '';
+        html += '<div style="margin-top:6px;display:grid;grid-template-columns:90px 1fr;gap:4px;align-items:center;">';
+        html += '<label for="haa-ziel-select" style="color:#ccc;">Ziel:</label>';
+        html += '<select id="haa-ziel-select" style="width:100%;">';
+        html += '<option value="aktueller-bau" ' + (ziel.typ === 'aktueller-bau' ? 'selected' : '') + '>aktueller Bau</option>';
+        html += '<option value="cc" ' + (ziel.typ === 'cc' ? 'selected' : '') + '>Koloniezentrum / Kolonialverwaltung</option>';
+        html += '</select>';
+        html += '<label for="haa-vorlauf-select" style="color:#ccc;">Vorlauf:</label>';
+        html += '<select id="haa-vorlauf-select" style="width:100%;">';
+        html += baueVorlaufOption(0, 'aus', vorlauf);
+        html += baueVorlaufOption(30, '30 Sekunden', vorlauf);
+        html += baueVorlaufOption(60, '1 Minute', vorlauf);
+        html += baueVorlaufOption(120, '2 Minuten', vorlauf);
+        html += baueVorlaufOption(300, '5 Minuten', vorlauf);
+        html += '</select>';
+        html += '</div>';
+        return html;
+    }
+
+    function verbindeZielUndVorlaufButtons(neuAufbauen) {
+        const zielSelect = document.getElementById('haa-ziel-select');
+        if (zielSelect) {
+            zielSelect.onchange = function () {
+                speichereHasaZiel(zielSelect.value);
+                if (typeof neuAufbauen === 'function') {
+                    neuAufbauen();
+                }
+            };
+        }
+
+        const vorlaufSelect = document.getElementById('haa-vorlauf-select');
+        if (vorlaufSelect) {
+            vorlaufSelect.onchange = function () {
+                speichereVorlaufSekunden(vorlaufSelect.value);
+                speichern(STORAGE_VORALARM_AUSGELOEST, '');
+                HAA_VORALARM_AUSGELOEST_LAUF = '';
+                if (typeof neuAufbauen === 'function') {
+                    neuAufbauen();
+                }
+            };
+        }
+    }
+
+    function speichern(key, wert) {
+        try {
+            if (gmSpeicherVerfuegbar()) {
+                GM_setValue(key, wert);
+                return;
+            }
+        } catch (e) {
+            console.warn('HASA GM-Speicher fehlgeschlagen, nutze localStorage:', e);
+        }
+
+        localStorage.setItem(key, JSON.stringify(wert));
+    }
+
+    function laden(key, fallback) {
+        try {
+            if (gmSpeicherVerfuegbar()) {
+                const wert = GM_getValue(key, undefined);
+                if (wert !== undefined && wert !== null && wert !== '') {
+                    return wert;
+                }
+            }
+        } catch (e) {
+            console.warn('HASA GM-Lesen fehlgeschlagen, nutze localStorage:', e);
+        }
+
+        try {
+            const s = localStorage.getItem(key);
+            if (s === null || s === undefined || s === '') {
+                return fallback;
+            }
+            return JSON.parse(s);
+        } catch (e) {
+            return fallback;
+        }
+    }
+
+    function istZu() {
+        return laden(STORAGE_ZU, '0') === '1';
+    }
+
+    function setZu(zu) {
+        speichern(STORAGE_ZU, zu ? '1' : '0');
+    }
+
+    function px(wert) {
+        return Math.round(Number(wert)) + 'px';
+    }
+
+    function findeHorizonSpielLayout() {
+        const divs = Array.from(document.querySelectorAll('div'));
+
+        return divs.find(function (el) {
+            const style = el.getAttribute('style') || '';
+            return /left:\s*128px/i.test(style)
+                && /top:\s*0px/i.test(style)
+                && /right:\s*0px/i.test(style);
+        }) || null;
+    }
+
+    function rechteckGueltig(r) {
+        return r
+            && Number.isFinite(r.left)
+            && Number.isFinite(r.top)
+            && Number.isFinite(r.width)
+            && Number.isFinite(r.height)
+            && r.width > 0
+            && r.height > 0;
+    }
+
+    function findeBuddiesAnker() {
+        const elemente = Array.from(document.querySelectorAll('a, div, td, span, nobr, font'));
+        const kandidaten = [];
+
+        for (const el of elemente) {
+            if (!/Buddies\s*:/i.test(text(el))) {
+                continue;
+            }
+
+            let kandidat = el;
+            for (let i = 0; i < 5 && kandidat; i++) {
+                const r = kandidat.getBoundingClientRect();
+                if (rechteckGueltig(r)
+                        && r.width >= 120
+                        && r.height >= 18
+                        && r.left >= HASA_POSITION.BUDDIES_MIN_LINKS
+                        && r.top >= 0
+                        && r.top <= HASA_POSITION.BUDDIES_MAX_OBEN) {
+                    kandidaten.push({ el: kandidat, rect: r });
+                }
+                kandidat = kandidat.parentElement;
+            }
+        }
+
+        if (!kandidaten.length) {
+            return null;
+        }
+
+        kandidaten.sort(function (a, b) {
+            // Oberste plausible Buddies-Leiste im rechten Kopfbereich.
+            return a.rect.top - b.rect.top;
+        });
+
+        return kandidaten[0].el;
+    }
+
+    function findeNachrichtenFensterAnker() {
+        const elemente = Array.from(document.querySelectorAll('div, table, tr, td, input, textarea, button'));
+        const kandidaten = [];
+        const minTop = window.innerHeight * HASA_POSITION.CHAT_MIN_OBEN_ANTEIL;
+
+        for (const el of elemente) {
+            const t = text(el);
+            if (!t) {
+                continue;
+            }
+
+            const istChat = /An\s+Allianz\s+senden/i.test(t)
+                || /\[\d{2}:\d{2}\]/.test(t);
+
+            if (!istChat) {
+                continue;
+            }
+
+            let kandidat = el;
+            for (let i = 0; i < 7 && kandidat; i++) {
+                const r = kandidat.getBoundingClientRect();
+                if (rechteckGueltig(r)
+                        && r.width >= HASA_POSITION.CHAT_MIN_BREITE
+                        && r.left >= HASA_POSITION.CHAT_MIN_LINKS
+                        && r.top >= minTop) {
+                    kandidaten.push({ el: kandidat, rect: r });
+                }
+                kandidat = kandidat.parentElement;
+            }
+        }
+
+        if (!kandidaten.length) {
+            return null;
+        }
+
+        kandidaten.sort(function (a, b) {
+            // Möglichst das große, untere Nachrichtenfenster nehmen,
+            // aber keine Mini-Boxen aus dem Kopfbereich.
+            if (Math.abs(b.rect.top - a.rect.top) > 8) {
+                return b.rect.top - a.rect.top;
+            }
+            return b.rect.width - a.rect.width;
+        });
+
+        return kandidaten[0].el;
+    }
+
+    function ermittleSpielLinks() {
+        const layout = findeHorizonSpielLayout();
+        if (layout) {
+            const r = layout.getBoundingClientRect();
+            if (Number.isFinite(r.left) && r.left > 0) {
+                return r.left;
+            }
+        }
+
+        return HASA_POSITION.SPIEL_LINKS_X;
+    }
+
+    function ermittleBoxLinks(box) {
+        const chat = findeNachrichtenFensterAnker();
+        if (chat) {
+            const r = chat.getBoundingClientRect();
+            if (rechteckGueltig(r)) {
+                return r.left + HASA_POSITION.ANKER_X_OFFSET;
+            }
+        }
+
+        // Fallback, wenn die Chat-/Nachrichtenbox im aktuellen Fenster nicht sichtbar ist.
+        if (HASA_POSITION.CHAT_LINKS_FALLBACK !== null && HASA_POSITION.CHAT_LINKS_FALLBACK !== undefined) {
+            return HASA_POSITION.CHAT_LINKS_FALLBACK + HASA_POSITION.ANKER_X_OFFSET;
+        }
+
+        const basisLinks = ermittleSpielLinks();
+        const links = basisLinks + HASA_POSITION.SPIEL_BREITE_X + HASA_POSITION.BOX_X_OFFSET;
+
+        if (!box || !box.offsetWidth) {
+            return links;
+        }
+
+        const maxLinks = window.innerWidth - box.offsetWidth - HASA_POSITION.RAND_RECHTS_MIN;
+        if (Number.isFinite(maxLinks) && maxLinks > 0) {
+            return Math.min(links, maxLinks);
+        }
+
+        return links;
+    }
+
+    function ermittleBoxOben() {
+        const buddies = findeBuddiesAnker();
+        if (buddies) {
+            const r = buddies.getBoundingClientRect();
+            if (rechteckGueltig(r)) {
+                return r.top + HASA_POSITION.ANKER_Y_OFFSET;
+            }
+        }
+
+        if (HASA_POSITION.BUDDIES_Y_FALLBACK !== null && HASA_POSITION.BUDDIES_Y_FALLBACK !== undefined) {
+            return HASA_POSITION.BUDDIES_Y_FALLBACK + HASA_POSITION.ANKER_Y_OFFSET;
+        }
+
+        return HASA_POSITION.BOX_OBEN_Y + HASA_POSITION.BOX_Y_OFFSET;
+    }
+
+    function setzeBoxPosition(box, links, oben) {
+        box.style.left = px(links);
+        box.style.top = px(oben);
+    }
+
+    function ladeGespeicherteFensterPosition() {
+        const pos = laden(STORAGE_FENSTER_POSITION, null);
+        if (!pos) {
+            return null;
+        }
+
+        const links = Number(pos.left);
+        const oben = Number(pos.top);
+
+        if (!Number.isFinite(links) || !Number.isFinite(oben)) {
+            return null;
+        }
+
+        return { left: links, top: oben };
+    }
+
+    function speichereFensterPosition(box) {
+        if (!box) {
+            return;
+        }
+
+        const r = box.getBoundingClientRect();
+        speichern(STORAGE_FENSTER_POSITION, {
+            left: Math.round(r.left),
+            top: Math.round(r.top),
+            gespeichertAm: Date.now()
+        });
+    }
+
+    function begrenzeFensterPosition(box, links, oben) {
+        const rand = 8;
+        const breite = box && box.offsetWidth ? box.offsetWidth : 380;
+        const hoehe = box && box.offsetHeight ? box.offsetHeight : 120;
+        const maxLinks = Math.max(rand, window.innerWidth - breite - rand);
+        const maxOben = Math.max(rand, window.innerHeight - hoehe - rand);
+
+        return {
+            left: Math.min(Math.max(rand, links), maxLinks),
+            top: Math.min(Math.max(rand, oben), maxOben)
+        };
+    }
+
+
+    function snappeFensterPosition(box, links, oben, eventObj) {
+        if (eventObj && eventObj.shiftKey) {
+            return { left: links, top: oben };
+        }
+
+        const abstand = HASA_POSITION.SNAP_ABSTAND || 18;
+        const rand = 8;
+        const breite = box && box.offsetWidth ? box.offsetWidth : 380;
+        const hoehe = box && box.offsetHeight ? box.offsetHeight : 120;
+        let neuLinks = links;
+        let neuOben = oben;
+
+        const rechterRand = window.innerWidth - breite - rand;
+        const untererRand = window.innerHeight - hoehe - rand;
+
+        if (Math.abs(neuLinks - rand) <= abstand) {
+            neuLinks = rand;
+        }
+        if (Math.abs(neuLinks - rechterRand) <= abstand) {
+            neuLinks = rechterRand;
+        }
+        if (Math.abs(neuOben - rand) <= abstand) {
+            neuOben = rand;
+        }
+        if (Math.abs(neuOben - untererRand) <= abstand) {
+            neuOben = untererRand;
+        }
+
+        const buddies = findeBuddiesAnker();
+        if (buddies) {
+            const r = buddies.getBoundingClientRect();
+            if (rechteckGueltig(r) && Math.abs(neuOben - r.top) <= abstand) {
+                neuOben = r.top;
+            }
+        }
+
+        const chat = findeNachrichtenFensterAnker();
+        if (chat) {
+            const r = chat.getBoundingClientRect();
+            if (rechteckGueltig(r)) {
+                if (Math.abs(neuLinks - r.left) <= abstand) {
+                    neuLinks = r.left;
+                }
+                if (Math.abs(neuOben - r.top) <= abstand) {
+                    neuOben = r.top;
+                }
+            }
+        }
+
+        return { left: neuLinks, top: neuOben };
+    }
+
+    function positioniereBox(box) {
+        const gespeichert = ladeGespeicherteFensterPosition();
+
+        if (gespeichert) {
+            const begrenzt = begrenzeFensterPosition(box, gespeichert.left, gespeichert.top);
+            setzeBoxPosition(box, begrenzt.left, begrenzt.top);
+            return;
+        }
+
+        setzeBoxPosition(
+            box,
+            ermittleBoxLinks(box),
+            ermittleBoxOben()
+        );
+    }
+
+    function istDragSperrElement(el) {
+        return !!(el && el.closest && el.closest('button, input, textarea, select, option, a, label'));
+    }
+
+    function starteHasaDrag(e) {
+        if (e.button !== 0 || istDragSperrElement(e.target)) {
+            return;
+        }
+
+        const box = document.getElementById('haa-box');
+        if (!box) {
+            return;
+        }
+
+        const r = box.getBoundingClientRect();
+        HAA_DRAG_AKTIV = true;
+        HAA_DRAG_BOX = box;
+        HAA_DRAG_START_X = e.clientX;
+        HAA_DRAG_START_Y = e.clientY;
+        HAA_DRAG_BOX_X = r.left;
+        HAA_DRAG_BOX_Y = r.top;
+
+        box.style.cursor = 'grabbing';
+        box.style.userSelect = 'none';
+        e.preventDefault();
+    }
+
+    function bewegeHasaDrag(e) {
+        if (!HAA_DRAG_AKTIV || !HAA_DRAG_BOX) {
+            return;
+        }
+
+        const links = HAA_DRAG_BOX_X + (e.clientX - HAA_DRAG_START_X);
+        const oben = HAA_DRAG_BOX_Y + (e.clientY - HAA_DRAG_START_Y);
+        const geschnappt = snappeFensterPosition(HAA_DRAG_BOX, links, oben, e);
+        const begrenzt = begrenzeFensterPosition(HAA_DRAG_BOX, geschnappt.left, geschnappt.top);
+
+        setzeBoxPosition(HAA_DRAG_BOX, begrenzt.left, begrenzt.top);
+        e.preventDefault();
+    }
+
+    function beendeHasaDrag() {
+        if (!HAA_DRAG_AKTIV || !HAA_DRAG_BOX) {
+            return;
+        }
+
+        HAA_DRAG_BOX.style.cursor = 'move';
+        HAA_DRAG_BOX.style.userSelect = '';
+        speichereFensterPosition(HAA_DRAG_BOX);
+
+        HAA_DRAG_AKTIV = false;
+        HAA_DRAG_BOX = null;
+    }
+
+    function aktiviereHasaDrag(box) {
+        if (!box || box.dataset.hasaDrag === '1') {
+            return;
+        }
+
+        box.dataset.hasaDrag = '1';
+        box.title = 'hasa-Fenster mit der Maus verschieben';
+        box.style.cursor = 'move';
+        box.addEventListener('mousedown', starteHasaDrag);
+    }
+
+    document.addEventListener('mousemove', bewegeHasaDrag);
+    document.addEventListener('mouseup', beendeHasaDrag);
+
+    function grundBox() {
+        const alt = document.getElementById('haa-box');
+        if (alt) alt.remove();
+
+        const box = document.createElement('div');
+        box.id = 'haa-box';
+        box.style.position = 'fixed';
+        box.style.zIndex = '999999';
+        box.style.background = '#211d18';
+        box.style.color = '#ffffff';
+        box.style.border = '2px solid #b89b5e';
+        box.style.padding = '8px';
+        box.style.fontFamily = 'Arial, sans-serif';
+        box.style.fontSize = '13px';
+               // HASA 0.5.1:
+        // Box breiter, damit die rechte I-Spalte nicht abgeschnitten wird.
+        box.style.minWidth = '380px';
+        box.style.maxWidth = '760px';
+        box.style.boxShadow = '0 0 8px #000';
+        box.style.borderRadius = '3px';
+        positioniereBox(box);
+        document.body.appendChild(box);
+        aktiviereHasaDrag(box);
+        return box;
+    }
+
+    function baueBauzeitAnalyse(daten) {
+        const speed = daten.find(e => e.name === 'Erhöht Gebäudeausbaugeschwindigkeit');
+        const preis = daten.find(e => e.name === 'Reduziert Gebäudepreise');
+
+        if (!speed || !preis) return '';
+
+        const stSpeed = speed.stufe || 0;
+        const stPreis = preis.stufe || 0;
+
+        const speedFaktor = Math.pow(1.30, stSpeed);
+        const kostenFaktor = Math.pow(0.80, stPreis);
+        const bauzeitFaktor = kostenFaktor / speedFaktor;
+
+        const prozent = bauzeitFaktor * 100;
+        const ersparnis = 100 - prozent;
+
+        return ''
+            + '<div style="margin-top:8px;border-top:1px solid #777;padding-top:6px;">'
+            + '<div style="color:#FFD27C;font-weight:bold;">🏗 Bauzeit</div>'
+            + '<div>Speed St. ' + esc(stSpeed) + ' → ×' + speedFaktor.toFixed(3) + '</div>'
+            + '<div>Preis St. ' + esc(stPreis) + ' → ×' + kostenFaktor.toFixed(3) + '</div>'
+            + '<div><b>' + prozent.toFixed(1) + '% der Grundbauzeit</b></div>'
+            + '<div>verkürzt um ca. ' + ersparnis.toFixed(1) + '%</div>'
+            + '</div>';
+    }
+
+
+    function berechneInvestGesamt(daten) {
+        let summe = 0;
+        let unbekannt = 0;
+
+        daten.forEach(e => {
+            if (typeof e.invest === 'number') {
+                summe += e.invest;
+            } else if ((e.stufe || 0) > 0) {
+                unbekannt++;
+            }
+        });
+
+        return { summe, unbekannt };
+    }
+
+    function formatZahl(n) {
+        if (n === null || n === undefined || Number.isNaN(n)) return '?';
+        return Number(n).toLocaleString('de-DE', { maximumFractionDigits: 2 });
+    }
+
+    function erstelleAscensionStatus(daten, ap) {
+        const inv = berechneInvestGesamt(daten);
+        return {
+            apFrei: ap,
+            apInvestiert: inv.summe,
+            apGesamt: ap !== null ? inv.summe + ap : null,
+            unbekannt: inv.unbekannt,
+            skills: Array.isArray(daten) ? daten.map(function (e) {
+                return {
+                    kategorie: e.kategorie,
+                    name: e.name,
+                    stufe: e.stufe,
+                    kosten: e.kosten,
+                    kostenText: e.kostenText,
+                    letzte: e.letzte,
+                    invest: e.invest
+                };
+            }) : [],
+            zuletztGesehen: Date.now()
+        };
+    }
+
+    function speichereAscensionStatus(status) {
+        if (!status) {
+            return;
+        }
+
+        speichern(STORAGE_ASCENSION_STATUS, status);
+    }
+
+    function ladeAscensionStatus() {
+        return laden(STORAGE_ASCENSION_STATUS, null);
+    }
+
+    function baueAscensionDashboardHtml(status) {
+        let html = '';
+        html += '<div style="margin-bottom:8px;">';
+        html += '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">';
+        html += '<div style="color:#FFD27C;font-weight:bold;font-size:15px;">⭐ Ascension</div>';
+        html += '<a href="https://horiversum.org/game/main/main.php?cmd=account&send=changeTab&area=4" ';
+        html += 'title="Zur Ascension" style="color:#FFD27C;font-size:24px;line-height:1;text-decoration:none;">➜</a>';
+        html += '</div>';
+
+        if (!status) {
+            html += '<div style="margin-top:3px;color:#aaa;">noch keine Werte gelesen</div>';
+            html += '</div>';
+            return html;
+        }
+
+        const frei = formatZahl(status.apFrei);
+        const investiert = formatZahl(status.apInvestiert);
+        const gesamt = formatZahl(status.apGesamt);
+        const tooltip = 'AP frei: ' + frei + '\nAP investiert: ' + investiert + '\nAP gesamt: ' + gesamt;
+
+        html += '<div title="' + esc(tooltip) + '" ';
+        html += 'style="margin-top:3px;font-size:16px;font-weight:bold;letter-spacing:.2px;cursor:help;">';
+        html += '<span style="color:#7CFF7C;">' + esc(frei) + '</span>';
+        html += ' <span style="color:#777;">/</span> ';
+        html += '<span style="color:#8EB8FF;">' + esc(investiert) + '</span>';
+        html += ' <span style="color:#777;">/</span> ';
+        html += '<span style="color:#fff;">' + esc(gesamt) + '</span>';
+        html += '</div>';
+        html += '</div>';
+        return html;
+    }
+
+    function baueNavigationHtml() {
+        const aktuell = ermittleAktuellenBereich();
+        const eintraege = [
+            { key: 'building', label: 'Gebäude', icon: '🏢', url: 'https://horiversum.org/game/main/main.php?cmd=building' },
+            { key: 'research', label: 'Forschung', icon: '🔬', url: 'https://horiversum.org/game/main/main.php?cmd=research' },
+            { key: 'shipyard', label: 'Werft', icon: '🚀', url: 'https://horiversum.org/game/main/main.php?cmd=shipyard' },
+            { key: 'fleet', label: 'Flotte', icon: '🎯', url: 'https://horiversum.org/game/main/main.php?cmd=fleet' }
+        ];
+
+        let html = '';
+        html += '<div style="border-top:1px solid #555;border-bottom:1px solid #555;';
+        html += 'padding:7px 0;margin:7px 0;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;">';
+
+        eintraege.forEach(function (e) {
+            const aktiv = aktuell === e.key
+                || (e.key === 'research' && aktuell === 'forschung')
+                || (e.key === 'building' && aktuell === 'gebäude');
+
+            html += '<a href="' + esc(e.url) + '" title="' + esc(e.label + ' öffnen') + '" ';
+            html += 'style="display:block;text-align:center;text-decoration:none;padding:4px 2px;border-radius:3px;';
+            html += 'color:' + (aktiv ? '#FFD27C' : '#bbb') + ';';
+            html += 'background:' + (aktiv ? 'rgba(255,210,124,.08)' : 'transparent') + ';">';
+            html += '<div style="font-size:19px;line-height:1.1;">' + esc(e.icon) + '</div>';
+            html += '<div style="font-size:11px;margin-top:2px;">' + esc(e.label) + '</div>';
+            html += '</a>';
+        });
+
+        html += '</div>';
+        return html;
+    }
+
+    function baueBereichsanalyseHtml() {
+        const bereich = ermittleAktuellenBereich();
+        const kandidaten = findeBauKandidaten();
+        const laufend = kandidaten.filter(function (k) { return k.info.status === 'laeuft'; });
+        const baubar = kandidaten.filter(function (k) { return k.info.status === 'baubar'; });
+
+        let titel = 'Aktueller Bereich';
+        if (bereich === 'building' || bereich === 'gebäude') titel = 'Gebäude';
+        else if (bereich === 'research' || bereich === 'forschung') titel = 'Forschung';
+        else if (bereich === 'shipyard') titel = 'Werft';
+        else if (bereich === 'fleet') titel = 'Flotte';
+
+        let html = '';
+        html += '<div style="margin-top:4px;">';
+        html += '<div style="display:flex;justify-content:space-between;align-items:center;">';
+        html += '<div style="color:#FFD27C;font-weight:bold;font-size:15px;">📊 Bereich</div>';
+        html += '<div style="font-weight:bold;">' + esc(titel) + '</div>';
+        html += '</div>';
+
+        if (bereich === 'building' || bereich === 'gebäude'
+                || bereich === 'research' || bereich === 'forschung') {
+            const laengste = laufend.reduce(function (max, k) {
+                const sec = Number(k.info.sekunden);
+                return Number.isFinite(sec) && sec > max ? sec : max;
+            }, 0);
+
+            html += '<div style="margin-top:6px;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;text-align:center;">';
+            html += '<div><div style="font-size:18px;font-weight:bold;">' + esc(laufend.length) + '</div>';
+            html += '<div style="font-size:11px;color:#aaa;">laufend</div></div>';
+            html += '<div><div style="font-size:18px;font-weight:bold;">' + esc(baubar.length) + '</div>';
+            html += '<div style="font-size:11px;color:#aaa;">baubar</div></div>';
+            html += '<div><div style="font-size:18px;font-weight:bold;">'
+                + esc(laengste > 0 ? formatSekunden(laengste) : '–') + '</div>';
+            html += '<div style="font-size:11px;color:#aaa;">längste Restzeit</div></div>';
+            html += '</div>';
+        } else {
+            html += '<div style="margin-top:5px;color:#aaa;font-size:12px;">';
+            html += 'Kontextanzeige für diesen Bereich folgt später.';
+            html += '</div>';
+        }
+
+        html += '</div>';
+        return html;
+    }
+
+    function baueBox() {
+        const datenLive = leseAscensions();
+        const ap = leseAP();
+        const ascensionSichtbar = datenLive.length > 0;
+        const ascStatusAktuell = ascensionSichtbar ? erstelleAscensionStatus(datenLive, ap) : null;
+
+        if (ascStatusAktuell) speichereAscensionStatus(ascStatusAktuell);
+
+        const ascStatus = ascStatusAktuell || ladeAscensionStatus();
+        const datenAnzeige = ascensionSichtbar
+            ? datenLive
+            : (ascStatus && Array.isArray(ascStatus.skills) ? ascStatus.skills : []);
+        const favoriten = ladeFavoriten(datenAnzeige);
+        const spalten = ladeSpalten();
+        const ziel = aktualisiereUeberwachungsStatus();
+
+        const box = grundBox();
+        let html = '';
+        html += '<div title="Letzter Statusscan: ' + esc(HAA_LETZTE_SCAN_DAUER_MS) + ' ms" '
+            + 'style="font-weight:bold;font-size:16px;margin-bottom:7px;">⭐ HASA '
+            + esc(HASA_VERSION) + '</div>';
+        html += baueAscensionDashboardHtml(ascStatus);
+
+        if (datenAnzeige.length) {
+            html += '<table style="border-collapse:collapse;width:100%;color:white;margin-top:3px;">';
+            html += '<tr><td></td>';
+            if (spalten.stufe) html += '<td style="text-align:right;color:#FFD27C;">St</td>';
+            if (spalten.letzte) html += '<td style="text-align:right;color:#FFD27C;">L</td>';
+            if (spalten.kosten) html += '<td style="text-align:right;color:#FFD27C;">K</td>';
+            if (spalten.invest) html += '<td style="text-align:right;color:#FFD27C;">I</td>';
+            html += '</tr>';
+
+            datenAnzeige.filter(function (e) {
+                return favoriten.includes(e.name);
+            }).forEach(function (e) {
+                const apFrei = ascStatus ? ascStatus.apFrei : null;
+                const kaufbar = apFrei !== null && e.kosten !== null && apFrei >= e.kosten;
+                const farbe = kaufbar ? '#7CFF7C' : '#FF8080';
+
+                html += '<tr style="color:' + farbe + ';">';
+                html += '<td style="padding-right:8px;">' + (kaufbar ? '✅ ' : '❌ ') + esc(e.name) + '</td>';
+                if (spalten.stufe) html += '<td style="text-align:right;padding-left:8px;">' + esc(e.stufe ?? '-') + '</td>';
+                if (spalten.letzte) html += '<td style="text-align:right;padding-left:8px;">' + esc(e.letzte ?? '-') + '</td>';
+                if (spalten.kosten) html += '<td style="text-align:right;padding-left:8px;">' + esc(e.kostenText || 'N/A') + '</td>';
+                if (spalten.invest) html += '<td style="text-align:right;padding-left:8px;">' + esc(e.invest ?? '-') + '</td>';
+                html += '</tr>';
+            });
+
+            html += '</table>';
+        }
+
+        html += baueNavigationHtml();
+        html += baueBereichsanalyseHtml();
+        html += baueBaualarmHtml(ziel);
+
+        if (datenAnzeige.length) {
+            html += '<div style="margin-top:8px;display:flex;gap:4px;">';
+            html += '<button id="haa-auswahl" style="flex:1;">Auswahl</button>';
+            html += '<button id="haa-spalten" style="flex:1;">Spalten</button>';
+            html += '</div>';
+        }
+
+        box.innerHTML = html;
+        positioniereBox(box);
+
+        const auswahl = document.getElementById('haa-auswahl');
+        if (auswahl) auswahl.onclick = function () { baueAuswahl(datenAnzeige, favoriten); };
+
+        const spaltenBtn = document.getElementById('haa-spalten');
+        if (spaltenBtn) spaltenBtn.onclick = baueSpalten;
+
+        verbindeBaualarmButtons(ziel, baueBox);
+        aktualisiereBauMarkierungen();
+    }
+
+    function baueAuswahl(daten, favoriten) {
+        const box = grundBox();
+
+        let html = '<div style="font-weight:bold;margin-bottom:6px;">Favoriten auswählen</div>';
+        html += '<div style="column-count:3;column-gap:18px;max-height:520px;overflow-y:auto;padding-right:8px;">';
+
+        let letzteKat = '';
+        daten.forEach(e => {
+            if (e.kategorie !== letzteKat) {
+                letzteKat = e.kategorie;
+                html += '<div style="break-inside:avoid;margin-top:6px;color:#FFD27C;"><b>' + esc(letzteKat) + '</b></div>';
+            }
+
+            html += '<label style="display:block;break-inside:avoid;margin:2px 0;">';
+            html += '<input class="haa-check" type="checkbox" value="' + esc(e.name) + '" '
+                + (favoriten.includes(e.name) ? 'checked' : '') + '> ';
+            html += esc(e.name);
+            html += '</label>';
+        });
+
+        html += '</div>';
+        html += '<button id="haa-save" style="margin-top:8px;width:100%;">speichern</button>';
+        html += '<button id="haa-back" style="margin-top:4px;width:100%;">zurück</button>';
+
+        box.innerHTML = html;
+        positioniereBox(box);
+
+        document.getElementById('haa-save').onclick = function () {
+            const namen = Array.from(document.querySelectorAll('.haa-check:checked')).map(e => e.value);
+            speichern(STORAGE_FAVORITEN, namen);
+            baueBox();
+        };
+
+        document.getElementById('haa-back').onclick = baueBox;
+    }
+
+    function baueSpalten() {
+        const box = grundBox();
+        const spalten = ladeSpalten();
+
+        box.innerHTML =
+            '<div style="font-weight:bold;margin-bottom:6px;">Spalten anzeigen</div>' +
+            checkbox('stufe', 'St = Stufe', spalten.stufe) +
+            checkbox('letzte', 'L = letzte Kosten', spalten.letzte) +
+            checkbox('kosten', 'K = nächste Kosten', spalten.kosten) +
+            checkbox('invest', 'I = insgesamt investiert', spalten.invest) +
+            '<button id="haa-save-spalten" style="margin-top:8px;width:100%;">speichern</button>' +
+            '<button id="haa-back" style="margin-top:4px;width:100%;">zurück</button>';
+        positioniereBox(box);
+
+        document.getElementById('haa-save-spalten').onclick = function () {
+            const neu = {};
+            ['stufe', 'letzte', 'kosten', 'invest'].forEach(k => {
+                neu[k] = document.getElementById('haa-col-' + k).checked;
+            });
+            speichern(STORAGE_SPALTEN, neu);
+            baueBox();
+        };
+
+        document.getElementById('haa-back').onclick = baueBox;
+    }
+
+    function checkbox(key, label, checked) {
+        return '<label style="display:block;margin:4px 0;">' +
+            '<input id="haa-col-' + key + '" type="checkbox" ' + (checked ? 'checked' : '') + '> ' +
+            esc(label) +
+            '</label>';
+    }
+
+
+    let HAA_BAUALARM_TIMER = null;
+    let HAA_BAUALARM_ANZEIGE_TIMER = null;
+    let HAA_AUDIO_CTX = null;
+    let HAA_AUDIO_FREIGEGEBEN = false;
+    let HAA_START_GELAUFEN = false;
+    let HAA_DRAG_AKTIV = false;
+    let HAA_DRAG_START_X = 0;
+    let HAA_DRAG_START_Y = 0;
+    let HAA_DRAG_BOX_X = 0;
+    let HAA_DRAG_BOX_Y = 0;
+    let HAA_DRAG_BOX = null;
+    let HAA_VORALARM_AUSGELOEST_LAUF = '';
+    let HAA_UEBERWACHUNG_LETZTE_SYNC = 0;
+    let HAA_AUDIO_KEEPALIVE_TIMER = null;
+    let HAA_ALARM_BANNER_TIMER = null;
+    let HAA_SYNC_LAEUFT = false;
+    let HAA_LETZTE_SCAN_DAUER_MS = 0;
+    let HAA_AUDIO_KEEPALIVE_OSC = null;
+    let HAA_AUDIO_KEEPALIVE_GAIN = null;
+    let HAA_AUDIO_NACHHOLEN = 0;
+
+    /*
+     * HASA 0.8 Beobachter-Engine
+     *
+     * Grundregel:
+     *   HASA besitzt keine eigene Bauzeit mehr.
+     *   Horizon ist die Uhr.
+     *
+     * Der Timer ist nur ein Taktgeber:
+     *   - sichtbare Horizon-Zeit lesen
+     *   - Text anzeigen
+     *   - Sekundenwert nur fuer Voralarm pruefen
+     *
+     * Kein Date.now()-Countdown, keine Zielzeit als Wahrheit.
+     */
+
+    const HAA_CC_NAMEN = [
+        'Koloniezentrum',
+        'Großes Koloniezentrum',
+        'Grosses Koloniezentrum',
+        'Colonycenter',
+        'Colony Center',
+        'Kolonialverwaltung',
+        'Provisorische Kolonialverwaltung'
+    ];
+
+    function istBaualarmAn() {
+        return laden(STORAGE_BAUALARM, '0') === '1';
+    }
+
+    function setBaualarmAn(an) {
+        speichern(STORAGE_BAUALARM, an ? '1' : '0');
+        if (!an && HAA_BAUALARM_TIMER) {
+            clearInterval(HAA_BAUALARM_TIMER);
+            HAA_BAUALARM_TIMER = null;
+        }
+    }
+
+    function istCcGebaeude(name) {
+        const n = String(name || '').toLowerCase();
+        return HAA_CC_NAMEN.some(cc => n.includes(cc.toLowerCase()));
+    }
+
+    function normalisiereGebaeudename(name) {
+        const n = String(name || '')
+            .replace(/^[\s○◉●◌◎⊙]+/, '')
+            .replace(/\s+/g, ' ')
+            .trim();
+
+        if (!n || /^countdown$/i.test(n) || /^bauauftrag$/i.test(n)) {
+            return 'Bauauftrag';
+        }
+        return n;
+    }
+
+    function zeitStringZuSekunden(zeit) {
+        const m = String(zeit || '').match(/(\d+):(\d{2}):(\d{2}):(\d{2})s?/);
+        if (!m) {
+            return null;
+        }
+
+        const tage = Number(m[1]);
+        const stunden = Number(m[2]);
+        const minuten = Number(m[3]);
+        const sekunden = Number(m[4]);
+
+        return (((tage * 24) + stunden) * 60 + minuten) * 60 + sekunden;
+    }
+
+    function kuerzeZeitText(zeit) {
+        const m = String(zeit || '').match(/(\d+):(\d{2}):(\d{2}):(\d{2})s?/);
+        if (!m) {
+            return String(zeit || '').replace(/s$/, '');
+        }
+
+        const tage = Number(m[1]);
+        const stunden = Number(m[2]);
+        const minuten = Number(m[3]);
+        const sekunden = Number(m[4]);
+
+        if (tage > 0) {
+            return tage + ':' + String(stunden).padStart(2, '0') + ':' + String(minuten).padStart(2, '0') + ':' + String(sekunden).padStart(2, '0');
+        }
+        if (stunden > 0) {
+            return stunden + ':' + String(minuten).padStart(2, '0') + ':' + String(sekunden).padStart(2, '0');
+        }
+        return minuten + ':' + String(sekunden).padStart(2, '0');
+    }
+
+    function merkeLetztenBauStatus(info) {
+        if (!info || info.sekunden === null || info.sekunden === undefined) {
+            return;
+        }
+
+        speichern(STORAGE_BAUSTATUS, {
+            planet: info.planet || 'aktueller Planet',
+            gebaeude: normalisiereGebaeudename(info.name || info.gebaeude),
+            modus: info.modus || 'Bau',
+            sekunden: Number(info.sekunden),
+            zeitText: info.zeitText || formatSekunden(info.sekunden),
+            zuletztGesehen: Date.now(),
+            quelle: info.quelle || 'sichtbar'
+        });
+    }
+
+    function ladeLetztenBauStatus() {
+        const daten = laden(STORAGE_BAUSTATUS, null);
+        if (!daten || daten.sekunden === null || daten.sekunden === undefined) {
+            return null;
+        }
+
+        return {
+            planet: daten.planet || 'aktueller Planet',
+            name: normalisiereGebaeudename(daten.gebaeude),
+            gebaeude: normalisiereGebaeudename(daten.gebaeude),
+            modus: daten.modus || 'Bau',
+            sekunden: Number(daten.sekunden),
+            zeitText: daten.zeitText || formatSekunden(Number(daten.sekunden)),
+            sichtbar: false,
+            wartet: true,
+            quelle: 'letzter-sichtbarer-wert'
+        };
+    }
+
+    function baueBauInfo(name, zeit, quelle) {
+        const sekunden = zeitStringZuSekunden(zeit);
+        if (sekunden === null || sekunden < 0) {
+            return null;
+        }
+
+        return {
+            name: normalisiereGebaeudename(name),
+            gebaeude: normalisiereGebaeudename(name),
+            planet: 'aktueller Planet',
+            modus: 'Bau',
+            sekunden: sekunden,
+            zeitText: kuerzeZeitText(zeit),
+            sichtbar: true,
+            wartet: false,
+            quelle: quelle
+        };
+    }
+
+    function findeBauInfoAusZeitZeilen(zeilen) {
+        for (let i = 0; i < zeilen.length; i++) {
+            const z = zeilen[i];
+            const mZeit = z.match(/^Zeit:\s*(\d+:\d{2}:\d{2}:\d{2}s?)\s*$/i);
+            if (!mZeit) {
+                continue;
+            }
+
+            let name = 'Koloniezentrum';
+            let rohName = '';
+
+            for (let j = i - 1; j >= 0 && j >= i - 10; j--) {
+                if (/wird gebaut/i.test(zeilen[j])) {
+                    rohName = zeilen[j].replace(/\s*wird gebaut\..*$/i, '').trim();
+                    name = rohName || name;
+                    break;
+                }
+            }
+
+            const kontext = (rohName + ' ' + zeilen.slice(Math.max(0, i - 10), i + 1).join(' ')).toLowerCase();
+            if (istCcGebaeude(name) || /colonycenter|koloniezentrum|kolonialverwaltung/i.test(kontext)) {
+                return baueBauInfo(name, mZeit[1], 'zeit-zeile');
+            }
+        }
+
+        return null;
+    }
+
+    function findeBauInfoAusKategorieZeilen(bodyText) {
+        const reKlammerBau = /\(([^()\n]+?)\s*:\s*(\d+:\d{2}:\d{2}:\d{2}s?)\s*\)/g;
+        let match;
+        let bester = null;
+
+        while ((match = reKlammerBau.exec(bodyText)) !== null) {
+            const name = match[1].trim();
+            if (!istCcGebaeude(name) && !/colonycenter|koloniezentrum|kolonialverwaltung/i.test(name)) {
+                continue;
+            }
+
+            const info = baueBauInfo(name, match[2], 'kategorie-zeile');
+            if (info && (!bester || info.sekunden < bester.sekunden)) {
+                bester = info;
+            }
+        }
+
+        return bester;
+    }
+
+    function findeSichtbarenBauStatus() {
+        const bodyText = document.body ? document.body.innerText : '';
+        if (!bodyText) {
+            return null;
+        }
+
+        const zeilen = bodyText.split(/\n+/).map(z => z.replace(/\s+/g, ' ').trim()).filter(Boolean);
+        return findeBauInfoAusZeitZeilen(zeilen) || findeBauInfoAusKategorieZeilen(bodyText);
+    }
+
+    function aktualisiereBauStatusAusSeite() {
+        const live = findeSichtbarenBauStatus();
+        if (live) {
+            merkeLetztenBauStatus(live);
+            return live;
+        }
+        return ladeLetztenBauStatus();
+    }
+
+    function berechneGespeicherteRestsekunden(daten) {
+        if (!daten) {
+            return null;
+        }
+
+        const basisSekunden = Number(
+            daten.restBasisSekunden !== undefined
+                ? daten.restBasisSekunden
+                : daten.sekunden
+        );
+        const basisZeit = Number(
+            daten.restBasisZeit !== undefined
+                ? daten.restBasisZeit
+                : daten.zuletztGesehen
+        );
+
+        if (!Number.isFinite(basisSekunden)) {
+            return null;
+        }
+
+        if (!Number.isFinite(basisZeit) || daten.status !== 'laeuft') {
+            return Math.max(0, basisSekunden);
+        }
+
+        const vergangen = Math.max(0, Math.floor((Date.now() - basisZeit) / 1000));
+        return Math.max(0, basisSekunden - vergangen);
+    }
+
+    function ladeBauUeberwachung() {
+        const daten = laden(STORAGE_BAUUEBERWACHUNG, null);
+        if (!daten || typeof daten !== 'object' || Array.isArray(daten)) {
+            return null;
+        }
+
+        const name = normalisiereGebaeudename(daten.name || daten.gebaeude || '');
+        if (!name || name === 'Bauauftrag') {
+            return null;
+        }
+
+        const sekunden = berechneGespeicherteRestsekunden(daten);
+
+        return {
+            typ: daten.typ || 'ziel',
+            bereich: daten.bereich || '',
+            planet: daten.planet || 'Planet nicht erkannt',
+            name: name,
+            gebaeude: name,
+            status: daten.status || (sekunden !== null ? 'laeuft' : 'vorgemerkt'),
+            sekunden: sekunden,
+            zeitText: sekunden !== null ? formatSekunden(sekunden) : '',
+            sichtbar: false,
+            wartet: false,
+            quelle: daten.quelle || 'gespeicherte-ueberwachung',
+            gestartetAm: daten.gestartetAm || null,
+            ausgewaehltAm: daten.ausgewaehltAm || Date.now(),
+            zuletztGesehen: daten.zuletztGesehen || Date.now(),
+            restBasisSekunden: Number.isFinite(Number(daten.restBasisSekunden))
+                ? Number(daten.restBasisSekunden)
+                : sekunden,
+            restBasisZeit: Number.isFinite(Number(daten.restBasisZeit))
+                ? Number(daten.restBasisZeit)
+                : Date.now(),
+            letzteLiveSekunden: Number.isFinite(Number(daten.letzteLiveSekunden))
+                ? Number(daten.letzteLiveSekunden)
+                : null
+        };
+    }
+
+    function speichereBauUeberwachung(info) {
+        if (!info) {
+            return null;
+        }
+
+        const sekundenRoh = Number(info.sekunden);
+        const sekunden = Number.isFinite(sekundenRoh) ? Math.max(0, sekundenRoh) : null;
+        const status = info.status === 'laeuft' ? 'laeuft' : 'vorgemerkt';
+        const jetzt = Date.now();
+
+        const ziel = {
+            typ: info.typ || 'ziel',
+            bereich: info.bereich || ermittleAktuellenBereich(),
+            planet: info.planet || findeAktuellenPlanetennamen() || 'Planet nicht erkannt',
+            name: normalisiereGebaeudename(info.name || info.gebaeude || 'Bauauftrag'),
+            gebaeude: normalisiereGebaeudename(info.name || info.gebaeude || 'Bauauftrag'),
+            status: status,
+            sekunden: sekunden,
+            zeitText: sekunden !== null ? formatSekunden(sekunden) : '',
+            quelle: info.quelle || 'benutzer-markierung',
+            gestartetAm: status === 'laeuft' ? jetzt : null,
+            ausgewaehltAm: jetzt,
+            zuletztGesehen: jetzt,
+            restBasisSekunden: status === 'laeuft' ? sekunden : null,
+            restBasisZeit: status === 'laeuft' ? jetzt : null,
+            letzteLiveSekunden: status === 'laeuft' ? sekunden : null
+        };
+
+        speichern(STORAGE_BAUUEBERWACHUNG, ziel);
+        HAA_UEBERWACHUNG_LETZTE_SYNC = 0;
+        setBaualarmAn(true);
+        speichern(STORAGE_ALARM_AUSGELOEST, '');
+        speichern(STORAGE_VORALARM_AUSGELOEST, '');
+        HAA_VORALARM_AUSGELOEST_LAUF = '';
+        return ziel;
+    }
+
+    function beendeBauUeberwachung() {
+        speichern(STORAGE_BAUUEBERWACHUNG, null);
+        HAA_UEBERWACHUNG_LETZTE_SYNC = 0;
+        setBaualarmAn(false);
+        speichern(STORAGE_ALARM_AUSGELOEST, '');
+        speichern(STORAGE_VORALARM_AUSGELOEST, '');
+        HAA_VORALARM_AUSGELOEST_LAUF = '';
+        aktualisiereBauMarkierungen();
+    }
+
+    function bauInfoPasstZuUeberwachung(info, ziel) {
+        if (!info || !ziel) {
+            return false;
+        }
+
+        const a = normalisiereGebaeudename(info.name || info.gebaeude).toLowerCase();
+        const b = normalisiereGebaeudename(ziel.name || ziel.gebaeude).toLowerCase();
+        const planetA = String(info.planet || '').trim().toLowerCase();
+        const planetB = String(ziel.planet || '').trim().toLowerCase();
+
+        if (!a || !b || !(a === b || a.includes(b) || b.includes(a))) {
+            return false;
+        }
+
+        if (planetA && planetB
+                && planetA !== 'planet nicht erkannt'
+                && planetB !== 'planet nicht erkannt'
+                && planetA !== planetB) {
+            return false;
+        }
+
+        const bereichA = String(info.bereich || '').toLowerCase();
+        const bereichB = String(ziel.bereich || '').toLowerCase();
+        if (bereichA && bereichB && bereichA !== bereichB) {
+            return false;
+        }
+
+        return true;
+    }
+
+    function escapeRegExp(textWert) {
+        return String(textWert || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    function findeGlobalenZielZeitwert(ziel) {
+        if (!ziel || !ziel.name) {
+            return null;
+        }
+
+        const name = normalisiereGebaeudename(ziel.name);
+        const nameRe = new RegExp(escapeRegExp(name), 'i');
+        const zeitRe = /(\d+:\d{2}:\d{2}:\d{2}s?)/;
+
+        const selektoren = [
+            'tr',
+            '.BldClsRow',
+            '.BldClsBody',
+            '[class*="event" i]',
+            '[id*="event" i]',
+            '[class*="order" i]',
+            '[id*="order" i]'
+        ];
+
+        const elemente = Array.from(document.querySelectorAll(selektoren.join(',')))
+            .slice(0, 1200);
+
+        let bester = null;
+
+        for (const el of elemente) {
+            if (!el || el.closest('#haa-box') || el.closest('.haa-watch-circle')) {
+                continue;
+            }
+
+            const t = text(el);
+            if (!t || t.length > 350 || !nameRe.test(t)) {
+                continue;
+            }
+
+            const m = t.match(zeitRe);
+            if (!m) {
+                continue;
+            }
+
+            const sekunden = zeitStringZuSekunden(m[1]);
+            if (sekunden === null) {
+                continue;
+            }
+
+            if (!bester || sekunden < bester.sekunden) {
+                bester = {
+                    sekunden: sekunden,
+                    zeitText: kuerzeZeitText(m[1]),
+                    element: el
+                };
+            }
+        }
+
+        return bester;
+    }
+
+    function holeUeberwachungsStatusMitSync(force) {
+        const jetzt = Date.now();
+
+        if (!force
+                && HAA_UEBERWACHUNG_LETZTE_SYNC
+                && jetzt - HAA_UEBERWACHUNG_LETZTE_SYNC < HASA_SYNC_INTERVALL_MS) {
+            return ladeBauUeberwachung();
+        }
+
+        if (HAA_SYNC_LAEUFT) {
+            return ladeBauUeberwachung();
+        }
+
+        HAA_SYNC_LAEUFT = true;
+        const startZeit = performance.now();
+
+        try {
+            HAA_UEBERWACHUNG_LETZTE_SYNC = jetzt;
+            return aktualisiereUeberwachungsStatus();
+        } finally {
+            HAA_LETZTE_SCAN_DAUER_MS = Math.round(performance.now() - startZeit);
+            HAA_SYNC_LAEUFT = false;
+
+            if (HAA_LETZTE_SCAN_DAUER_MS > 250) {
+                console.warn(
+                    'HASA Performance: Statusscan dauerte '
+                    + HAA_LETZTE_SCAN_DAUER_MS
+                    + ' ms.'
+                );
+            }
+        }
+    }
+
+    function aktualisiereUeberwachungsStatus() {
+        const ziel = ladeBauUeberwachung();
+        if (!ziel) {
+            return null;
+        }
+
+        const kandidaten = findeBauKandidaten();
+        const live = kandidaten.find(function (k) {
+            return bauInfoPasstZuUeberwachung(k.info, ziel);
+        });
+
+        if (live) {
+            const info = live.info;
+
+            if (ziel.status === 'laeuft' && info.status === 'baubar') {
+                const fertig = Object.assign({}, ziel, {
+                    status: 'fertig',
+                    sekunden: 0,
+                    zeitText: '0:00',
+                    sichtbar: true,
+                    wartet: false,
+                    quelle: 'ziel-fertig-erkannt',
+                    zuletztGesehen: Date.now()
+                });
+
+                loeseBaualarmAus(fertig);
+                speichern(STORAGE_BAUUEBERWACHUNG, null);
+                setBaualarmAn(false);
+                speichern(STORAGE_VORALARM_AUSGELOEST, '');
+                HAA_VORALARM_AUSGELOEST_LAUF = '';
+
+                setTimeout(function () {
+                    aktualisiereBauMarkierungen();
+                    baueBox();
+                }, 250);
+
+                return null;
+            }
+
+            if (info.status === 'laeuft' && Number.isFinite(Number(info.sekunden))) {
+                const liveSekunden = Math.max(0, Number(info.sekunden));
+                const vorherLive = Number(ziel.letzteLiveSekunden);
+                const jetzt = Date.now();
+
+                // Horizon bleibt die Referenz, sobald dort ein kleinerer Wert erscheint.
+                // Bleibt der DOM-Wert statisch, läuft HASA lokal sekündlich weiter.
+                const mussNeuSynchronisieren =
+                    ziel.status !== 'laeuft'
+                    || !Number.isFinite(Number(ziel.restBasisSekunden))
+                    || !Number.isFinite(Number(ziel.restBasisZeit))
+                    || (Number.isFinite(vorherLive) && liveSekunden < vorherLive);
+
+                const neu = Object.assign({}, ziel, info, {
+                    name: normalisiereGebaeudename(info.name || ziel.name),
+                    gebaeude: normalisiereGebaeudename(info.name || ziel.name),
+                    planet: info.planet || ziel.planet,
+                    bereich: info.bereich || ziel.bereich,
+                    status: 'laeuft',
+                    sichtbar: true,
+                    wartet: false,
+                    quelle: info.quelle || 'explorer',
+                    gestartetAm: ziel.gestartetAm || jetzt,
+                    zuletztGesehen: jetzt,
+                    letzteLiveSekunden: liveSekunden
+                });
+
+                if (mussNeuSynchronisieren) {
+                    neu.restBasisSekunden = liveSekunden;
+                    neu.restBasisZeit = jetzt;
+                    neu.sekunden = liveSekunden;
+                } else {
+                    neu.restBasisSekunden = ziel.restBasisSekunden;
+                    neu.restBasisZeit = ziel.restBasisZeit;
+                    neu.sekunden = berechneGespeicherteRestsekunden(neu);
+                }
+
+                neu.zeitText = formatSekunden(neu.sekunden);
+                speichern(STORAGE_BAUUEBERWACHUNG, neu);
+                return neu;
+            }
+
+            const neu = Object.assign({}, ziel, info, {
+                name: normalisiereGebaeudename(info.name || ziel.name),
+                gebaeude: normalisiereGebaeudename(info.name || ziel.name),
+                planet: info.planet || ziel.planet,
+                bereich: info.bereich || ziel.bereich,
+                status: 'vorgemerkt',
+                sekunden: null,
+                zeitText: '',
+                sichtbar: true,
+                wartet: false,
+                quelle: info.quelle || 'explorer',
+                zuletztGesehen: Date.now(),
+                restBasisSekunden: null,
+                restBasisZeit: null,
+                letzteLiveSekunden: null
+            });
+            speichern(STORAGE_BAUUEBERWACHUNG, neu);
+            return neu;
+        }
+
+        const global = findeGlobalenZielZeitwert(ziel);
+        if (global && ziel.status === 'laeuft') {
+            const jetzt = Date.now();
+            const globalSekunden = Math.max(0, Number(global.sekunden));
+
+            const synchronisiert = Object.assign({}, ziel, {
+                sekunden: globalSekunden,
+                zeitText: formatSekunden(globalSekunden),
+                sichtbar: true,
+                wartet: false,
+                quelle: 'globaler-statusscanner',
+                zuletztGesehen: jetzt,
+                restBasisSekunden: globalSekunden,
+                restBasisZeit: jetzt,
+                letzteLiveSekunden: globalSekunden
+            });
+
+            speichern(STORAGE_BAUUEBERWACHUNG, synchronisiert);
+            return synchronisiert;
+        }
+
+        // Auch ohne sichtbare Quelle läuft ein bereits gestarteter Countdown lokal weiter.
+        const lokalSekunden = berechneGespeicherteRestsekunden(ziel);
+        return Object.assign({}, ziel, {
+            sekunden: lokalSekunden,
+            zeitText: Number.isFinite(Number(lokalSekunden))
+                ? formatSekunden(lokalSekunden)
+                : '',
+            sichtbar: false,
+            wartet: false,
+            quelle: 'lokaler-fortlauf'
+        });
+    }
+
+    function formatSekunden(sec) {
+        sec = Math.max(0, Math.floor(sec));
+        const d = Math.floor(sec / 86400);
+        const h = Math.floor((sec % 86400) / 3600);
+        const m = Math.floor((sec % 3600) / 60);
+        const s = sec % 60;
+        if (d > 0) return d + ':' + String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+        if (h > 0) return h + ':' + String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+        return m + ':' + String(s).padStart(2, '0');
+    }
+
+    function zeigeBaualarmStatus(info) {
+        const restEl = document.getElementById('haa-baualarm-rest');
+        if (!restEl) {
+            return;
+        }
+
+        if (!info) {
+            restEl.textContent = 'unbekannt';
+            return;
+        }
+
+        if (info.status !== 'laeuft' || !Number.isFinite(Number(info.sekunden))) {
+            restEl.textContent = 'noch nicht gestartet';
+        } else {
+            restEl.textContent = info.zeitText || formatSekunden(info.sekunden);
+        }
+    }
+
+    function starteBaualarmAnzeigeTicker(info) {
+        if (HAA_BAUALARM_ANZEIGE_TIMER) {
+            clearInterval(HAA_BAUALARM_ANZEIGE_TIMER);
+            HAA_BAUALARM_ANZEIGE_TIMER = null;
+        }
+
+        function tick() {
+            const restEl = document.getElementById('haa-baualarm-rest');
+            if (!restEl) {
+                clearInterval(HAA_BAUALARM_ANZEIGE_TIMER);
+                HAA_BAUALARM_ANZEIGE_TIMER = null;
+                return;
+            }
+
+            zeigeBaualarmStatus(holeUeberwachungsStatusMitSync(false));
+        }
+
+        zeigeBaualarmStatus(holeUeberwachungsStatusMitSync(true));
+        HAA_BAUALARM_ANZEIGE_TIMER = setInterval(tick, 1000);
+    }
+
+    function holeAudioContext() {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) {
+            return null;
+        }
+
+        if (!HAA_AUDIO_CTX || HAA_AUDIO_CTX.state === 'closed') {
+            HAA_AUDIO_CTX = new AudioCtx();
+        }
+
+        return HAA_AUDIO_CTX;
+    }
+
+    function istAudioAktiv() {
+        return !!(
+            HAA_AUDIO_CTX
+            && HAA_AUDIO_CTX.state === 'running'
+            && HAA_AUDIO_FREIGEGEBEN
+        );
+    }
+
+    function starteAudioKeepalive() {
+        const ctx = holeAudioContext();
+        if (!ctx || ctx.state !== 'running' || HAA_AUDIO_KEEPALIVE_OSC) {
+            return;
+        }
+
+        try {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+
+            osc.type = 'sine';
+            osc.frequency.value = 18;
+            gain.gain.value = 0.000001;
+
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start();
+
+            HAA_AUDIO_KEEPALIVE_OSC = osc;
+            HAA_AUDIO_KEEPALIVE_GAIN = gain;
+        } catch (e) {
+            console.warn('HASA Audio-Keepalive fehlgeschlagen:', e);
+        }
+    }
+
+    async function schalteAudioFrei() {
+        const ctx = holeAudioContext();
+        if (!ctx) {
+            HAA_AUDIO_FREIGEGEBEN = false;
+            return false;
+        }
+
+        try {
+            if (ctx.state === 'suspended') {
+                await ctx.resume();
+            }
+
+            if (ctx.state !== 'running') {
+                HAA_AUDIO_FREIGEGEBEN = false;
+                return false;
+            }
+
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            gain.gain.value = 0.0001;
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(ctx.currentTime);
+            osc.stop(ctx.currentTime + 0.03);
+
+            HAA_AUDIO_FREIGEGEBEN = true;
+            starteAudioKeepalive();
+            return true;
+        } catch (e) {
+            HAA_AUDIO_FREIGEGEBEN = false;
+            console.warn('HASA Audiofreigabe fehlgeschlagen:', e);
+            return false;
+        }
+    }
+
+    async function spieleNachgeholtenAlarm() {
+        if (!HAA_AUDIO_NACHHOLEN || !istAudioAktiv()) {
+            return;
+        }
+
+        const anzahl = HAA_AUDIO_NACHHOLEN;
+        HAA_AUDIO_NACHHOLEN = 0;
+
+        for (let i = 0; i < anzahl; i++) {
+            setTimeout(function () {
+                hasaBeep();
+            }, i * 550);
+        }
+    }
+
+    function installiereAudioFreigabe() {
+        const handler = function () {
+            schalteAudioFrei().then(function (ok) {
+                if (ok) {
+                    spieleNachgeholtenAlarm();
+                }
+            });
+        };
+
+        window.addEventListener('pointerdown', handler, { capture: true, passive: true });
+        window.addEventListener('mousedown', handler, { capture: true, passive: true });
+        window.addEventListener('contextmenu', handler, { capture: true, passive: true });
+        window.addEventListener('keydown', handler, { capture: true, passive: true });
+        window.addEventListener('touchstart', handler, { capture: true, passive: true });
+
+        document.addEventListener('visibilitychange', function () {
+            if (!document.hidden && HAA_AUDIO_CTX && HAA_AUDIO_CTX.state === 'suspended') {
+                HAA_AUDIO_CTX.resume().then(function () {
+                    HAA_AUDIO_FREIGEGEBEN = HAA_AUDIO_CTX.state === 'running';
+                    if (HAA_AUDIO_FREIGEGEBEN) {
+                        starteAudioKeepalive();
+                        spieleNachgeholtenAlarm();
+                    }
+                }).catch(function () {});
+            }
+        });
+    }
+
+    async function hasaBeep() {
+        try {
+            const ctx = holeAudioContext();
+            if (!ctx) {
+                HAA_AUDIO_FREIGEGEBEN = false;
+                return false;
+            }
+
+            if (ctx.state === 'suspended') {
+                try {
+                    await ctx.resume();
+                } catch (e) {
+                    HAA_AUDIO_FREIGEGEBEN = false;
+                    return false;
+                }
+            }
+
+            if (ctx.state !== 'running') {
+                HAA_AUDIO_FREIGEGEBEN = false;
+                return false;
+            }
+
+            function ton(start, freq, dauer, laut) {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+
+                osc.type = 'square';
+                osc.frequency.value = freq;
+
+                gain.gain.setValueAtTime(0.0001, ctx.currentTime + start);
+                gain.gain.exponentialRampToValueAtTime(laut, ctx.currentTime + start + 0.02);
+                gain.gain.setValueAtTime(laut, ctx.currentTime + start + Math.max(0.03, dauer - 0.05));
+                gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + start + dauer);
+
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                osc.start(ctx.currentTime + start);
+                osc.stop(ctx.currentTime + start + dauer + 0.02);
+            }
+
+            ton(0.00, 660, 0.35, 0.22);
+            ton(0.45, 440, 0.35, 0.24);
+            ton(0.90, 880, 0.45, 0.26);
+            ton(1.45, 330, 0.55, 0.28);
+
+            HAA_AUDIO_FREIGEGEBEN = true;
+            starteAudioKeepalive();
+            return true;
+        } catch (e) {
+            HAA_AUDIO_FREIGEGEBEN = false;
+            console.warn('HASA Ton konnte nicht abgespielt werden:', e);
+            return false;
+        }
+    }
+
+    async function spieleAlarmfolge(anzahl) {
+        const ok = await hasaBeep();
+
+        if (!ok) {
+            HAA_AUDIO_NACHHOLEN = Math.max(HAA_AUDIO_NACHHOLEN, anzahl);
+            return false;
+        }
+
+        for (let i = 1; i < anzahl; i++) {
+            setTimeout(function () {
+                hasaBeep();
+            }, i * 550);
+        }
+
+        return true;
+    }
+
+    function zeigeHasaAlarmBanner(textWert, kritisch) {
+        const alt = document.getElementById('haa-alarm-banner');
+        if (alt) {
+            alt.remove();
+        }
+
+        if (HAA_ALARM_BANNER_TIMER) {
+            clearTimeout(HAA_ALARM_BANNER_TIMER);
+            HAA_ALARM_BANNER_TIMER = null;
+        }
+
+        const banner = document.createElement('div');
+        banner.id = 'haa-alarm-banner';
+        banner.textContent = textWert;
+        banner.title = 'Zum Schließen anklicken';
+        banner.style.position = 'fixed';
+        banner.style.zIndex = '1000001';
+        banner.style.left = '50%';
+        banner.style.top = '18px';
+        banner.style.transform = 'translateX(-50%)';
+        banner.style.maxWidth = '760px';
+        banner.style.padding = '12px 18px';
+        banner.style.border = kritisch ? '3px solid #ff5a5a' : '2px solid #FFD27C';
+        banner.style.borderRadius = '6px';
+        banner.style.background = kritisch ? '#4a1515' : '#211d18';
+        banner.style.color = '#fff';
+        banner.style.fontFamily = 'Arial, sans-serif';
+        banner.style.fontSize = '16px';
+        banner.style.fontWeight = 'bold';
+        banner.style.boxShadow = '0 0 16px #000';
+        banner.style.cursor = 'pointer';
+
+        banner.onclick = function () {
+            banner.remove();
+            if (HAA_ALARM_BANNER_TIMER) {
+                clearTimeout(HAA_ALARM_BANNER_TIMER);
+                HAA_ALARM_BANNER_TIMER = null;
+            }
+        };
+
+        document.body.appendChild(banner);
+
+        HAA_ALARM_BANNER_TIMER = setTimeout(function () {
+            if (banner && banner.parentNode) {
+                banner.remove();
+            }
+            HAA_ALARM_BANNER_TIMER = null;
+        }, kritisch ? 30000 : 15000);
+    }
+
+    function alarmKey(info) {
+        if (!info) {
+            return '';
+        }
+        return [
+            normalisiereGebaeudename(info.name || 'ziel'),
+            info.planet || '',
+            info.bereich || '',
+            String(info.gestartetAm || info.ausgewaehltAm || '')
+        ].join('|');
+    }
+
+    function voralarmKey(info, vorlaufSekunden) {
+        if (!info) {
+            return '';
+        }
+        return [info.name || 'bau', String(vorlaufSekunden || 0)].join('|');
+    }
+
+    function loeseVoralarmAus(info, vorlaufSekunden) {
+        const key = voralarmKey(info, vorlaufSekunden);
+        if (!key) {
+            return;
+        }
+        if (HAA_VORALARM_AUSGELOEST_LAUF === key
+                || laden(STORAGE_VORALARM_AUSGELOEST, '') === key) {
+            return;
+        }
+
+        HAA_VORALARM_AUSGELOEST_LAUF = key;
+        speichern(STORAGE_VORALARM_AUSGELOEST, key);
+
+        spieleAlarmfolge(1);
+        document.title = '🔔 HASA Voralarm - Horizon';
+        zeigeHasaAlarmBanner(
+            'HASA Voralarm: '
+                + (info && info.name ? info.name : 'Ziel')
+                + ' ist bald fertig.',
+            false
+        );
+    }
+
+    function loeseBaualarmAus(info) {
+        const key = alarmKey(info);
+        if (key && laden(STORAGE_ALARM_AUSGELOEST, '') === key) {
+            return;
+        }
+        if (key) {
+            speichern(STORAGE_ALARM_AUSGELOEST, key);
+        }
+
+        spieleAlarmfolge(3);
+        document.title = '🔔 Ziel fertig - Horizon';
+
+        zeigeHasaAlarmBanner(
+            'HASA Alarm: '
+                + (info && info.name ? info.name : 'Ziel')
+                + ' ist fertig.',
+            true
+        );
+    }
+
+    function starteBaualarmWennNoetig(info) {
+        if (HAA_BAUALARM_TIMER) {
+            clearInterval(HAA_BAUALARM_TIMER);
+            HAA_BAUALARM_TIMER = null;
+        }
+
+        if (!istBaualarmAn() || !ladeBauUeberwachung()) {
+            return;
+        }
+
+        HAA_BAUALARM_TIMER = setInterval(function () {
+            if (!istBaualarmAn() || !ladeBauUeberwachung()) {
+                clearInterval(HAA_BAUALARM_TIMER);
+                HAA_BAUALARM_TIMER = null;
+                return;
+            }
+
+            const aktuell = holeUeberwachungsStatusMitSync(false);
+            if (!aktuell || aktuell.status !== 'laeuft' || !Number.isFinite(Number(aktuell.sekunden))) {
+                return;
+            }
+
+            const vorlauf = ladeVorlaufSekunden();
+            if (vorlauf > 0
+                    && aktuell.sekunden > HASA_ALARM_VORLAUF_SEKUNDEN
+                    && aktuell.sekunden <= vorlauf) {
+                loeseVoralarmAus(aktuell, vorlauf);
+            }
+
+            if (vorlauf > 0 && aktuell.sekunden > vorlauf + 10) {
+                HAA_VORALARM_AUSGELOEST_LAUF = '';
+                speichern(STORAGE_VORALARM_AUSGELOEST, '');
+            }
+
+            if (aktuell.sekunden <= HASA_ALARM_VORLAUF_SEKUNDEN) {
+                clearInterval(HAA_BAUALARM_TIMER);
+                HAA_BAUALARM_TIMER = null;
+                loeseBaualarmAus(aktuell);
+                beendeBauUeberwachung();
+                setTimeout(baueBox, 500);
+            }
+        }, 1000);
+    }
+
+    function baueBaualarmHtml(ziel) {
+        const vorlauf = ladeVorlaufSekunden();
+        let html = '';
+
+        html += '<div style="margin-top:9px;border-top:1px solid #555;padding-top:7px;">';
+        html += '<div style="color:#FFD27C;font-weight:bold;font-size:15px;">🎯 Ziele / Überwachung</div>';
+
+        if (ziel) {
+            html += '<div style="margin-top:6px;padding:7px;border:1px solid #3f3a32;border-radius:4px;">';
+            html += '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;">';
+            html += '<div>';
+            html += '<div style="font-weight:bold;font-size:14px;">'
+                + esc(normalisiereGebaeudename(ziel.name)) + '</div>';
+            html += '<div style="font-size:11px;color:#aaa;margin-top:2px;">'
+                + esc(ziel.planet || 'Planet nicht erkannt') + '</div>';
+
+            if (ziel.status === 'laeuft' && Number.isFinite(Number(ziel.sekunden))) {
+                html += '<div id="haa-baualarm-rest" style="margin-top:3px;color:#7CFF7C;font-weight:bold;">'
+                    + esc(formatSekunden(ziel.sekunden)) + '</div>';
+            } else {
+                html += '<div id="haa-baualarm-rest" style="margin-top:3px;color:#FFD27C;font-weight:bold;">wartet</div>';
+            }
+
+            html += '</div>';
+            html += '<button id="haa-ziel-kreis" type="button" title="Überwachung beenden" ';
+            html += 'style="width:22px;height:22px;border-radius:50%;border:2px solid #FFD27C;';
+            html += 'background:#211d18;color:#FFD27C;cursor:pointer;">◉</button>';
+            html += '</div>';
+            html += '</div>';
+        } else {
+            html += '<div style="margin-top:5px;color:#aaa;font-size:12px;">Kein Ziel ausgewählt.</div>';
+        }
+
+        html += '<div style="margin-top:7px;display:grid;grid-template-columns:76px 1fr;gap:4px;align-items:center;">';
+        html += '<label for="haa-vorlauf-select" style="color:#ccc;">Vorlauf:</label>';
+        html += '<select id="haa-vorlauf-select" style="width:100%;">';
+        html += baueVorlaufOption(0, 'aus', vorlauf);
+        html += baueVorlaufOption(30, '30 Sekunden', vorlauf);
+        html += baueVorlaufOption(60, '1 Minute', vorlauf);
+        html += baueVorlaufOption(120, '2 Minuten', vorlauf);
+        html += baueVorlaufOption(300, '5 Minuten', vorlauf);
+        html += '</select>';
+        html += '</div>';
+
+        html += '<div style="margin-top:6px;display:flex;gap:4px;">';
+        html += '<button id="haa-alarm-toggle" style="flex:1;">'
+            + (ziel
+                ? 'Überwachung beenden'
+                : (istAudioAktiv() ? 'Ton aktiv' : 'Ton freigeben'))
+            + '</button>';
+        html += '<button id="haa-ton-test" style="flex:1;">Ton testen</button>';
+        html += '</div>';
+        html += '</div>';
+        return html;
+    }
+
+    function verbindeBaualarmButtons(bau, neuAufbauen) {
+        starteBaualarmAnzeigeTicker(bau);
+        starteBaualarmWennNoetig(bau);
+
+        const alarmBtn = document.getElementById('haa-alarm-toggle');
+        if (alarmBtn) {
+            alarmBtn.onclick = async function () {
+                const zielAktuell = ladeBauUeberwachung();
+
+                if (zielAktuell) {
+                    beendeBauUeberwachung();
+                    neuAufbauen();
+                    return;
+                }
+
+                await schalteAudioFrei();
+                neuAufbauen();
+            };
+        }
+
+        const zielKreis = document.getElementById('haa-ziel-kreis');
+        if (zielKreis) {
+            zielKreis.onclick = async function () {
+                const frei = await schalteAudioFrei();
+                if (frei) starteAudioKeepalive();
+                if (ladeBauUeberwachung()) beendeBauUeberwachung();
+                neuAufbauen();
+            };
+        }
+
+        const tonBtn = document.getElementById('haa-ton-test');
+        if (tonBtn) {
+            tonBtn.onclick = async function () {
+                await schalteAudioFrei();
+                await hasaBeep();
+                neuAufbauen();
+            };
+        }
+
+        verbindeZielUndVorlaufButtons(neuAufbauen);
+    }
+
+
+    function entferneBauMarkierungen() {
+        document.querySelectorAll('.haa-watch-circle').forEach(function (el) {
+            el.remove();
+        });
+    }
+
+    function ermittleAktuellenBereich() {
+        const aktiv = document.querySelector('.NavLinkActive');
+        if (aktiv && aktiv.id) {
+            return aktiv.id.replace(/^nav_/, '').toLowerCase();
+        }
+
+        const m = String(location.search || '').match(/[?&]cmd=([^&]+)/i);
+        return m ? decodeURIComponent(m[1]).toLowerCase() : 'unbekannt';
+    }
+
+    function findeAktuellenPlanetennamen() {
+        const selected = document.querySelector('select.PlanetSelectBox option:checked');
+        if (selected) {
+            const name = text(selected);
+            if (name) return name;
+        }
+
+        const select = document.querySelector('select.PlanetSelectBox');
+        if (select && select.options && select.selectedIndex >= 0) {
+            const option = select.options[select.selectedIndex];
+            const name = text(option);
+            if (name) return name;
+        }
+
+        return 'Planet nicht erkannt';
+    }
+
+    function istElementSichtbar(el) {
+        if (!el || !el.getBoundingClientRect) return false;
+        const r = el.getBoundingClientRect();
+        const cs = window.getComputedStyle(el);
+        return r.width > 0
+            && r.height > 0
+            && cs.display !== 'none'
+            && cs.visibility !== 'hidden';
+    }
+
+    function leseZeitAusText(textWert, bevorzugtLaufend) {
+        const t = String(textWert || '').replace(/\s+/g, ' ').trim();
+
+        let m = null;
+        if (bevorzugtLaufend) {
+            m = t.match(/Zeit:\s*(\d+:\d{2}:\d{2}:\d{2}s?)/i);
+        }
+        if (!m) {
+            m = t.match(/Bauzeit:\s*(\d+:\d{2}:\d{2}:\d{2}s?)/i);
+        }
+        if (!m) {
+            m = t.match(/(\d+:\d{2}:\d{2}:\d{2}s?)/i);
+        }
+
+        return m ? m[1] : '';
+    }
+
+    function leseGebaeudeNameAusKopf(kopf) {
+        if (!kopf) return '';
+
+        const b = kopf.querySelector('b');
+        if (b) {
+            const clone = b.cloneNode(true);
+            clone.querySelectorAll('.haa-watch-circle').forEach(function (el) {
+                el.remove();
+            });
+            const name = normalisiereGebaeudename(text(clone));
+            if (name) return name;
+        }
+
+        const clone = kopf.cloneNode(true);
+        clone.querySelectorAll('.haa-watch-circle').forEach(function (el) {
+            el.remove();
+        });
+
+        let roh = text(clone);
+        roh = roh.replace(/\s*\([^)]*Ausbaustufe[^)]*\)\s*$/i, '').trim();
+        roh = roh.replace(/\s*wird gebaut.*$/i, '').trim();
+        return normalisiereGebaeudename(roh);
+    }
+
+    function findeKoerperZeileZumKopf(kopf) {
+        const kopfZeile = kopf && kopf.closest ? kopf.closest('tr') : null;
+        let el = kopfZeile ? kopfZeile.nextElementSibling : null;
+
+        while (el) {
+            if (el.classList && el.classList.contains('BldClsBody')) {
+                return el;
+            }
+            if (el.querySelector && el.querySelector('.BldClsRow')) {
+                break;
+            }
+            el = el.nextElementSibling;
+        }
+
+        return null;
+    }
+
+    function istAktiverBauenButton(body) {
+        if (!body) return null;
+
+        const links = Array.from(body.querySelectorAll('a.SystemGfxButton'));
+        return links.find(function (a) {
+            const klassen = a.classList;
+            return /^bauen$/i.test(text(a))
+                && klassen.contains('Green')
+                && !klassen.contains('SystemGfxButtonDisabled');
+        }) || null;
+    }
+
+    function istLaufenderBau(kopf, body) {
+        const gesamt = (text(kopf) + ' ' + text(body)).replace(/\s+/g, ' ');
+        const hatWirdGebaut = /wird gebaut/i.test(gesamt);
+        const hatAbbrechen = Array.from((body || document).querySelectorAll('a, button'))
+            .some(function (el) { return /^abbrechen$/i.test(text(el)); });
+        const hatZeit = /Zeit:\s*\d+:\d{2}:\d{2}:\d{2}s?/i.test(gesamt);
+
+        return (hatWirdGebaut || hatAbbrechen) && hatZeit;
+    }
+
+    function findeBauKandidaten() {
+        const planet = findeAktuellenPlanetennamen();
+        const kandidaten = [];
+        const gesehen = {};
+
+        const koepfe = Array.from(document.querySelectorAll('.BldClsRow'));
+
+        koepfe.forEach(function (kopf) {
+            if (!kopf || kopf.closest('#haa-box')) return;
+
+            const body = findeKoerperZeileZumKopf(kopf);
+            if (!body) return;
+
+            const name = normalisiereGebaeudename(leseGebaeudeNameAusKopf(kopf));
+            if (!name || name === 'Bauauftrag') return;
+
+            const laufend = istLaufenderBau(kopf, body);
+            const bauenButton = istAktiverBauenButton(body);
+
+            if (!laufend && !bauenButton) {
+                return;
+            }
+
+            const zeit = leseZeitAusText(text(kopf) + ' ' + text(body), laufend);
+            if (!zeit) return;
+
+            const sekunden = zeitStringZuSekunden(zeit);
+            if (sekunden === null) return;
+
+            const titelEl = kopf.querySelector('b') || kopf;
+            const key = planet.toLowerCase() + '|' + name.toLowerCase();
+
+            if (gesehen[key]) return;
+            gesehen[key] = true;
+
+            kandidaten.push({
+                key: key,
+                kopf: kopf,
+                body: body,
+                titelEl: titelEl,
+                info: {
+                    name: name,
+                    gebaeude: name,
+                    planet: planet,
+                    bereich: ermittleAktuellenBereich(),
+                    typ: ermittleAktuellenBereich() === 'forschung' || ermittleAktuellenBereich() === 'research'
+                        ? 'forschung'
+                        : 'bau',
+                    status: laufend ? 'laeuft' : 'baubar',
+                    modus: 'Ziel',
+                    sekunden: laufend ? sekunden : null,
+                    bauzeitSekunden: laufend ? null : sekunden,
+                    zeitText: kuerzeZeitText(zeit),
+                    sichtbar: true,
+                    wartet: false,
+                    quelle: laufend ? 'horizon-bld-laufend' : 'horizon-bld-baubar'
+                }
+            });
+        });
+
+        return kandidaten;
+    }
+
+    function entferneBauMarkierungen() {
+        document.querySelectorAll('.haa-watch-circle').forEach(function (el) {
+            el.remove();
+        });
+    }
+
+    function setzeKreisAnTitel(kandidat, ziel) {
+        const titelEl = kandidat && kandidat.titelEl;
+        if (!titelEl || !titelEl.parentNode) return;
+
+        const markiert = ziel && bauInfoPasstZuUeberwachung(kandidat.info, ziel);
+
+        const btn = document.createElement('button');
+        btn.className = 'haa-watch-circle';
+        btn.type = 'button';
+        btn.textContent = markiert ? '◉' : '○';
+        btn.title = (markiert ? 'Überwachung beenden: ' : 'Diesen Bau überwachen: ')
+            + kandidat.info.name
+            + ' auf '
+            + kandidat.info.planet;
+
+        btn.style.display = 'inline-flex';
+        btn.style.alignItems = 'center';
+        btn.style.justifyContent = 'center';
+        btn.style.verticalAlign = 'middle';
+        btn.style.marginRight = '6px';
+        btn.style.width = '18px';
+        btn.style.height = '18px';
+        btn.style.lineHeight = '16px';
+        btn.style.padding = '0';
+        btn.style.borderRadius = '50%';
+        btn.style.border = '1px solid #FFD27C';
+        btn.style.background = '#211d18';
+        btn.style.color = markiert ? '#7CFF7C' : '#FFD27C';
+        btn.style.fontWeight = 'bold';
+        btn.style.cursor = 'pointer';
+        btn.style.boxShadow = '0 0 3px #000';
+
+        btn.onclick = function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            schalteAudioFrei();
+
+            const aktuell = ladeBauUeberwachung();
+
+            if (aktuell && bauInfoPasstZuUeberwachung(kandidat.info, aktuell)) {
+                beendeBauUeberwachung();
+            } else {
+                speichereBauUeberwachung(kandidat.info);
+            }
+
+            baueBox();
+            setTimeout(aktualisiereBauMarkierungen, 80);
+        };
+
+        titelEl.insertBefore(btn, titelEl.firstChild);
+    }
+
+    function aktualisiereBauMarkierungen() {
+        entferneBauMarkierungen();
+
+        const ziel = ladeBauUeberwachung();
+        const kandidaten = findeBauKandidaten();
+
+        kandidaten.forEach(function (kandidat) {
+            setzeKreisAnTitel(kandidat, ziel);
+        });
+    }
+
+    function istAscensionSeite() {
+        return document.querySelector('.AscAccCategory') !== null;
+    }
+
+    function starteSicher() {
+        if (HAA_START_GELAUFEN) {
+            return;
+        }
+        HAA_START_GELAUFEN = true;
+
+        let versuche = 0;
+        const timer = setInterval(function () {
+            versuche++;
+            if (document.body || versuche >= 8) {
+                baueBox();
+                clearInterval(timer);
+            }
+        }, 400);
+    }
+
+    installiereAudioFreigabe();
+    window.addEventListener('load', starteSicher);
+    setTimeout(starteSicher, 1000);
+})();
+
+/* HASA 1.0.2g Audio Manager Test: Horizon ist die Uhr; HASA liest im Takt nur sichtbare Spielzeit und rechnet keine Zielzeit mehr. */
+
+/* HASA 1.0.2g Audio Manager Test: Standardposition bleibt erhalten, Benutzerposition hat Vorrang. */
+
+/* HASA 1.0.2g Audio Manager Test: Favoriten und Spalten laden jetzt ebenfalls ueber den zentralen Speicherweg. */
+
+/* HASA 1.0.2g Audio Manager Test: zeigt Version, Build und aktiven Speicherweg im Dashboard. */
+
+/* HASA 1.0.2g Audio Manager Test: Vorlaufalarm und erste Zielauswahl fuer den Baualarm. */
+
+/* HASA 1.0.2g Audio Manager Test: basiert direkt auf 0.9.5 Zielalarm; Snap beim Verschieben, Shift deaktiviert Snap. */
+
+/* HASA 1.0.2g Audio Manager Test: Baualarm ist jetzt bewusste Benutzer-Überwachung per Kreis, nicht mehr automatische CC-Suche. */
+
+/* HASA 1.0.2g Audio Manager Test:
+   - nur eine große hasa-Box
+   - Kreise werden direkt in den Gebäudetitel eingefügt, nicht frei positioniert
+   - generische Erkennung über aktive grüne BAUEN- oder laufende ABBRECHEN-Zustände
+   - unbekannte/neue Gebäudenamen benötigen keine feste Liste
+   - Planetname wird aus der Horizon-Seite gesucht und mit der Auswahl gespeichert
+   - ein Bau kann vor dem Start vorgemerkt oder mitten im laufenden Countdown gewählt werden
+*/
+
+// Ende HASA 1.0.2g Audio Manager Test
