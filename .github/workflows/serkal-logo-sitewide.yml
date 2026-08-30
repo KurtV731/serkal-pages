@@ -1,0 +1,45 @@
+name: SerKal logo sitewide update
+
+on:
+  push:
+    branches:
+      - website-chatty
+    paths:
+      - '.github/workflows/serkal-logo-sitewide.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update-logo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout website-chatty
+        uses: actions/checkout@v4
+        with:
+          ref: website-chatty
+          fetch-depth: 0
+
+      - name: Replace old SerKal logo references
+        shell: bash
+        run: |
+          find up -type f -name '*.html' -print0 | xargs -0 sed -i 's#icon/blue\.jpg#icon/serkallogo.png#g'
+          if grep -RIn --include='*.html' 'icon/blue\.jpg' up; then
+            echo 'Old SerKal logo reference still exists.'
+            exit 1
+          fi
+          test -f up/icon/serkallogo.png
+
+      - name: Remove one-off updater and commit result
+        shell: bash
+        run: |
+          rm -f .github/workflows/serkal-logo-sitewide.yml
+          git config user.name 'Website Chatty'
+          git config user.email 'actions@users.noreply.github.com'
+          git add up .github/workflows/serkal-logo-sitewide.yml
+          if git diff --cached --quiet; then
+            echo 'No changes required.'
+            exit 0
+          fi
+          git commit -m 'Website: SerKal-Logo auf allen Seiten auf serkallogo.png umstellen'
+          git push origin HEAD:website-chatty
