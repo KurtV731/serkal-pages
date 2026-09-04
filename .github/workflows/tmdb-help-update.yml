@@ -36,8 +36,8 @@ jobs:
 
           de_path = up / 'download.html'
           de = de_path.read_text(encoding='utf-8')
-          de_marker = '  </section>\n\n  <div class="section">'
-          de_note = '''  </section>\n\n  <div class="notice">\n    <strong>Vor der Installation: eigener TMDB-Key</strong>\n    <p>Für TMDB-Suche, Bilder und die TMDB-Wartung benötigt jeder Benutzer ein kostenloses TMDB-Konto und einen eigenen Developer-API-Key. Ein persönlicher Schlüssel von Kurt wird nicht mit SerKal ausgeliefert. Ohne gültigen Key bleiben Archiv und lokale Funktionen verfügbar. <a href="/tmdb-hilfe.html">TMDB-Key vorbereiten</a>.</p>\n  </div>\n\n  <div class="section">'''
+          de_marker = '<div class="section">'
+          de_note = '''<div class="notice">\n    <strong>Vor der Installation: eigener TMDB-Key</strong>\n    <p>Für TMDB-Suche, Bilder und die TMDB-Wartung benötigt jeder Benutzer ein kostenloses TMDB-Konto und einen eigenen Developer-API-Key. Ein persönlicher Schlüssel von Kurt wird nicht mit SerKal ausgeliefert. Ohne gültigen Key bleiben Archiv und lokale Funktionen verfügbar. <a href="/tmdb-hilfe.html">TMDB-Key vorbereiten</a>.</p>\n  </div>\n\n  <div class="section">'''
           if 'Vor der Installation: eigener TMDB-Key' not in de:
               if de_marker not in de:
                   raise SystemExit('Marker in download.html nicht gefunden')
@@ -46,8 +46,8 @@ jobs:
 
           en_path = up / 'download-en.html'
           en = en_path.read_text(encoding='utf-8')
-          en_marker = '  </section>\n\n  <div class="section">'
-          en_note = '''  </section>\n\n  <div class="notice">\n    <strong>Before installation: your own TMDB key</strong>\n    <p>TMDB search, images and TMDB-based maintenance require each user to have a free TMDB account and their own Developer API key. Kurt's personal key is not included with SerKal. Without a valid key, the archive and local functions remain available. <a href="/tmdb-help.html">Prepare your TMDB key</a>.</p>\n  </div>\n\n  <div class="section">'''
+          en_marker = '<div class="section">'
+          en_note = '''<div class="notice">\n    <strong>Before installation: your own TMDB key</strong>\n    <p>TMDB search, images and TMDB-based maintenance require each user to have a free TMDB account and their own Developer API key. Kurt's personal key is not included with SerKal. Without a valid key, the archive and local functions remain available. <a href="/tmdb-help.html">Prepare your TMDB key</a>.</p>\n  </div>\n\n  <div class="section">'''
           if 'Before installation: your own TMDB key' not in en:
               if en_marker not in en:
                   raise SystemExit('Marker in download-en.html not found')
