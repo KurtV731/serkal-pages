@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SerKal – TMDB-Erststarthilfe</title>
+<style>
+:root {
+  --page:#f5f6fa;
+  --header:#eef0f6;
+  --ink:#1f2940;
+  --muted:#596274;
+  --blue:#31427f;
+  --blue2:#4c63b6;
+  --line:#d9deeb;
+  --card:#ffffff;
+  --soft:#eef2ff;
+  --warn-bg:#fff3cd;
+  --warn-line:#ffeeba;
+  --shadow:0 10px 28px rgba(42,55,105,.08);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--page);color:var(--ink);line-height:1.55}
+.site-header{background:var(--header);border-bottom:1px solid #d5dae7;padding:24px 18px}
+.header-inner{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1fr auto;gap:22px;align-items:start}
+.brand-wrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand-logo{height:58px;width:auto;object-fit:contain;border-radius:12px}
+.brand{font-size:clamp(2rem,3vw,2.7rem);font-weight:800;color:var(--ink);text-decoration:none;letter-spacing:-.04em}
+.tagline{color:#3f4551;font-size:1.06rem}
+.lang-switch{display:flex;gap:8px;justify-content:flex-end}
+.lang-switch a,.lang-switch .active{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:26px;padding:0 8px;border-radius:999px;background:#fff;border:1px solid var(--line);color:var(--blue);font-size:.82rem;font-weight:800;text-decoration:none}
+.lang-switch .active{background:var(--blue);color:#fff}
+.main-nav{max-width:1180px;margin:16px auto 0;display:flex;gap:20px;flex-wrap:wrap}
+.main-nav a,.main-nav .active{color:var(--blue);font-weight:800;text-decoration:none}
+.main-nav .active{color:var(--ink)}
+main{max-width:980px;margin:0 auto;padding:48px 22px 70px}
+h1{color:var(--blue);font-size:clamp(2.2rem,4.2vw,3.8rem);line-height:1.08;margin:0 0 18px;letter-spacing:-.04em}
+.lead{color:var(--muted);font-size:1.18rem;margin-bottom:28px}
+.card{background:var(--card);padding:24px 26px;border-radius:18px;border:1px solid var(--line);margin-bottom:20px;box-shadow:var(--shadow)}
+.card h2,.card h3{margin-top:0;color:var(--blue)}
+.card ol,.card ul{padding-left:24px}
+.card li{margin:9px 0}
+.notice{background:var(--soft);border:1px solid #d8dff8;border-radius:18px;padding:20px 22px;margin:24px 0}
+.warn{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:14px;padding:16px 18px;margin:18px 0}
+.example{background:#f4f7fc;border:1px solid #dfe5f2;border-radius:12px;padding:14px 16px;margin:12px 0}
+.actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:26px}
+.button{display:inline-block;text-decoration:none;border-radius:999px;padding:13px 22px;font-weight:800;border:1px solid var(--blue2)}
+.button.primary{background:var(--blue2);color:#fff}.button.secondary{background:#fff;color:var(--blue)}
+.tmdb-credit{display:flex;align-items:center;gap:18px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px 20px;margin-top:30px}
+.tmdb-credit img{width:118px;max-height:34px;object-fit:contain}
+.tmdb-credit p{margin:0;color:var(--muted);font-size:.95rem}
+.site-footer{background:var(--header);border-top:1px solid #d5dae7;color:var(--muted);text-align:center;padding:28px 14px}
+.site-footer a{color:var(--blue);font-weight:800;text-decoration:none}
+@media(max-width:700px){.header-inner{grid-template-columns:1fr}.lang-switch{justify-content:flex-start}.button{width:100%;text-align:center}.tmdb-credit{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand-wrap">
+      <img class="brand-logo" src="icon/serkallogo.png" alt="SerKal">
+      <div>
+        <a class="brand" href="/start.html">SerKal</a><br>
+        <span class="tagline">Serien clever verwalten – mit TMDB, Kalender und Übersicht</span>
+      </div>
+    </div>
+    <div class="lang-switch" aria-label="Sprachwahl">
+      <span class="active">🇩🇪 DE</span>
+      <a href="/tmdb-help.html">🇬🇧 EN</a>
+    </div>
+  </div>
+  <nav class="main-nav" aria-label="Hauptnavigation">
+    <a href="/start.html">Start</a>
+    <a href="/download.html">Download</a>
+    <span class="active">Hilfe</span>
+    <a href="/about.html">Über SerKal</a>
+    <a href="/legal.html">Rechtliches</a>
+    <a href="/werkstatt.html">Werkstatt</a>
+  </nav>
+</header>
+
+<main>
+  <h1>Dein eigener TMDB-Key für SerKal</h1>
+  <p class="lead">SerKal nutzt The Movie Database (TMDB), um Serien, Staffeln, Episoden, Beschreibungen und Bilder zu finden. Jeder SerKal-Benutzer verwendet dafür seinen eigenen kostenlosen TMDB-Developer-Zugang und seinen eigenen API-Key.</p>
+
+  <div class="notice"><strong>Wichtig:</strong> Mit SerKal wird kein gemeinsamer oder persönlicher API-Key des Entwicklers ausgeliefert. Dein TMDB-Key gehört nur dir.</div>
+
+  <section class="card">
+    <h2>1. Kostenloses TMDB-Konto anlegen</h2>
+    <p>Öffne <a href="https://www.themoviedb.org" target="_blank" rel="noopener">The Movie Database</a> und lege ein kostenloses Konto an oder melde dich mit deinem vorhandenen Konto an.</p>
+    <p>TMDB weist darauf hin, dass die Beantragung eines API-Keys am besten an einem Desktop-PC im Browser durchgeführt wird.</p>
+  </section>
+
+  <section class="card">
+    <h2>2. Developer-Key beantragen</h2>
+    <ol>
+      <li>Öffne bei TMDB deine <strong>Einstellungen</strong>.</li>
+      <li>Wähle links den Bereich <strong>API</strong>.</li>
+      <li>Beantrage dort einen API-Key und wähle die Nutzung als <strong>Developer</strong>.</li>
+      <li>Akzeptiere die TMDB-Nutzungsbedingungen und fülle das Formular mit deinen eigenen Angaben aus.</li>
+    </ol>
+    <p>Für eine private SerKal-Nutzung können die Anwendungsangaben zum Beispiel so aussehen:</p>
+    <div class="example">
+      <strong>Type of Use:</strong> Personal<br>
+      <strong>Application Name:</strong> SerKal<br>
+      <strong>Application URL:</strong> https://serkal.de<br>
+      <strong>Application Summary:</strong> Private Nutzung von SerKal zum Abrufen von Serien-, Staffel-, Episoden- und Bildinformationen aus TMDB.
+    </div>
+    <p>Falls TMDB weitere persönliche Kontaktangaben verlangt, trägst du dort deine eigenen korrekten Angaben ein.</p>
+  </section>
+
+  <section class="card">
+    <h2>3. API-Key in SerKal eintragen</h2>
+    <p>Nach erfolgreicher Registrierung zeigt TMDB deinen persönlichen API-Key an. Kopiere den <strong>API Key (v3 auth)</strong> und trage ihn in SerKal in den Einstellungen in das Feld <strong>TMDB API-Key</strong> ein.</p>
+    <p>SerKal speichert diesen Schlüssel <strong>lokal auf deinem eigenen Rechner</strong>. Du musst ihn deshalb normalerweise nur einmal eintragen.</p>
+  </section>
+
+  <section class="card">
+    <h2>4. Deinen Schlüssel schützen</h2>
+    <div class="warn"><strong>Behandle den API-Key wie ein persönliches Zugangsmittel.</strong> Veröffentliche ihn nicht, zeige ihn nicht in Screenshots und gib ihn nicht an andere Benutzer weiter.</div>
+    <p>Jeder SerKal-Benutzer beantragt seinen eigenen Schlüssel. Dadurch muss niemand einen fremden Schlüssel teilen.</p>
+  </section>
+
+  <section class="card">
+    <h2>Was funktioniert ohne TMDB-Key?</h2>
+    <p>SerKal bleibt auch ohne eingetragenen TMDB-Key startbar. Bereits vorhandene Archivdaten und lokale Funktionen bleiben verfügbar.</p>
+    <p>Ohne gültigen Schlüssel funktionieren jedoch <strong>TMDB-Suche, TMDB-Bilder und die TMDB-gestützte Wartung</strong> nicht.</p>
+  </section>
+
+  <div class="actions">
+    <a class="button primary" href="https://www.themoviedb.org" target="_blank" rel="noopener">TMDB öffnen</a>
+    <a class="button secondary" href="/help.html">Zur SerKal-Hilfe</a>
+  </div>
+
+  <section class="tmdb-credit" aria-label="TMDB-Hinweis">
+    <img src="icon/tmdblogo.png" alt="TMDB">
+    <p><strong>TMDB-Hinweis:</strong> Dieses Produkt verwendet die TMDB-API, wird jedoch nicht von TMDB unterstützt oder zertifiziert.</p>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p><a href="/start.html">Start</a> · <a href="/download.html">Download</a> · <a href="/help.html">Hilfe</a> · <a href="/about.html">Über SerKal</a> · <a href="/legal.html">Rechtliches</a></p>
+  <p>© SerKal – 2026</p>
+</footer>
+</body>
+</html>

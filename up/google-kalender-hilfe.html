@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SerKal – Google-Kalender-Hilfe</title>
+<style>
+:root {
+  --page: #f5f6fa;
+  --header: #eef0f6;
+  --ink: #1f2940;
+  --muted: #596274;
+  --blue: #31427f;
+  --blue2: #4c63b6;
+  --line: #d9deeb;
+  --card: #ffffff;
+  --soft: #eef2ff;
+  --warn-bg: #fff3cd;
+  --warn-line: #ffeeba;
+  --shadow: 0 10px 28px rgba(42, 55, 105, 0.08);
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--page);
+  color: var(--ink);
+  line-height: 1.55;
+}
+.site-header {
+  background: var(--header);
+  border-bottom: 1px solid #d5dae7;
+  padding: 26px 18px 24px;
+}
+.header-inner {
+  max-width: 1360px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 22px;
+  align-items: start;
+}
+.brand-line {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.brand {
+  font-size: clamp(2rem, 3vw, 2.7rem);
+  line-height: 1;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.04em;
+  text-decoration: none;
+}
+.tagline { color: #3f4551; font-size: 1.08rem; }
+.top-tools { display: grid; gap: 10px; justify-items: end; }
+.top-icons { display: flex; gap: 18px; align-items: center; }
+.top-icons img { height: 42px; width: auto; object-fit: contain; border-radius: 10px; }
+.lang-switch { display: flex; gap: 8px; justify-content: flex-end; }
+.lang-switch a,
+.lang-switch .active {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  height: 24px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  color: var(--blue);
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+.lang-switch .active { background: var(--blue); color: #ffffff; }
+.main-nav { margin-top: 18px; display: flex; gap: 20px; flex-wrap: wrap; }
+.main-nav a,
+.main-nav .active { color: var(--blue); font-weight: 800; font-size: 1.02rem; text-decoration: none; }
+.main-nav a:hover { text-decoration: underline; }
+.main-nav .active { color: var(--ink); cursor: default; }
+main { max-width: 980px; margin: 0 auto; padding: 54px 22px 70px; }
+h1 {
+  color: var(--blue);
+  font-size: clamp(2.2rem, 4.2vw, 3.8rem);
+  line-height: 1.08;
+  margin: 0 0 18px;
+  letter-spacing: -0.04em;
+}
+.lead { color: var(--muted); font-size: 1.2rem; margin-bottom: 30px; }
+.card {
+  background: var(--card);
+  padding: 24px 26px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+}
+.card h2 { margin-top: 0; color: var(--blue); }
+.card ol, .card ul { padding-left: 24px; }
+.card li { margin: 9px 0; }
+.notice {
+  background: var(--soft);
+  border: 1px solid #d8dff8;
+  border-radius: 18px;
+  padding: 20px 22px;
+  margin: 24px 0;
+}
+.notice strong { color: var(--blue); }
+.warn {
+  background: var(--warn-bg);
+  border: 1px solid var(--warn-line);
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin: 18px 0;
+}
+.actions { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 28px; }
+.button {
+  display: inline-block;
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 14px 24px;
+  font-weight: 800;
+  font-size: 1.04rem;
+  border: 1px solid var(--blue2);
+}
+.button.primary { background: var(--blue2); color: #ffffff; }
+.button.secondary { background: #ffffff; color: var(--blue); }
+.site-footer {
+  background: var(--header);
+  border-top: 1px solid #d5dae7;
+  color: var(--muted);
+  text-align: center;
+  padding: 30px 14px;
+}
+.site-footer a { color: var(--blue); font-weight: 800; text-decoration: none; }
+.site-footer a:hover { text-decoration: underline; }
+@media (max-width: 700px) {
+  .header-inner { grid-template-columns: 1fr; }
+  .top-tools { justify-items: start; }
+  .main-nav { gap: 12px 16px; }
+  .button { width: 100%; text-align: center; }
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <div>
+      <div class="brand-line">
+        <a class="brand" href="/start.html">SerKal</a>
+        <span class="tagline">Serien clever verwalten – mit TMDB, Kalender und Übersicht</span>
+      </div>
+      <nav class="main-nav" aria-label="Hauptnavigation">
+        <a href="/start.html">Start</a>
+        <a href="/download.html">Download</a>
+        <span class="active">Hilfe</span>
+        <a href="/about.html">Über SerKal</a>
+        <a href="/legal.html">Rechtliches</a>
+        <a href="/werkstatt.html">Werkstatt</a>
+      </nav>
+    </div>
+    <div class="top-tools">
+      <div class="top-icons" aria-label="Projektlogos">
+        <img src="icon/serkallogo.png" alt="SerKal">
+        <img src="icon/chatgptlogo.png" alt="ChatGPT">
+        <img src="icon/tmdblogo.png" alt="TMDB">
+      </div>
+      <div class="lang-switch" aria-label="Sprachwahl">
+        <span class="active">🇩🇪 DE</span>
+        <a href="/google-calendar-help.html">🇬🇧 EN</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <h1>Google Kalender mit SerKal verbinden</h1>
+  <p class="lead">SerKal kann deine Episodentermine direkt in einen eigenen Google-Kalender eintragen. Die Einrichtung ist für den normalen Benutzer bewusst einfach gehalten.</p>
+
+  <section class="card">
+    <h2>Was macht „Google Kalender verbinden“?</h2>
+    <p>Mit dieser Funktion verbindet sich SerKal mit deinem Google-Konto, damit SerKal Kalendereinträge für deine Serien anlegen und aktualisieren kann.</p>
+    <p>SerKal verwendet dafür einen Kalender mit dem Namen <strong>SerKal</strong>. Wenn dieser Kalender bereits vorhanden ist, wird er verwendet. Wenn noch keiner vorhanden ist, legt SerKal ihn automatisch an.</p>
+  </section>
+
+  <section class="card">
+    <h2>So läuft die Verbindung normalerweise ab</h2>
+    <ol>
+      <li>In SerKal auf <strong>„Google Kalender verbinden“</strong> klicken.</li>
+      <li>Im Browser das gewünschte Google-Konto auswählen.</li>
+      <li>Den angezeigten Zugriff für SerKal erlauben.</li>
+      <li>Danach zu SerKal zurückkehren.</li>
+    </ol>
+    <p>Mehr musst du im Normalfall nicht einrichten. SerKal sucht den Kalender <strong>SerKal</strong> selbst oder erstellt ihn automatisch.</p>
+  </section>
+
+  <div class="notice">
+    <strong>Wichtig für Endnutzer:</strong>
+    Du brauchst keine Google Cloud, keine Client-ID, keine JSON-Datei und keine Kalender-ID. Diese technischen Angaben gehören nicht zur Einrichtung durch den Benutzer.
+  </div>
+
+  <section class="card">
+    <h2>Wenn die Verbindung nicht funktioniert</h2>
+    <ul>
+      <li>Prüfe zuerst, ob du im Browser beim gewünschten Google-Konto angemeldet bist.</li>
+      <li>Starte die Verbindung in SerKal noch einmal und achte darauf, den angezeigten Zugriff zu erlauben.</li>
+      <li>Wenn du den Vorgang abgebrochen oder den Zugriff verweigert hast, kannst du ihn erneut aus SerKal starten.</li>
+      <li>Bleibt der Fehler bestehen, öffne die normale SerKal-Hilfe. Dort können aktuelle Hinweise und weitere Unterstützung ergänzt werden.</li>
+    </ul>
+    <div class="warn"><strong>Nicht nötig:</strong> Bitte keine eigenen Google-Cloud-Projekte anlegen und keine Client-ID, JSON-Datei oder Kalender-ID suchen oder eintragen.</div>
+  </section>
+
+  <div class="actions">
+    <a class="button primary" href="/start">SerKal Desktop öffnen</a>
+    <a class="button secondary" href="/help.html">Zur normalen SerKal-Hilfe</a>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <p>
+    <a href="/start.html">Start</a> ·
+    <a href="/download.html">Download</a> ·
+    <a href="/help.html">Hilfe</a> ·
+    <a href="/about.html">Über SerKal</a> ·
+    <a href="/legal.html">Rechtliches</a> ·
+    <a href="/werkstatt.html">Werkstatt</a>
+  </p>
+  <p>© SerKal – 2026</p>
+</footer>
+</body>
+</html>
