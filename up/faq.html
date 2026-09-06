@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SerKal – FAQ</title>
+<style>
+:root { --page:#f5f6fa; --header:#eef0f6; --ink:#1f2940; --muted:#596274; --blue:#31427f; --blue2:#4c63b6; --line:#d9deeb; --card:#fff; }
+* { box-sizing:border-box; }
+body { margin:0; font-family:Arial,Helvetica,sans-serif; background:var(--page); color:var(--ink); line-height:1.55; }
+.site-header { background:var(--header); border-bottom:1px solid #d5dae7; padding:26px 18px 24px; }
+.header-inner { max-width:1360px; margin:0 auto; display:grid; grid-template-columns:1fr auto; gap:22px; align-items:start; }
+.brand-line { display:flex; align-items:baseline; gap:16px; flex-wrap:wrap; }
+.brand { font-size:clamp(2rem,3vw,2.7rem); line-height:1; font-weight:800; color:var(--ink); letter-spacing:-.04em; text-decoration:none; }
+.tagline { color:#3f4551; font-size:1.08rem; }
+.top-tools { display:grid; gap:10px; justify-items:end; }
+.top-icons { display:flex; gap:18px; align-items:center; }
+.top-icons img { height:42px; width:auto; object-fit:contain; border-radius:10px; }
+.lang-switch { display:flex; gap:8px; justify-content:flex-end; }
+.lang-switch a,.lang-switch .active { display:inline-flex; align-items:center; justify-content:center; min-width:34px; height:24px; padding:0 8px; border-radius:999px; background:#fff; border:1px solid var(--line); color:var(--blue); font-size:.82rem; font-weight:800; text-decoration:none; }
+.lang-switch .active { background:var(--blue); color:#fff; }
+.main-nav { margin-top:18px; display:flex; gap:20px; flex-wrap:wrap; }
+.main-nav a,.main-nav .active { color:var(--blue); font-weight:800; font-size:1.02rem; text-decoration:none; }
+.main-nav a:hover { text-decoration:underline; }
+.main-nav .active { color:var(--ink); }
+main { max-width:1050px; margin:0 auto; padding:54px 22px 70px; }
+h1 { color:var(--blue); font-size:clamp(2.3rem,4vw,3.6rem); margin:0 0 12px; letter-spacing:-.04em; }
+.intro { color:var(--muted); font-size:1.15rem; margin:0 0 34px; }
+.faq { background:var(--card); padding:22px 24px; border-radius:18px; border:1px solid var(--line); margin:0 0 16px; box-shadow:0 10px 28px rgba(42,55,105,.08); }
+.faq h2 { color:var(--blue); font-size:1.16rem; margin:0 0 8px; }
+.faq p { margin:0; }
+.note { background:#eef2ff; border:1px solid #d8dff8; border-radius:18px; padding:20px 24px; margin-top:30px; }
+.note strong { color:var(--blue); }
+.site-footer { background:var(--header); border-top:1px solid #d5dae7; color:var(--muted); text-align:center; padding:30px 14px; }
+.site-footer a { color:var(--blue); font-weight:800; text-decoration:none; }
+@media(max-width:700px){ .header-inner{grid-template-columns:1fr}.top-tools{justify-items:start}.main-nav{gap:12px 16px} }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <div>
+      <div class="brand-line"><a class="brand" href="/start.html">SerKal</a><span class="tagline">Serien clever verwalten – mit TMDB, Kalender und Übersicht</span></div>
+      <nav class="main-nav" aria-label="Hauptnavigation">
+        <a href="/start.html">Start</a><a href="/download.html">Download</a><a href="/help.html">Hilfe</a><span class="active">FAQ</span><a href="/about.html">Über SerKal</a><a href="/legal.html">Rechtliches</a><a href="/werkstatt.html">Werkstatt</a>
+      </nav>
+    </div>
+    <div class="top-tools">
+      <div class="top-icons" aria-label="Projektlogos"><img src="icon/logo/serkallogo.png" alt="SerKal"><img src="icon/logo/chatgptlogo.png" alt="ChatGPT"><img src="icon/logo/tmdblogo.png" alt="TMDB"></div>
+      <div class="lang-switch"><span class="active">🇩🇪 DE</span><a href="/faq-en.html">🇬🇧 EN</a></div>
+    </div>
+  </div>
+</header>
+<main>
+  <h1>Häufige Fragen zu SerKal</h1>
+  <p class="intro">Hier geht es nicht nur darum, wie etwas funktioniert, sondern vor allem darum, warum SerKal bestimmte Dinge so macht.</p>
+
+  <section class="faq"><h2>Warum verwendet SerKal TMDB? Gibt es keine anderen Möglichkeiten?</h2><p>SerKal braucht eine verlässliche Quelle für Serien, Staffeln, Episoden, Veröffentlichungsdaten und Bilder. Dafür nutzt SerKal die TMDB-API. Andere Datenquellen wären grundsätzlich denkbar, würden aber eine zweite Datenanbindung mit eigenen Regeln, Abweichungen und zusätzlichem Pflegeaufwand bedeuten. SerKal konzentriert sich deshalb auf TMDB.</p></section>
+  <section class="faq"><h2>Warum brauche ich einen eigenen TMDB-API-Key?</h2><p>Der Zugriff auf die TMDB-API erfolgt über einen persönlichen API-Key. SerKal liefert bewusst keinen gemeinsamen Schlüssel für alle Benutzer mit. Jeder Nutzer verwendet seinen eigenen kostenlosen TMDB-Zugang.</p></section>
+  <section class="faq"><h2>Kostet der TMDB-API-Key etwas?</h2><p>Für die normale Nutzung von SerKal wird ein kostenloser TMDB-Account mit eigenem API-Key verwendet. Eine Anleitung zur Einrichtung findest du in der TMDB-Hilfe.</p></section>
+  <section class="faq"><h2>Warum liefert SerKal nicht einfach einen fertigen API-Key mit?</h2><p>Ein zentral mitgelieferter Schlüssel würde von allen Installationen gemeinsam benutzt und müsste außerdem in der Software verteilt werden. SerKal trennt das bewusst: Der persönliche Schlüssel bleibt beim jeweiligen Benutzer.</p></section>
+  <section class="faq"><h2>Welche Daten bekommt TMDB von mir?</h2><p>SerKal fragt über die TMDB-API die für die Serienverwaltung benötigten Informationen ab. SerKals eigenes Archiv bleibt davon getrennt und wird nicht als persönliches Serienarchiv an TMDB übertragen.</p></section>
+  <section class="faq"><h2>Brauche ich zwingend ein Google-Konto?</h2><p>Nein. Ein Google-Konto ermöglicht die direkte Kalenderanbindung und bietet damit den bequemsten Weg. Ohne Google kann SerKal Kalenderdaten alternativ als ICS bereitstellen.</p></section>
+  <section class="faq"><h2>Warum fragt Google bei der ersten Verbindung nach Berechtigungen?</h2><p>Damit SerKal Termine in deinem Google Kalender verwalten kann, muss Google diesen Zugriff einmal ausdrücklich erlauben. Die einzelnen Schritte werden in der Google-Kalender-Hilfe erklärt.</p></section>
+  <section class="faq"><h2>Was ist der Unterschied zwischen Google Kalender und ICS?</h2><p>Bei der direkten Google-Anbindung kann SerKal Kalendertermine unmittelbar verwalten. Eine ICS-Datei wird dagegen in einen Kalender importiert und ist anschließend eine Momentaufnahme dieses Imports.</p></section>
+  <section class="faq"><h2>Warum werden spätere Änderungen bei einer importierten ICS-Datei nicht automatisch übernommen?</h2><p>Ein ICS-Import ist keine dauerhafte Synchronisierung. Nach dem Import besteht keine fortlaufende Verbindung zwischen der Datei und den bereits angelegten Kalendereinträgen.</p></section>
+  <section class="faq"><h2>Wo liegen meine Seriendaten – lokal oder im Internet?</h2><p>Das SerKal-Archiv ist als lokaler Datenbestand gedacht. Online-Dienste werden dort benutzt, wo SerKal aktuelle Informationen oder eine gewünschte Kalenderanbindung benötigt.</p></section>
+  <section class="faq"><h2>Braucht SerKal ständig eine Internetverbindung?</h2><p>Für lokale Archivdaten nicht ständig. Für aktuelle TMDB-Abfragen und die direkte Nutzung von Online-Diensten wird jedoch eine Internetverbindung benötigt.</p></section>
+  <section class="faq"><h2>Warum meldet Windows möglicherweise etwas beim Installieren?</h2><p>Windows kann bei neuer oder noch wenig verbreiteter Software zusätzliche Sicherheitsabfragen anzeigen. SerKal arbeitet daran, die Installation für die fertigen Desktop-Versionen so unkompliziert wie möglich zu machen.</p></section>
+  <section class="faq"><h2>Kann ich SerKal auch ohne TMDB oder Google verwenden?</h2><p>Lokale Funktionen und Archivdaten sind grundsätzlich von diesen Diensten getrennt. Ohne TMDB fehlen jedoch die Funktionen, die aktuelle TMDB-Daten benötigen. Ohne Google bleibt als Kalenderweg unter anderem der ICS-Export.</p></section>
+  <section class="faq"><h2>Was passiert mit meinem vorhandenen Archiv beim Umstieg auf SerKal Desktop?</h2><p>SerKal Desktop wird so entwickelt, dass vorhandene SerKal-Archivdaten weiterverwendet werden können. Vor einer endgültigen Umstellung wird der jeweilige Versions- und Installationshinweis erklären, was übernommen wird und ob ein besonderer Schritt nötig ist.</p></section>
+
+  <div class="note"><strong>Eigene Fragen stellen</strong><br>Eine Möglichkeit, eigene Fragen zu SerKal einzureichen, ist für eine spätere Version vorgesehen.</div>
+</main>
+<footer class="site-footer"><p><a href="/start.html">Start</a> · <a href="/download.html">Download</a> · <a href="/help.html">Hilfe</a> · <a href="/faq.html">FAQ</a> · <a href="/about.html">Über SerKal</a> · <a href="/legal.html">Rechtliches</a> · <a href="/werkstatt.html">Werkstatt</a></p><p>© SerKal – 2026</p></footer>
+</body>
+</html>
