@@ -31,10 +31,12 @@ if not exist "%WINSCP_EXE%" goto NO_WINSCP
 cd /d "%ROOT%"
 if errorlevel 1 goto CD_ERROR
 
-git diff --quiet
-if errorlevel 1 goto LOCAL_CHANGES
-git diff --cached --quiet
-if errorlevel 1 goto STAGED_CHANGES
+rem Die lokale Installer-EXE darf bis zum Public Release bewusst neuer als GitHub sein.
+rem Alle anderen lokalen, vorgemerkten oder nicht erfassten Dateien bleiben ein Abbruchgrund.
+set "STATUS_FILE=%TEMP%\serkal_git_status.txt"
+git status --porcelain --untracked-files=all -- . ":(exclude)up/download/serkal-desktop.exe" > "%STATUS_FILE%"
+for %%F in ("%STATUS_FILE%") do if %%~zF GTR 0 goto LOCAL_CHANGES
+del /q "%STATUS_FILE%" >nul 2>nul
 
 echo [1/4] Schalte sicher auf main...
 echo.
@@ -129,13 +131,10 @@ echo FEHLER: Wechsel in "%ROOT%" ist fehlgeschlagen.
 goto FAIL
 
 :LOCAL_CHANGES
-echo FEHLER: Im Website-Repository gibt es nicht gespeicherte Aenderungen.
+echo FEHLER: Im Website-Repository liegen lokale Aenderungen ausserhalb
+echo der ausdruecklich erlaubten Datei up\download\serkal-desktop.exe.
 echo Bitte erst klaeren, bevor etwas veroeffentlicht wird.
-goto FAIL
-
-:STAGED_CHANGES
-echo FEHLER: Im Website-Repository liegen bereits vorgemerkte Git-Aenderungen.
-echo Bitte erst klaeren, bevor etwas veroeffentlicht wird.
+del /q "%STATUS_FILE%" >nul 2>nul
 goto FAIL
 
 :SWITCH_ERROR
