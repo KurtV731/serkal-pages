@@ -14,7 +14,7 @@ set "WINSCP_LOG=%TEMP%\serkal_pull_upload.log"
 
 rem Diese Werte dienen nur dazu, die bereits in WinSCP gespeicherte Sitzung zu finden.
 set "WINSCP_HOST=ftp.webspace.bz"
-set "WINSCP_USER=kd239663ftp1"
+set "WINSCP_USER=kd239663"
 set "WINSCP_SESSION="
 
 cls
