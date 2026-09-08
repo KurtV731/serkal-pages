@@ -106,9 +106,7 @@ echo   FERTIG
 echo ============================================================
 echo.
 echo Website und SerKal-Installer wurden auf serkal.de uebertragen.
-echo Die Downloadseite wird jetzt im Browser geoeffnet.
 echo.
-start "" "https://serkal.de/download.html"
 goto SUCCESS
 
 :NO_GIT
