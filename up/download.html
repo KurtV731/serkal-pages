@@ -4,308 +4,30 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SerKal – Download</title>
-
 <style>
 :root {
-  --page: #f5f6fa;
-  --header: #eef0f6;
-  --ink: #1f2940;
-  --muted: #596274;
-  --blue: #31427f;
-  --blue2: #4c63b6;
-  --line: #d9deeb;
-  --card: #ffffff;
-  --soft: #eef2ff;
-  --warn-bg: #fff3cd;
-  --warn-line: #ffeeba;
-  --shadow: 0 18px 48px rgba(42, 55, 105, 0.12);
+  --page:#f5f6fa; --header:#eef0f6; --ink:#1f2940; --muted:#596274;
+  --blue:#31427f; --blue2:#4c63b6; --line:#d9deeb; --card:#fff;
+  --soft:#eef2ff; --green:#23834a; --shadow:0 12px 28px rgba(42,55,105,.10);
 }
-
-* { box-sizing: border-box; }
-
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: var(--page);
-  color: var(--ink);
-  line-height: 1.55;
-}
-
-.site-header {
-  background: var(--header);
-  border-bottom: 1px solid #d5dae7;
-  padding: 26px 18px 24px;
-}
-
-.header-inner {
-  max-width: 1360px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 22px;
-  align-items: start;
-}
-
-.brand-line {
-  display: flex;
-  align-items: baseline;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.brand {
-  font-size: clamp(2rem, 3vw, 2.7rem);
-  line-height: 1;
-  font-weight: 800;
-  color: var(--ink);
-  letter-spacing: -0.04em;
-  text-decoration: none;
-}
-
-.tagline {
-  color: #3f4551;
-  font-size: 1.08rem;
-}
-
-.top-tools {
-  display: grid;
-  gap: 10px;
-  justify-items: end;
-}
-
-.top-icons {
-  display: flex;
-  gap: 18px;
-  align-items: center;
-}
-
-.top-icons img {
-  height: 42px;
-  width: auto;
-  object-fit: contain;
-  border-radius: 10px;
-}
-
-.lang-switch {
-  display: flex;
-  gap: 8px;
-  justify-content: flex-end;
-}
-
-.lang-switch a,
-.lang-switch .active {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 34px;
-  height: 24px;
-  border-radius: 999px;
-  background: #ffffff;
-  border: 1px solid var(--line);
-  color: var(--blue);
-  font-size: 0.82rem;
-  font-weight: 800;
-  text-decoration: none;
-}
-
-.lang-switch .active {
-  background: var(--blue);
-  color: #ffffff;
-}
-
-.main-nav {
-  margin-top: 18px;
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-.main-nav a,
-.main-nav .active {
-  color: var(--blue);
-  font-weight: 800;
-  font-size: 1.02rem;
-  text-decoration: none;
-}
-
-.main-nav a:hover { text-decoration: underline; }
-.main-nav .active { color: var(--ink); cursor: default; }
-
-main {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 54px 22px 70px;
-}
-
-.hero {
-  display: grid;
-  grid-template-columns: 0.92fr 1.08fr;
-  gap: 56px;
-  align-items: center;
-  margin-bottom: 52px;
-}
-
-.hero-text h1 {
-  color: var(--blue);
-  font-size: clamp(2.35rem, 4.6vw, 4.2rem);
-  line-height: 1.08;
-  margin: 0 0 22px;
-  letter-spacing: -0.04em;
-}
-
-.hero-text p {
-  color: var(--muted);
-  font-size: clamp(1.08rem, 1.55vw, 1.32rem);
-  max-width: 640px;
-  margin: 0 0 24px;
-}
-
-.hero-image.single {
-  min-height: 300px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.hero-image img {
-  max-width: 100%;
-  border-radius: 24px;
-  box-shadow: var(--shadow);
-  border: 1px solid rgba(49, 66, 127, 0.10);
-}
-
-.pills {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin: 22px 0 28px;
-}
-
-.pill {
-  background: var(--soft);
-  color: var(--blue);
-  border-radius: 999px;
-  padding: 8px 18px;
-  font-weight: 800;
-}
-
-.section { margin-bottom: 30px; }
-
-.listbox {
-  background: var(--card);
-  padding: 22px 24px;
-  border-radius: 18px;
-  border: 1px solid var(--line);
-  margin-bottom: 18px;
-  box-shadow: 0 10px 28px rgba(42, 55, 105, 0.08);
-}
-
-.listbox h2,
-.listbox h3 {
-  margin-top: 0;
-  color: var(--blue);
-}
-
-.listbox p,
-.listbox li { font-size: 15px; }
-
-.actions {
-  display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
-  margin-top: 24px;
-}
-
-.button {
-  display: inline-block;
-  text-decoration: none;
-  border-radius: 999px;
-  padding: 14px 24px;
-  font-weight: 800;
-  font-size: 1.04rem;
-  border: 1px solid var(--blue2);
-}
-
-.button.primary {
-  background: var(--blue2);
-  color: #ffffff;
-}
-
-.button.secondary {
-  background: #ffffff;
-  color: var(--blue);
-}
-
-.notice {
-  background: var(--soft);
-  border: 1px solid #d8dff8;
-  border-radius: 18px;
-  padding: 18px 22px;
-  margin: 22px 0 28px;
-}
-
-.notice strong {
-  display: block;
-  color: var(--blue);
-  font-size: 1.08rem;
-  margin-bottom: 6px;
-}
-
-.notice p { margin: 0; color: var(--muted); font-size: 1rem; }
-
-.warn {
-  background: var(--warn-bg);
-  border: 1px solid var(--warn-line);
-  padding: 14px 16px;
-  border-radius: 14px;
-  margin: 14px 0 18px;
-}
-
-.code {
-  background: #f4f7fc;
-  padding: 10px;
-  border-radius: 8px;
-  font-family: Consolas, monospace;
-  border: 1px solid #dfe5f2;
-}
-
-.file-list {
-  margin: 18px 0 0;
-  padding-left: 22px;
-}
-
-.file-list li { margin: 8px 0; }
-.file-list a { color: var(--blue); font-weight: 700; }
-
-.site-footer {
-  background: var(--header);
-  border-top: 1px solid #d5dae7;
-  color: var(--muted);
-  text-align: center;
-  padding: 30px 14px;
-}
-
-.site-footer a {
-  color: var(--blue);
-  font-weight: 800;
-  text-decoration: none;
-}
-
-.site-footer a:hover { text-decoration: underline; }
-
-@media (max-width: 980px) {
-  .hero { grid-template-columns: 1fr; }
-}
-
-@media (max-width: 700px) {
-  .header-inner { grid-template-columns: 1fr; }
-  .top-tools { justify-items: start; }
-  .main-nav { gap: 12px 16px; }
-  .button { width: 100%; text-align: center; }
-}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--page);color:var(--ink);line-height:1.45}
+.site-header{background:var(--header);border-bottom:1px solid #d5dae7;padding:20px 18px 18px}
+.header-inner{max-width:1360px;margin:0 auto;display:grid;grid-template-columns:1fr auto;gap:22px;align-items:start}
+.brand-line{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}.brand{font-size:clamp(2rem,3vw,2.7rem);line-height:1;font-weight:800;color:var(--ink);letter-spacing:-.04em;text-decoration:none}.tagline{color:#3f4551;font-size:1.02rem}
+.top-tools{display:grid;gap:8px;justify-items:end}.top-icons{display:flex;gap:16px;align-items:center}.top-icons img{height:38px;width:auto;object-fit:contain;border-radius:9px}
+.lang-switch{display:flex;gap:8px}.lang-switch a,.lang-switch .active{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:24px;border-radius:999px;background:#fff;border:1px solid var(--line);color:var(--blue);font-size:.82rem;font-weight:800;text-decoration:none}.lang-switch .active{background:var(--blue);color:#fff}
+.main-nav{margin-top:14px;display:flex;gap:18px;flex-wrap:wrap}.main-nav a,.main-nav .active{color:var(--blue);font-weight:800;font-size:1rem;text-decoration:none}.main-nav .active{color:var(--ink)}.main-nav a:hover{text-decoration:underline}
+main{max-width:1280px;margin:0 auto;padding:28px 22px 34px}.hero{display:grid;grid-template-columns:1fr 430px;gap:34px;align-items:center;margin-bottom:18px}.hero h1{color:var(--blue);font-size:clamp(2.2rem,4vw,3.6rem);line-height:1.05;margin:0 0 14px;letter-spacing:-.04em}.hero p{color:var(--muted);font-size:1.12rem;margin:0;max-width:760px}.hero-image img{display:block;max-width:100%;border-radius:20px;border:1px solid rgba(49,66,127,.12);box-shadow:var(--shadow)}
+.platform-box{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 16px;margin:0 0 16px;box-shadow:var(--shadow)}.platform-box h2{margin:0 0 10px;color:var(--blue);font-size:1.08rem}.platforms{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}.platform{border:1px solid var(--line);border-radius:13px;padding:11px 10px;min-height:68px;background:#fff;display:flex;flex-direction:column;justify-content:center}.platform strong{font-size:.98rem}.platform span{font-size:.82rem;margin-top:3px}.platform.ready{border-color:#b8d9c4;background:#f4fbf6}.platform.ready span{color:var(--green);font-weight:800}.platform.future{opacity:.38;filter:grayscale(1);box-shadow:inset 0 0 18px rgba(80,88,110,.08)}
+.notice{background:var(--soft);border:1px solid #d8dff8;border-radius:16px;padding:13px 17px;margin:0 0 16px}.notice strong{color:var(--blue);font-size:1rem}.notice p{margin:4px 0 0;color:var(--muted);font-size:.94rem}.notice a{color:var(--blue);font-weight:800}
+.downloads{display:grid;grid-template-columns:1.35fr 1fr;gap:12px;margin-bottom:14px}.download-card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:16px 18px;box-shadow:var(--shadow)}.download-card h2{color:var(--blue);font-size:1.08rem;margin:0 0 5px}.download-card p{font-size:.91rem;color:var(--muted);margin:0 0 12px}.actions{display:flex;gap:9px;flex-wrap:wrap}.button{display:inline-block;text-decoration:none;border-radius:999px;padding:10px 17px;font-weight:800;font-size:.92rem;border:1px solid var(--blue2)}.button.primary{background:var(--blue2);color:#fff}.button.secondary{background:#fff;color:var(--blue)}.minor-link{font-size:.88rem;color:var(--blue);font-weight:800;text-decoration:none;align-self:center}
+.other-projects{display:flex;align-items:center;justify-content:space-between;gap:18px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 16px}.other-projects h2{margin:0;color:var(--blue);font-size:1rem}.other-projects p{margin:2px 0 0;color:var(--muted);font-size:.9rem}
+.site-footer{background:var(--header);border-top:1px solid #d5dae7;color:var(--muted);text-align:center;padding:18px 14px;font-size:.9rem}.site-footer p{margin:5px 0}.site-footer a{color:var(--blue);font-weight:800;text-decoration:none}
+@media(max-width:980px){.hero{grid-template-columns:1fr}.hero-image{display:none}.platforms{grid-template-columns:repeat(3,1fr)}.downloads{grid-template-columns:1fr}}
+@media(max-width:700px){.header-inner{grid-template-columns:1fr}.top-tools{justify-items:start}.platforms{grid-template-columns:1fr 1fr}.other-projects{align-items:flex-start;flex-direction:column}.button{width:100%;text-align:center}}
 </style>
 </head>
-
 <body>
 <header class="site-header">
   <div class="header-inner">
@@ -314,24 +36,22 @@ main {
         <a class="brand" href="/start.html">SerKal</a>
         <span class="tagline">Serien clever verwalten – mit TMDB, Kalender und Übersicht</span>
       </div>
-
       <nav class="main-nav" aria-label="Hauptnavigation">
         <a href="/start.html">Start</a>
         <span class="active">Download</span>
         <a href="/help.html">Hilfe</a>
+        <a href="/faq.html">FAQ</a>
         <a href="/about.html">Über SerKal</a>
         <a href="/legal.html">Rechtliches</a>
         <a href="/werkstatt.html">Werkstatt</a>
       </nav>
     </div>
-
     <div class="top-tools">
       <div class="top-icons" aria-label="Projektlogos">
-        <img src="icon/serkallogo.png" alt="SerKal">
-        <img src="icon/chatgptlogo.png" alt="ChatGPT">
-        <img src="icon/tmdblogo.png" alt="TMDB">
+        <img src="/icon/logo/serkallogo.png" alt="SerKal">
+        <img src="/icon/logo/chatgptlogo.png" alt="ChatGPT">
+        <img src="/icon/logo/tmdblogo.png" alt="TMDB">
       </div>
-
       <div class="lang-switch" aria-label="Sprachwahl">
         <span class="active">🇩🇪 DE</span>
         <a href="/download-en.html">🇬🇧 EN</a>
@@ -342,32 +62,23 @@ main {
 
 <main>
   <section class="hero">
-    <div class="hero-text">
+    <div>
       <h1>SerKal herunterladen</h1>
-      <p>
-        SerKal steht in zwei Varianten bereit: als aktuelle Desktop-Testfassung für Windows
-        und weiterhin als klassische ZIP-Version.
-      </p>
-
-      <div class="pills">
-        <span class="pill">SerKal Desktop</span>
-        <span class="pill">Klassische ZIP-Version</span>
-        <span class="pill">Windows</span>
-      </div>
-
-      <div class="actions">
-        <a class="button primary" href="/download/serkal-desktop.exe" download>
-          SerKal Desktop herunterladen
-        </a>
-        <a class="button secondary" href="/download/serkal.zip" download>
-          SerKal als ZIP herunterladen
-        </a>
-        <a class="button secondary" href="/installation.html">Installation öffnen</a>
-      </div>
+      <p>SerKal wird zum eigenständigen Programm. Den Anfang macht SerKal Desktop für Windows. Schritt für Schritt soll SerKal auch auf weiteren Plattformen zuhause sein – unter anderem auf Android, Linux, iPhone/iPad und macOS.</p>
     </div>
+    <div class="hero-image">
+      <img src="/icon/serkal_light.png" alt="SerKal Oberfläche">
+    </div>
+  </section>
 
-    <div class="hero-image single">
-      <img src="icon/serkal_light.png" alt="SerKal Oberfläche">
+  <section class="platform-box" aria-label="Plattformstatus">
+    <h2>SerKal für deine Plattform</h2>
+    <div class="platforms">
+      <div class="platform ready"><strong>Windows</strong><span>✓ verfügbar</span></div>
+      <div class="platform future"><strong>Android</strong><span>geplant</span></div>
+      <div class="platform future"><strong>Linux</strong><span>geplant</span></div>
+      <div class="platform future"><strong>iPhone / iPad</strong><span>geplant</span></div>
+      <div class="platform future"><strong>macOS</strong><span>geplant</span></div>
     </div>
   </section>
 
@@ -376,87 +87,35 @@ main {
     <p>Für TMDB-Suche, Bilder und die TMDB-Wartung benötigt jeder Benutzer ein kostenloses TMDB-Konto und einen eigenen Developer-API-Key. Ein persönlicher Schlüssel von Kurt wird nicht mit SerKal ausgeliefert. Ohne gültigen Key bleiben Archiv und lokale Funktionen verfügbar. <a href="/tmdb-hilfe.html">TMDB-Key vorbereiten</a>.</p>
   </div>
 
-  <div class="section">
-    <div class="listbox">
-      <h2>Fanal</h2>
-      <p>
-        Fanal ist das Analysewerkzeug für SerKal. Es prüft den aktuellen
-        Programmstand und stellt die Ergebnisse als übersichtlichen Bericht bereit.
-      </p>
-      <p>
-        Die Analyse gehört zum technischen Bereich von SerKal und richtet sich
-        vor allem an die Weiterentwicklung und Fehlersuche.
-      </p>
+  <section class="downloads" aria-label="SerKal Downloads">
+    <div class="download-card">
+      <h2>SerKal Desktop für Windows</h2>
+      <p>Das neue SerKal als eigenständiges Windows-Programm mit Installer.</p>
       <div class="actions">
-        <a class="button secondary" href="/skdevhmb/serkal/analyse/fanal_ergebnis.html">
-          Aktuellen Fanal-Bericht öffnen
-        </a>
+        <a class="button primary" href="/download/serkal-desktop.exe" download>SerKal Desktop herunterladen</a>
+        <a class="minor-link" href="/installation.html">Installationshilfe</a>
       </div>
     </div>
-  </div>
-
-  <div class="section">
-    <h2>Weitere Projekte</h2>
-
-    <div class="listbox">
-      <h2>HASA 1.1 – Forschungsmodul</h2>
-
-      <p>
-        HASA ist ein eigenständiges Assistenzskript für Horizon-Spieler.
-        Mit Version 1.1 steht nun zusätzlich das Forschungsmodul bereit.
-      </p>
-
-      <div class="warn">
-        <strong>Hinweis:</strong>
-        Tampermonkey-Scripte bitte nur installieren, wenn man weiß, was man tut.
-      </div>
-
+    <div class="download-card">
+      <h2>Klassisches SerKal</h2>
+      <p>Die bisherige Skriptversion bleibt als ZIP-Paket verfügbar.</p>
       <div class="actions">
-        <a class="button primary" href="/download/others/hasa/hasa_1.1_forschungsmodul.zip">
-          HASA 1.1 Forschungsmodul als ZIP
-        </a>
-        <a class="button secondary" href="/download/others/hasa/hasa_1.1_forschungsmodul-komplett.user.js.txt">
-          Komplettes Userscript herunterladen
-        </a>
-        <a class="button secondary" href="/download/others/hasa/hasa_1.1_benutzeranleitung.pdf">
-          Benutzeranleitung als PDF
-        </a>
+        <a class="button secondary" href="/download/serkal.zip" download>Klassische ZIP-Version herunterladen</a>
       </div>
-
-      <h3>Aktuell vorhandene HASA-Dateien</h3>
-      <ul class="file-list">
-        <li><a href="/download/others/hasa/hasa_1.1_benutzeranleitung.pdf">hasa_1.1_benutzeranleitung.pdf</a></li>
-        <li><a href="/download/others/hasa/hasa_1.1_forschungsmodul.zip">hasa_1.1_forschungsmodul.zip</a></li>
-        <li><a href="/download/others/hasa/hasa_1.1_forschungsmodul-komplett.user.js.txt">hasa_1.1_forschungsmodul-komplett.user.js.txt</a></li>
-        <li><a href="/download/others/hasa/hasa_1_0_public_preview.user.js.txt">hasa_1_0_public_preview.user.js.txt</a></li>
-        <li><a href="/download/others/hasa/hasa.zip">hasa.zip</a></li>
-        <li><a href="/download/others/hasa/hasa-user.js.txt">hasa-user.js.txt</a></li>
-      </ul>
-
-      <div class="notice">
-        <strong>Bekannter Hinweis zum Alarmton:</strong>
-        <p>
-          Voralarm und Hauptalarm werden optisch zuverlässig angezeigt.
-          Je nach Browser-Einstellung kann der Hauptalarmton jedoch erst nach
-          einem weiteren Klick auf die Horizon-Seite abgespielt werden; dabei
-          kann es zu einem Doppelton kommen. An einer saubereren Lösung wird gearbeitet.
-        </p>
-      </div>
-
-      <p class="code">/download/others/hasa/</p>
     </div>
-  </div>
+  </section>
+
+  <section class="other-projects">
+    <div>
+      <h2>Weitere Projekte: HASA</h2>
+      <p>HASA ist das eigenständige Assistenzprojekt für Horizon-Spieler.</p>
+    </div>
+    <a class="button secondary" href="/hasa.html">Zu HASA</a>
+  </section>
 </main>
 
 <footer class="site-footer">
-  <p>
-    <a href="/start.html">Start</a> ·
-    <a href="/download.html">Download</a> ·
-    <a href="/help.html">Hilfe</a> ·
-    <a href="/about.html">Über SerKal</a> ·
-    <a href="/legal.html">Rechtliches</a> ·
-    <a href="/werkstatt.html">Werkstatt</a>
-  </p>
+  <p><a href="/start.html">Start</a> · <a href="/download.html">Download</a> · <a href="/help.html">Hilfe</a> · <a href="/faq.html">FAQ</a> · <a href="/about.html">Über SerKal</a> · <a href="/legal.html">Rechtliches</a> · <a href="/werkstatt.html">Werkstatt</a></p>
   <p>© SerKal – 2026</p>
 </footer>
 </body>
