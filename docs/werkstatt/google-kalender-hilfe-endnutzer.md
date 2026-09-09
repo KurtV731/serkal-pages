@@ -1,12 +1,6 @@
 # Google-Kalender-Hilfe für SerKal Desktop
 
-Stand: 03.09.2026
-
-## Anlass
-
-Im Endnutzertest wurde der neue SerKal-Button **„SerKal-Hilfe öffnen“** erfolgreich im Browser geöffnet. Die bisher verwendete Zielseite auf serkal.de existierte jedoch noch nicht und führte zu einem 404-Fehler.
-
-Zusätzlich ist SerKal Desktop zweisprachig. Deshalb muss die Google-Kalender-Hilfe ohne nachträgliche Sprachabfrage direkt in der aktuell in SerKal gewählten Sprache geöffnet werden.
+Stand: 09.09.2026
 
 ## Verbindliche Endnutzerregel
 
@@ -27,34 +21,39 @@ Der normale Ablauf lautet:
 4. Zu SerKal zurückkehren.
 5. SerKal sucht den Kalender `SerKal` selbst oder erstellt ihn automatisch.
 
-## Endgültige Website-Ziele
+## Website-Ziele
 
 Deutsch:
-
 `https://serkal.de/google-kalender-hilfe.html`
 
 Englisch:
-
 `https://serkal.de/google-calendar-help.html`
 
 Beide Dateien liegen im Website-Repository unter `up/`.
 
-## Aufgabe für CE / SerKal Desktop
+## Sprachregel
 
-Der Hilfe-Button muss abhängig von der aktuell gewählten SerKal-Sprache das passende Ziel öffnen:
+SerKal Desktop soll abhängig von der aktuell gewählten SerKal-Sprache direkt das passende Ziel öffnen:
 
 - DE -> `https://serkal.de/google-kalender-hilfe.html`
 - EN -> `https://serkal.de/google-calendar-help.html`
 
-Die Auswahl erfolgt in SerKal. Auf der Website soll der Benutzer nicht erst nach seiner Sprache gefragt werden.
+Auf der Website soll der Benutzer nicht erst nach seiner Sprache gefragt werden.
 
-## Rückwege
+## Rückweg – aktueller verbindlicher Auftrag
 
-Beide Hilfeseiten bieten zwei Wege zurück:
+Beide Hilfeseiten müssen einen deutlich sichtbaren Rückweg direkt zur installierten SerKal-Anwendung anbieten:
 
-- SerKal Desktop über den bereits vorhandenen Startweg `/start` öffnen.
-- Die normale SerKal-Hilfe der jeweiligen Sprache öffnen.
+- DE: **„Zurück zu SerKal“**
+- EN: **„Back to SerKal“**
+- Ziel jeweils exakt: `serkal://start/`
+
+Nicht als Ersatz auf eine allgemeine Start-, Hilfe- oder Downloadseite verlinken. Die normale Website-Hilfe darf zusätzlich erreichbar bleiben.
 
 ## Veröffentlichungsstatus
 
-Die Seiten wurden zunächst ausschließlich auf dem Arbeitsbranch `website-chatty` angelegt. Sie werden erst nach Test und Freigabe durch Kurt in `main` übernommen.
+Die Hilfeseiten liegen auf `main`, sind aber am 09.09.2026 noch Teil der laufenden Website-Gesamtbereinigung. Insbesondere Header, Navigation, Logo-Pfade und der direkte `serkal://start/`-Rückweg sind vor der Schlussfreigabe zu prüfen bzw. anzupassen.
+
+Siehe:
+- `docs/website_entwicklerhandbuch.md`
+- `docs/uebergabe_website_chatty_2026-09-09.md`
