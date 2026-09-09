@@ -4,8 +4,36 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>SerKal – FAQ</title>
 <style>
 :root{--page:#f5f6fa;--header:#eef0f6;--ink:#1f2940;--muted:#596274;--blue:#31427f;--line:#d9deeb;--card:#fff}*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--page);color:var(--ink);line-height:1.55}.site-header{background:var(--header);border-bottom:1px solid #d5dae7;padding:26px 18px 24px}.header-inner{max-width:1360px;margin:0 auto;display:grid;grid-template-columns:1fr auto;gap:22px;align-items:start}.brand-line{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}.brand{font-size:clamp(2rem,3vw,2.7rem);line-height:1;font-weight:800;color:var(--ink);letter-spacing:-.04em;text-decoration:none}.tagline{color:#3f4551;font-size:1.08rem}.top-tools{display:grid;gap:10px;justify-items:end}.top-icons{display:flex;gap:18px;align-items:center}.top-icons img{height:42px;width:auto;object-fit:contain;border-radius:10px}.lang-switch{display:flex;gap:8px}.lang-switch a,.lang-switch .active{display:inline-flex;align-items:center;justify-content:center;height:24px;padding:0 8px;border-radius:999px;background:#fff;border:1px solid var(--line);color:var(--blue);font-size:.82rem;font-weight:800;text-decoration:none}.lang-switch .active{background:var(--blue);color:#fff}.main-nav{margin-top:18px;display:flex;gap:20px;flex-wrap:wrap}.main-nav a,.main-nav .active{color:var(--blue);font-weight:800;font-size:1.02rem;text-decoration:none}.main-nav .active{color:var(--ink)}main{max-width:1050px;margin:0 auto;padding:54px 22px 70px}h1{color:var(--blue);font-size:clamp(2.3rem,4vw,3.6rem);margin:0 0 12px;letter-spacing:-.04em}.intro{color:var(--muted);font-size:1.15rem;margin:0 0 34px}.faq{background:var(--card);padding:22px 24px;border-radius:18px;border:1px solid var(--line);margin:0 0 16px;box-shadow:0 10px 28px rgba(42,55,105,.08)}.faq h2{color:var(--blue);font-size:1.16rem;margin:0 0 8px}.faq p{margin:0}.note{background:#eef2ff;border:1px solid #d8dff8;border-radius:18px;padding:20px 24px;margin-top:30px}.note strong{color:var(--blue)}.site-footer{background:var(--header);border-top:1px solid #d5dae7;color:var(--muted);text-align:center;padding:30px 14px}.site-footer a{color:var(--blue);font-weight:800;text-decoration:none}@media(max-width:700px){.header-inner{grid-template-columns:1fr}.top-tools{justify-items:start}.main-nav{gap:12px 16px}}
-</style></head>
-<body><header class="site-header"><div class="header-inner"><div><div class="brand-line"><a class="brand" href="/start-en.html">SerKal</a><span class="tagline">Manage series smartly – with TMDB, calendar and overview</span></div><nav class="main-nav"><a href="/start-en.html">Start</a><a href="/download-en.html">Download</a><a href="/help-en.html">Help</a><span class="active">FAQ</span><a href="/about-en.html">About SerKal</a><a href="/legal-en.html">Legal</a><a href="/werkstatt.html">Werkstatt</a></nav></div><div class="top-tools"><div class="top-icons"><img src="icon/logo/serkallogo.png" alt="SerKal"><img src="icon/logo/chatgptlogo.png" alt="ChatGPT"><img src="icon/logo/tmdblogo.png" alt="TMDB"></div><div class="lang-switch"><a href="/faq.html">🇩🇪 DE</a><span class="active">🇬🇧 EN</span></div></div></div></header>
+</style>  <link rel="stylesheet" href="/serkal-shell.css">
+  <link rel="icon" href="/icon/logo/serkallogo.png">
+</head>
+<body><header class="site-header">
+  <div class="header-inner">
+    <div>
+      <div class="brand-line">
+        <a class="brand" href="/start-en.html">SerKal</a>
+        <span class="tagline">Manage series smartly – with TMDB, calendar and overview</span>
+      </div>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="/start-en.html">Start</a>
+        <a href="/download-en.html">Download</a>
+        <a href="/help-en.html">Help</a>
+        <span class="active">FAQ</span>
+        <a href="/about-en.html">About SerKal</a>
+        <a href="/legal-en.html">Legal</a>
+        <a href="/werkstatt.html">Workshop</a>
+      </nav>
+    </div>
+    <div class="top-tools">
+      <div class="top-icons" aria-label="Project logos">
+        <img src="/icon/logo/serkallogo.png" alt="SerKal">
+        <img src="/icon/logo/chatgptlogo.png" alt="ChatGPT">
+        <img src="/icon/logo/tmdblogo.png" alt="TMDB">
+      </div>
+      <div class="lang-switch" aria-label="Language selection"><a href="/faq.html">🇩🇪 DE</a><span class="active">🇬🇧 EN</span></div>
+    </div>
+  </div>
+</header>
 <main><h1>Frequently asked questions about SerKal</h1><p class="intro">This page explains not only how things work, but especially why SerKal does certain things the way it does.</p>
 <section class="faq"><h2>Why does SerKal use TMDB? Are there no alternatives?</h2><p>SerKal needs a reliable source for series, seasons, episodes, release dates and images. It uses the TMDB API for this purpose. Other sources would be possible in principle, but would require another data integration with its own rules and maintenance. SerKal therefore focuses on TMDB.</p></section>
 <section class="faq"><h2>Why do I need my own TMDB API key?</h2><p>Access to the TMDB API uses a personal API key. SerKal deliberately does not ship one shared key for all users. Each user uses their own free TMDB access.</p></section>
@@ -22,4 +50,7 @@
 <section class="faq"><h2>Can I use SerKal without TMDB or Google?</h2><p>Local functions and archive data are separated from these services. Without TMDB, functions requiring current TMDB data are unavailable. Without Google, alternatives such as ICS export remain available for calendars.</p></section>
 <section class="faq"><h2>What happens to my existing archive when I move to SerKal Desktop?</h2><p>SerKal Desktop is being developed so existing SerKal archive data can continue to be used. Before a final migration, the relevant version and installation notes will explain what is carried over and whether any special step is required.</p></section>
 <div class="note"><strong>Ask your own questions</strong><br>A way to submit your own questions about SerKal is planned for a later version.</div></main>
-<footer class="site-footer"><p><a href="/start-en.html">Start</a> · <a href="/download-en.html">Download</a> · <a href="/help-en.html">Help</a> · <a href="/faq-en.html">FAQ</a> · <a href="/about-en.html">About SerKal</a> · <a href="/legal-en.html">Legal</a> · <a href="/werkstatt.html">Werkstatt</a></p><p>© SerKal – 2026</p></footer></body></html>
+<footer class="site-footer">
+  <p><a href="/start-en.html">Start</a> · <a href="/download-en.html">Download</a> · <a href="/help-en.html">Help</a> · <a href="/faq-en.html">FAQ</a> · <a href="/about-en.html">About SerKal</a> · <a href="/legal-en.html">Legal</a> · <a href="/werkstatt.html">Workshop</a></p>
+  <p>© SerKal – 2026</p>
+</footer></body></html>

@@ -22,6 +22,12 @@
     <loc>https://serkal.de/help-en.html</loc>
   </url>
   <url>
+    <loc>https://serkal.de/faq.html</loc>
+  </url>
+  <url>
+    <loc>https://serkal.de/faq-en.html</loc>
+  </url>
+  <url>
     <loc>https://serkal.de/about.html</loc>
   </url>
   <url>
@@ -52,33 +58,21 @@
     <loc>https://serkal.de/installation-en.html</loc>
   </url>
   <url>
-    <loc>https://serkal.de/howtogetapi.html</loc>
+    <loc>https://serkal.de/tmdb-hilfe.html</loc>
   </url>
   <url>
-    <loc>https://serkal.de/howtogetapi-en.html</loc>
+    <loc>https://serkal.de/tmdb-help.html</loc>
   </url>
   <url>
-    <loc>https://serkal.de/howtogetarchivefolder.html</loc>
+    <loc>https://serkal.de/google-kalender-hilfe.html</loc>
   </url>
   <url>
-    <loc>https://serkal.de/howtogetarchivefolder-en.html</loc>
+    <loc>https://serkal.de/google-calendar-help.html</loc>
   </url>
   <url>
-    <loc>https://serkal.de/howtogetgoogleaccount.html</loc>
-  </url>
-  <url>
-    <loc>https://serkal.de/howtogetgoogleaccount-en.html</loc>
+    <loc>https://serkal.de/hasa.html</loc>
   </url>
   <url>
     <loc>https://serkal.de/werkstatt.html</loc>
-  </url>
-  <url>
-    <loc>https://serkal.de/skdevhmb/index.html</loc>
-  </url>
-  <url>
-    <loc>https://serkal.de/skdevhmb/serkal/skt.html</loc>
-  </url>
-  <url>
-   <loc>https://serkal.de/skdevhmb/serkal/analyse/fanal_ergebnis.html</loc>
   </url>
  </urlset>

@@ -2,15 +2,23 @@
 <html lang="de">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>SerKal Desktop starten</title>
-  <meta http-equiv="refresh" content="0;url=serkal://start">
-  <script>
-    window.location.href = "serkal://start";
-  </script>
+  <link rel="icon" href="/icon/logo/serkallogo.png">
+  <style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#f5f6fa;color:#1f2940;font:16px Arial,sans-serif}.fallback{display:none;max-width:420px;margin:24px;padding:20px;text-align:center;background:#fff;border:1px solid #d9deeb;border-radius:16px}.fallback img{width:54px}.fallback a{color:#31427f;font-weight:700}</style>
 </head>
 <body>
-  <p>SerKal Desktop wird gestartet.</p>
-  <p><a href="serkal://start">SerKal Desktop öffnen</a></p>
+  <div class="fallback" id="fallback">
+    <img src="/icon/logo/serkallogo.png" alt="SerKal">
+    <p>SerKal Desktop wurde aufgerufen.</p>
+    <p><a href="serkal://start/">SerKal erneut öffnen</a></p>
+  </div>
+  <script>
+    window.location.href='serkal://start/';
+    window.setTimeout(function(){
+      if(history.length>1){ history.back(); return; }
+      document.getElementById('fallback').style.display='block';
+    },900);
+  </script>
 </body>
 </html>

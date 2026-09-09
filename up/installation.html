@@ -8,10 +8,41 @@
 :root{--page:#f5f6fa;--header:#eef0f6;--ink:#1f2940;--muted:#596274;--blue:#31427f;--blue2:#4c63b6;--line:#d9deeb;--card:#fff;--soft:#eef2ff;--shadow:0 12px 28px rgba(42,55,105,.10)}
 *{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--page);color:var(--ink);line-height:1.5}.site-header{background:var(--header);border-bottom:1px solid #d5dae7;padding:20px 18px 18px}.header-inner{max-width:1360px;margin:0 auto;display:grid;grid-template-columns:1fr auto;gap:22px;align-items:start}.brand-line{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}.brand{font-size:clamp(2rem,3vw,2.7rem);line-height:1;font-weight:800;color:var(--ink);letter-spacing:-.04em;text-decoration:none}.tagline{color:#3f4551;font-size:1.02rem}.top-tools{display:grid;gap:8px;justify-items:end}.top-icons{display:flex;gap:16px;align-items:center}.top-icons img{height:38px;width:auto;object-fit:contain;border-radius:9px}.lang-switch{display:flex;gap:8px}.lang-switch a,.lang-switch .active{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:24px;padding:0 8px;border-radius:999px;background:#fff;border:1px solid var(--line);color:var(--blue);font-size:.82rem;font-weight:800;text-decoration:none}.lang-switch .active{background:var(--blue);color:#fff}.main-nav{margin-top:14px;display:flex;gap:18px;flex-wrap:wrap}.main-nav a{color:var(--blue);font-weight:800;font-size:1rem;text-decoration:none}.main-nav a:hover{text-decoration:underline}main{max-width:1180px;margin:0 auto;padding:34px 22px 44px}.hero{display:grid;grid-template-columns:1fr 390px;gap:34px;align-items:center;margin-bottom:22px}.hero h1{color:var(--blue);font-size:clamp(2.2rem,4vw,3.6rem);line-height:1.05;margin:0 0 14px;letter-spacing:-.04em}.hero p{color:var(--muted);font-size:1.1rem;margin:0}.hero img{display:block;max-width:100%;border-radius:20px;border:1px solid rgba(49,66,127,.12);box-shadow:var(--shadow)}.steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:18px 20px;box-shadow:var(--shadow)}.card h2{color:var(--blue);font-size:1.08rem;margin:0 0 7px}.card p{color:var(--muted);margin:0;font-size:.95rem}.notice{background:var(--soft);border:1px solid #d8dff8;border-radius:16px;padding:15px 18px;margin:18px 0}.notice strong{color:var(--blue)}.notice p{margin:5px 0 0;color:var(--muted)}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.button{display:inline-block;text-decoration:none;border-radius:999px;padding:11px 18px;font-weight:800;font-size:.94rem;border:1px solid var(--blue2)}.button.primary{background:var(--blue2);color:#fff}.button.secondary{background:#fff;color:var(--blue)}.site-footer{background:var(--header);border-top:1px solid #d5dae7;color:var(--muted);text-align:center;padding:18px 14px;font-size:.9rem}.site-footer p{margin:5px 0}.site-footer a{color:var(--blue);font-weight:800;text-decoration:none}@media(max-width:850px){.hero{grid-template-columns:1fr}.hero img{display:none}.steps{grid-template-columns:1fr}}@media(max-width:700px){.header-inner{grid-template-columns:1fr}.top-tools{justify-items:start}.button{width:100%;text-align:center}}
 </style>
+  <link rel="stylesheet" href="/serkal-shell.css">
+  <link rel="icon" href="/icon/logo/serkallogo.png">
 </head>
 <body>
-<header class="site-header"><div class="header-inner"><div><div class="brand-line"><a class="brand" href="/start.html">SerKal</a><span class="tagline">Serien clever verwalten – mit TMDB, Kalender und Übersicht</span></div><nav class="main-nav" aria-label="Hauptnavigation"><a href="/start.html">Start</a><a href="/download.html">Download</a><a href="/help.html">Hilfe</a><a href="/faq.html">FAQ</a><a href="/about.html">Über SerKal</a><a href="/legal.html">Rechtliches</a><a href="/werkstatt.html">Werkstatt</a></nav></div><div class="top-tools"><div class="top-icons" aria-label="Projektlogos"><img src="/icon/logo/serkallogo.png" alt="SerKal"><img src="/icon/logo/chatgptlogo.png" alt="ChatGPT"><img src="/icon/logo/tmdblogo.png" alt="TMDB"></div><div class="lang-switch" aria-label="Sprachwahl"><span class="active">🇩🇪 DE</span><a href="/installation-en.html">🇬🇧 EN</a></div></div></div></header>
+<header class="site-header">
+  <div class="header-inner">
+    <div>
+      <div class="brand-line">
+        <a class="brand" href="/start.html">SerKal</a>
+        <span class="tagline">Serien clever verwalten – mit TMDB, Kalender und Übersicht</span>
+      </div>
+      <nav class="main-nav" aria-label="Hauptnavigation">
+        <a href="/start.html">Start</a>
+        <a href="/download.html">Download</a>
+        <a href="/help.html">Hilfe</a>
+        <a href="/faq.html">FAQ</a>
+        <a href="/about.html">Über SerKal</a>
+        <a href="/legal.html">Rechtliches</a>
+        <a href="/werkstatt.html">Werkstatt</a>
+      </nav>
+    </div>
+    <div class="top-tools">
+      <div class="top-icons" aria-label="Projektlogos">
+        <img src="/icon/logo/serkallogo.png" alt="SerKal">
+        <img src="/icon/logo/chatgptlogo.png" alt="ChatGPT">
+        <img src="/icon/logo/tmdblogo.png" alt="TMDB">
+      </div>
+      <div class="lang-switch" aria-label="Sprachwahl"><span class="active">🇩🇪 DE</span><a href="/installation-en.html">🇬🇧 EN</a></div>
+    </div>
+  </div>
+</header>
 <main><section class="hero"><div><h1>SerKal Desktop installieren</h1><p>SerKal wird als eigenständiges Windows-Programm installiert. Nach der Installation startest du SerKal ganz normal über die Desktop-Verknüpfung oder das Windows-Startmenü.</p></div><img src="/icon/serkal_light.png" alt="SerKal Desktop Oberfläche"></section><section class="steps" aria-label="Installationsschritte"><article class="card"><h2>1. SerKal herunterladen</h2><p>Lade den Windows-Installer auf der SerKal-Downloadseite herunter.</p></article><article class="card"><h2>2. Installer starten</h2><p>Öffne die heruntergeladene Datei <strong>serkal-desktop.exe</strong> und folge der Windows-Installation. Der Zielordner kann bei der Installation gewählt werden.</p></article><article class="card"><h2>3. SerKal starten</h2><p>Nach der Installation steht SerKal als eigenes Windows-Programm bereit. Für den normalen Start ist kein Browser erforderlich.</p></article><article class="card"><h2>4. TMDB einrichten</h2><p>Für Seriensuche, Bilder und TMDB-Wartung benötigt SerKal einen eigenen kostenlosen TMDB Developer-API-Key. SerKal führt bei Bedarf zur passenden Hilfe.</p></article><article class="card"><h2>5. Kalender verbinden</h2><p>Wenn du Folgen in Google Kalender übernehmen möchtest, führt SerKal durch die Kalender-Einrichtung. Die Kalenderfunktion ist optional.</p></article><article class="card"><h2>6. Fertig</h2><p>Danach kannst du Serien suchen, Folgen verwalten und dein lokales Archiv verwenden. Spätere SerKal-Versionen werden als Update über die vorhandene Installation eingespielt.</p></article></section><div class="notice"><strong>TMDB-Key noch nicht vorhanden?</strong><p>Die bebilderte Anleitung erklärt Schritt für Schritt, wie du kostenlos einen eigenen API-Key erhältst.</p></div><div class="actions"><a class="button primary" href="/download.html">Zum Download</a><a class="button secondary" href="/tmdb-hilfe.html">TMDB-Key vorbereiten</a><a class="button secondary" href="/google-kalender-hilfe.html">Google-Kalender-Hilfe</a></div></main>
-<footer class="site-footer"><p><a href="/start.html">Start</a> · <a href="/download.html">Download</a> · <a href="/help.html">Hilfe</a> · <a href="/faq.html">FAQ</a> · <a href="/about.html">Über SerKal</a> · <a href="/legal.html">Rechtliches</a> · <a href="/werkstatt.html">Werkstatt</a></p><p>© SerKal – 2026</p></footer>
+<footer class="site-footer">
+  <p><a href="/start.html">Start</a> · <a href="/download.html">Download</a> · <a href="/help.html">Hilfe</a> · <a href="/faq.html">FAQ</a> · <a href="/about.html">Über SerKal</a> · <a href="/legal.html">Rechtliches</a> · <a href="/werkstatt.html">Werkstatt</a></p>
+  <p>© SerKal – 2026</p>
+</footer>
 </body>
 </html>

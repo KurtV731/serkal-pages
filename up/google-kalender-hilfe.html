@@ -143,6 +143,8 @@ h1 {
   .button { width: 100%; text-align: center; }
 }
 </style>
+  <link rel="stylesheet" href="/serkal-shell.css">
+  <link rel="icon" href="/icon/logo/serkallogo.png">
 </head>
 <body>
 <header class="site-header">
@@ -156,6 +158,7 @@ h1 {
         <a href="/start.html">Start</a>
         <a href="/download.html">Download</a>
         <span class="active">Hilfe</span>
+        <a href="/faq.html">FAQ</a>
         <a href="/about.html">Über SerKal</a>
         <a href="/legal.html">Rechtliches</a>
         <a href="/werkstatt.html">Werkstatt</a>
@@ -163,14 +166,11 @@ h1 {
     </div>
     <div class="top-tools">
       <div class="top-icons" aria-label="Projektlogos">
-        <img src="icon/serkallogo.png" alt="SerKal">
-        <img src="icon/chatgptlogo.png" alt="ChatGPT">
-        <img src="icon/tmdblogo.png" alt="TMDB">
+        <img src="/icon/logo/serkallogo.png" alt="SerKal">
+        <img src="/icon/logo/chatgptlogo.png" alt="ChatGPT">
+        <img src="/icon/logo/tmdblogo.png" alt="TMDB">
       </div>
-      <div class="lang-switch" aria-label="Sprachwahl">
-        <span class="active">🇩🇪 DE</span>
-        <a href="/google-calendar-help.html">🇬🇧 EN</a>
-      </div>
+      <div class="lang-switch" aria-label="Sprachwahl"><span class="active">🇩🇪 DE</span><a href="/google-calendar-help.html">🇬🇧 EN</a></div>
     </div>
   </div>
 </header>
@@ -209,24 +209,16 @@ h1 {
       <li>Wenn du den Vorgang abgebrochen oder den Zugriff verweigert hast, kannst du ihn erneut aus SerKal starten.</li>
       <li>Bleibt der Fehler bestehen, öffne die normale SerKal-Hilfe. Dort können aktuelle Hinweise und weitere Unterstützung ergänzt werden.</li>
     </ul>
-    <div class="warn"><strong>Nicht nötig:</strong> Bitte keine eigenen Google-Cloud-Projekte anlegen und keine Client-ID, JSON-Datei oder Kalender-ID suchen oder eintragen.</div>
-  </section>
+    </section>
 
   <div class="actions">
-    <a class="button primary" href="/start">SerKal Desktop öffnen</a>
+    <a class="button primary" href="serkal://start/">Zurück zu SerKal</a>
     <a class="button secondary" href="/help.html">Zur normalen SerKal-Hilfe</a>
   </div>
 </main>
 
 <footer class="site-footer">
-  <p>
-    <a href="/start.html">Start</a> ·
-    <a href="/download.html">Download</a> ·
-    <a href="/help.html">Hilfe</a> ·
-    <a href="/about.html">Über SerKal</a> ·
-    <a href="/legal.html">Rechtliches</a> ·
-    <a href="/werkstatt.html">Werkstatt</a>
-  </p>
+  <p><a href="/start.html">Start</a> · <a href="/download.html">Download</a> · <a href="/help.html">Hilfe</a> · <a href="/faq.html">FAQ</a> · <a href="/about.html">Über SerKal</a> · <a href="/legal.html">Rechtliches</a> · <a href="/werkstatt.html">Werkstatt</a></p>
   <p>© SerKal – 2026</p>
 </footer>
 </body>
