@@ -1,57 +1,72 @@
 # SerKal Desktop – Endnutzer-Download über serkal.de
 
-Stand: 1. September 2026
+Stand: 09.09.2026
 
-## Auftrag
+## Ziel
 
-Der Installer-Chatty erstellt eine getestete Windows-Setup-Datei mit dem Namen:
+Der Endnutzer soll weder GitHub noch npm, Branches, CMD oder interne Entwicklungsordner kennen müssen. SerKal wird über serkal.de angeboten und als normales Windows-Programm installiert.
 
-`SerKal Desktop-0.0.5 Setup.exe`
+## Verbindlicher Website-Pfad
 
-Ziel ist der echte Endnutzerfall. Ein Benutzer soll weder GitHub noch npm, Branches, CMD oder interne Entwicklungsordner kennen müssen.
+Das jeweils freigegebene Windows-Veröffentlichungsartefakt liegt im Webprojekt unter:
 
-## Soll-Ablauf für Benutzer
+`up/download/serkal-desktop.exe`
 
-1. Auf serkal.de **„SerKal Desktop herunterladen“** anklicken.
-2. Die heruntergeladene `Setup.exe` doppelklicken.
-3. SerKal Desktop benutzen.
+Öffentlich wird es unter folgendem dauerhaft gleichbleibenden Namen angeboten:
 
-## Verbindliche Website-Regeln
+`/download/serkal-desktop.exe`
 
-- Der öffentliche Download erfolgt ausschließlich über einen festen Pfad auf `serkal.de`.
-- Die Website verweist für Endnutzer nicht direkt auf GitHub.
-- Die Website verweist nicht auf Entwicklungsordner oder interne Branches.
-- Der endgültige Download-Link wird erst aktiviert, wenn Installer-Chatty das getestete Release-Paket ausdrücklich freigegeben hat.
-- Bis zur Freigabe darf auf `main` kein öffentlicher funktionierender Setup-Download erscheinen.
+Der öffentliche Dateiname enthält keine Versionsnummer. Die interne SerKal-/Installer-Version wird vom Installer verwaltet.
 
-## Geplanter fester Downloadpfad
+Die klassische ZIP-Fassung liegt derzeit zusätzlich unter:
 
-Vorgesehen ist ein eigener Desktop-Bereich unter:
+`/download/serkal.zip`
 
-`/download/desktop/`
+## Verbindliche Freigaberegel
 
-Die freigegebene Setup-Datei soll dort abgelegt werden. Der sichtbare Downloadbereich auf `download.html` wird erst mit der freigegebenen Datei endgültig aktiviert.
+Erst existiert das geprüfte Veröffentlichungsartefakt, danach wird die Website darauf verlinkt bzw. dieses Artefakt veröffentlicht.
 
-## Bestehender App-Start über /start
+- Website erzeugt keinen Installer.
+- Installer-Chatty verantwortet Build, Windows-Installation, Updateverhalten und Versionsnummer.
+- CE verantwortet den fachlich freizugebenden SerKal-Quellstand.
+- Website-Chatty verantwortet Downloadseite und Veröffentlichung des bereits freigegebenen Artefakts.
+- Keine zwei installierbaren Test-/Release-Artefakte dürfen dieselbe interne Versionsnummer tragen.
 
-`https://serkal.de/start` ruft das registrierte externe Protokoll `serkal://start` auf. Der technische Test mit Firefox war erfolgreich: Firefox erkennt das Protokoll und kann SerKal Desktop starten.
+## Aktueller Website-Aufbau
 
-### Rückkehr zur vorherigen Browserseite
+`download.html` und `download-en.html` zeigen getrennte Angebote für:
 
-Eine vollautomatische Rückkehr direkt nach erfolgreichem Start ist im Browser nicht zuverlässig feststellbar. Eine Webseite erhält keine sichere Bestätigung darüber, ob der externe Protokollhandler tatsächlich gestartet wurde oder ob der Benutzer den Firefox-Dialog bestätigt bzw. abgebrochen hat.
+1. SerKal Desktop für Windows (`serkal-desktop.exe`),
+2. klassisches SerKal als ZIP (`serkal.zip`).
 
-Deshalb wird vorerst **kein zeitgesteuertes `history.back()` und kein vergleichbarer Automatismus** eingebaut. Ein solcher Automatismus könnte die Startseite verlassen, bevor der Benutzer den Firefox-Dialog beantwortet, und wäre damit gerade im gewünschten Endnutzerfall unzuverlässig.
+HASA wird als separates Projekt auf `hasa.html` geführt und darf nicht mit dem SerKal-Installer vermischt werden.
 
-Die bestehende Startseite bleibt deshalb technisch einfach und robust. Eine spätere Verbesserung darf nur erfolgen, wenn sie in Firefox zuverlässig getestet werden kann und den Protokollaufruf nicht gefährdet.
+## Veröffentlichungsweg bei Kurt
 
-## Freigabe-Grenze
+Website-Wahrheit lokal:
+`C:\serkal-pages\up`
 
-Vor der öffentlichen Aktivierung sind mindestens nötig:
+Ablauf:
+GitHub -> `C:\serkal-pages\up` -> serkal.de
 
-- getestete Setup.exe vom Installer-Chatty,
-- bestätigter Dateiname und Ablagepfad,
-- Test des Downloads direkt von serkal.de,
-- Test der Installation im Endnutzerfall,
-- anschließend Freigabe durch Kurt.
+Der aktuelle Pull-/Publish-Ablauf verwendet `SERKAL_pull_v2.bat`. Eine lokal abweichende EXE kann dabei absichtlich zugelassen sein. Deshalb vor dem Upload sicherstellen, dass genau das freigegebene Artefakt im lokalen Downloadordner liegt.
 
-Erst danach wird der Download auf der öffentlichen Seite aktiviert.
+## App-Start über `/start`
+
+`https://serkal.de/start` ist nur eine Komfort-Brücke und ruft das registrierte Protokoll `serkal://start/` auf. Der normale Endnutzerstart erfolgt über die installierte Windows-Anwendung bzw. deren Verknüpfung.
+
+Für die Website-Brücke gilt laut aktuellem schwarzen Brett:
+- Protokollaufruf erhalten;
+- nach Möglichkeit zur vorherigen Firefox-Seite zurückkehren bzw. sicheren Selbstschließversuch nutzen;
+- wenn Firefox dies verhindert, nur kleine verständliche Rückfallanzeige;
+- keine Browser-Erweiterung und kein Native Messaging.
+
+Die Windows-Protokollregistrierung ist Installer-Aufgabe.
+
+## Aktueller Freigabestatus
+
+Die Website befindet sich am 09.09.2026 in einer Gesamtbereinigung und ist noch nicht als vollständig korrekt abgenommen. `up/index.html` bleibt bis nach Gesamtprüfung und Schlusskorrektur eine vorläufige Warn-/Umbauseite.
+
+Für die aktuelle Übergabe siehe:
+- `docs/website_entwicklerhandbuch.md`
+- `docs/uebergabe_website_chatty_2026-09-09.md`
