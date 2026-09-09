@@ -19,5 +19,5 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--page);colo
 .site-footer{background:var(--header);border-top:1px solid #d5dae7;color:var(--muted);text-align:center;padding:16px 14px;font-size:.9rem}
 .site-footer p{margin:4px 0}
 .site-footer a{color:var(--blue);font-weight:800;text-decoration:none}
-.site-footer a:hover{text-decoration:underline}
+.site-footer a:hover{text-decoration:underline}\n.site-footer .active{color:var(--ink);font-weight:800}
 @media(max-width:700px){.header-inner{grid-template-columns:1fr}.top-tools{justify-items:start}.main-nav{gap:12px 16px}}
