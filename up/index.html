@@ -1,18 +1,80 @@
-<!doctype html>
 <html lang="de">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>SerKal – Serien clever verwalten</title>
-  <meta name="description" content="SerKal verwaltet Serien, Staffeln und Episoden mit TMDB, lokalem Archiv und optionalem Google Kalender.">
-  <meta http-equiv="refresh" content="0;url=/start.html">
-  <link rel="canonical" href="https://serkal.de/start.html">
-  <link rel="icon" href="/icon/logo/serkallogo.png">
-  <script>
-    window.location.replace("/start.html");
-  </script>
+<meta charset="UTF-8">
+<title>SerKal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: url("icon/bg.png") center/cover no-repeat;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+}
+
+.overlay {
+  background: rgba(0,0,0,0.55);
+  padding: 40px;
+  border-radius: 12px;
+}
+
+.title {
+  font-size: 42px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 16px;
+  margin-bottom: 30px;
+  color: #ddd;
+}
+
+.flags {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.flag {
+  cursor: pointer;
+  transition: 0.2s;
+  color: inherit;
+  text-decoration: none;
+}
+
+.flag img {
+  width: 80px;
+  border-radius: 8px;
+}
+
+.flag:hover {
+  transform: scale(1.1);
+}
+</style>
 </head>
+
 <body>
-  <p><a href="/start.html">Weiter zu SerKal</a></p>
+<div class="overlay">
+  <div class="title">SerKal</div>
+  <div class="subtitle">Serien clever verwalten – automatisch im Kalender</div>
+
+  <div class="flags">
+    <a class="flag" href="/start.html" aria-label="Deutsch">
+      <img src="icon/de.png" alt="Deutsch">
+      <div>Deutsch</div>
+    </a>
+
+    <a class="flag" href="/start-en.html" aria-label="English">
+      <img src="icon/en.png" alt="English">
+      <div>English</div>
+    </a>
+  </div>
+</div>
 </body>
 </html>
