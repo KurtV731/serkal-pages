@@ -5,6 +5,7 @@ title SERKAL - GitHub holen und serkal.de aktualisieren
 set "ROOT=C:\serkal-pages"
 set "UPLOAD_ROOT=C:\serkal-pages\up"
 set "INSTALLER=%UPLOAD_ROOT%\download\serkal-desktop.exe"
+set "CHECKSUM=%UPLOAD_ROOT%\download\serkal-desktop.sha256"
 set "DOWNLOAD_DE=%UPLOAD_ROOT%\download.html"
 set "DOWNLOAD_EN=%UPLOAD_ROOT%\download-en.html"
 set "WINSCP_EXE=%ProgramFiles(x86)%\WinSCP\WinSCP.com"
@@ -34,7 +35,7 @@ if errorlevel 1 goto CD_ERROR
 rem Die lokale Installer-EXE darf bis zum Public Release bewusst neuer als GitHub sein.
 rem Alle anderen lokalen, vorgemerkten oder nicht erfassten Dateien bleiben ein Abbruchgrund.
 set "STATUS_FILE=%TEMP%\serkal_git_status.txt"
-git status --porcelain --untracked-files=all -- . ":(exclude)up/download/serkal-desktop.exe" > "%STATUS_FILE%"
+git status --porcelain --untracked-files=all -- . ":(exclude)up/download/serkal-desktop.exe" ":(exclude)up/download/serkal-desktop.sha256" > "%STATUS_FILE%"
 for %%F in ("%STATUS_FILE%") do if %%~zF GTR 0 goto LOCAL_CHANGES
 del /q "%STATUS_FILE%" >nul 2>nul
 
@@ -63,6 +64,16 @@ if not exist "%INSTALLER%" goto NO_INSTALLER
 for %%F in ("%INSTALLER%") do set "INSTALLER_SIZE=%%~zF"
 if not defined INSTALLER_SIZE goto INSTALLER_INVALID
 if %INSTALLER_SIZE% LSS 10000000 goto INSTALLER_INVALID
+if not exist "%CHECKSUM%" goto NO_CHECKSUM
+
+set "EXPECTED_SHA256="
+for /f "usebackq tokens=1" %%H in ("%CHECKSUM%") do if not defined EXPECTED_SHA256 set "EXPECTED_SHA256=%%H"
+if not defined EXPECTED_SHA256 goto CHECKSUM_INVALID
+
+set "ACTUAL_SHA256="
+for /f "usebackq delims=" %%H in (`powershell -NoProfile -Command "(Get-FileHash -Algorithm SHA256 -LiteralPath '%INSTALLER%').Hash.ToLowerInvariant()"`) do set "ACTUAL_SHA256=%%H"
+if not defined ACTUAL_SHA256 goto CHECKSUM_INVALID
+if /i not "%ACTUAL_SHA256%"=="%EXPECTED_SHA256%" goto CHECKSUM_MISMATCH
 
 if not exist "%DOWNLOAD_DE%" goto NO_DOWNLOAD_PAGE
 if not exist "%DOWNLOAD_EN%" goto NO_DOWNLOAD_PAGE
@@ -74,6 +85,8 @@ if errorlevel 1 goto DOWNLOAD_LINK_ERROR
 
 echo Installer gefunden: "%INSTALLER%"
 echo Groesse: %INSTALLER_SIZE% Bytes
+echo SHA-256: %ACTUAL_SHA256%
+echo Pruefsumme stimmt mit serkal-desktop.sha256 ueberein.
 echo Downloadseiten verweisen auf serkal-desktop.exe.
 echo.
 
@@ -159,6 +172,22 @@ goto FAIL
 :INSTALLER_INVALID
 echo FEHLER: serkal-desktop.exe ist zu klein oder unvollstaendig.
 echo Vermutlich wurde nur der Git-LFS-Zeiger statt der EXE geladen.
+goto FAIL
+
+:NO_CHECKSUM
+echo FEHLER: Die festgeschriebene Pruefsumme fehlt:
+echo "%CHECKSUM%"
+goto FAIL
+
+:CHECKSUM_INVALID
+echo FEHLER: Die SHA-256-Pruefsumme ist ungueltig oder konnte nicht gelesen werden.
+goto FAIL
+
+:CHECKSUM_MISMATCH
+echo FEHLER: serkal-desktop.exe stimmt nicht mit der festgeschriebenen Pruefsumme ueberein.
+echo Erwartet: %EXPECTED_SHA256%
+echo Vorhanden: %ACTUAL_SHA256%
+echo Es wurde nichts auf serkal.de hochgeladen.
 goto FAIL
 
 :NO_DOWNLOAD_PAGE
