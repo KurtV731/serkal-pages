@@ -44,7 +44,7 @@ for /f "delims=" %%H in ('git rev-parse origin/%BRANCH%') do set "REMOTE_HEAD=%%
 if /i not "%LOCAL_HEAD%"=="%REMOTE_HEAD%" goto :not_current
 
 set "STATUS_FILE=%TEMP%\serkal_release_status.txt"
-git status --porcelain --untracked-files=all -- . ":(exclude)up/download/serkal-desktop.exe" ":(exclude)up/download/serkal-desktop.sha256" > "%STATUS_FILE%"
+git status --porcelain --untracked-files=no -- . ":(exclude)up/download/serkal-desktop.exe" ":(exclude)up/download/serkal-desktop.sha256" > "%STATUS_FILE%"
 for %%F in ("%STATUS_FILE%") do if %%~zF GTR 0 goto :other_changes
 del /q "%STATUS_FILE%" >nul 2>nul
 
@@ -124,7 +124,7 @@ echo FEHLER: Der lokale main-Stand entspricht nicht origin/main.
 echo Bitte erst die Abweichung klaeren. Die gepruefte EXE wurde nicht veraendert.
 goto :fail
 :other_changes
-echo FEHLER: Es gibt weitere lokale Aenderungen im Website-Repository.
+echo FEHLER: Es gibt weitere Aenderungen an bereits verwalteten Website-Dateien.
 echo Bitte erst klaeren. Die gepruefte EXE wurde nicht veraendert.
 del /q "%STATUS_FILE%" >nul 2>nul
 goto :fail
