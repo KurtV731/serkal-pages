@@ -1,73 +1,118 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://serkal.de/</loc>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://serkal.de/"/>
   </url>
+
+  <!-- Deutsche und englische Hauptseiten -->
   <url>
     <loc>https://serkal.de/start.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/start.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/start-en.html"/>
   </url>
   <url>
     <loc>https://serkal.de/start-en.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/start.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/start-en.html"/>
   </url>
   <url>
     <loc>https://serkal.de/download.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/download.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/download-en.html"/>
   </url>
   <url>
     <loc>https://serkal.de/download-en.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/download.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/download-en.html"/>
   </url>
   <url>
     <loc>https://serkal.de/help.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/help.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/help-en.html"/>
   </url>
   <url>
     <loc>https://serkal.de/help-en.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/help.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/help-en.html"/>
   </url>
   <url>
     <loc>https://serkal.de/faq.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/faq.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/faq-en.html"/>
   </url>
   <url>
     <loc>https://serkal.de/faq-en.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/faq.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/faq-en.html"/>
   </url>
   <url>
     <loc>https://serkal.de/about.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/about.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/about-en.html"/>
   </url>
   <url>
     <loc>https://serkal.de/about-en.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/about.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/about-en.html"/>
   </url>
   <url>
     <loc>https://serkal.de/legal.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/legal.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/legal-en.html"/>
   </url>
   <url>
     <loc>https://serkal.de/legal-en.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/legal.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/legal-en.html"/>
   </url>
   <url>
     <loc>https://serkal.de/privacy.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/privacy-en.html"/>
   </url>
   <url>
     <loc>https://serkal.de/privacy-en.html</loc>
-  </url>
-  <url>
-    <loc>https://serkal.de/datenschutz.html</loc>
-  </url>
-  <url>
-    <loc>https://serkal.de/impressum.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/privacy-en.html"/>
   </url>
   <url>
     <loc>https://serkal.de/installation.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/installation.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/installation-en.html"/>
   </url>
   <url>
     <loc>https://serkal.de/installation-en.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/installation.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/installation-en.html"/>
   </url>
+
+  <!-- SerKal-Hilfen -->
   <url>
     <loc>https://serkal.de/tmdb-hilfe.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/tmdb-hilfe.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/tmdb-help.html"/>
   </url>
   <url>
     <loc>https://serkal.de/tmdb-help.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/tmdb-hilfe.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/tmdb-help.html"/>
   </url>
   <url>
     <loc>https://serkal.de/google-kalender-hilfe.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/google-kalender-hilfe.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/google-calendar-help.html"/>
   </url>
   <url>
     <loc>https://serkal.de/google-calendar-help.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/google-kalender-hilfe.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/google-calendar-help.html"/>
+  </url>
+
+  <!-- Eigenständige deutschsprachige Seiten -->
+  <url>
+    <loc>https://serkal.de/impressum.html</loc>
   </url>
   <url>
     <loc>https://serkal.de/hasa.html</loc>
@@ -75,4 +120,4 @@
   <url>
     <loc>https://serkal.de/werkstatt.html</loc>
   </url>
- </urlset>
+</urlset>
