@@ -136,11 +136,9 @@ Noch sichtbar alte bzw. besonders prüfbedürftige Bereiche sind u. a.:
 - `privacy.html`, `privacy-en.html`: alte doppelte CSS-Struktur und alte Logo-Pfade.
 - `datenschutz.html`, `impressum.html`: deutlich älteres Seitenschema und alte Logo-Pfade.
 - `werkstatt.html`: alte Navigation/Logo-Pfade und historischer Text mit Apps-Script-Bezug; historische Entwicklung darf beschrieben werden, darf aber nicht wie der heutige Installationsweg wirken.
-- `howtogetarchivefolder.html` und EN: enthalten noch den alten Google-Drive-Archivordner-/Ordner-ID-Weg und sind fachlich für den heutigen Desktop-Endnutzerweg zu prüfen/ersetzen oder als Altseite sauber umzuleiten.
-- `howtogetgoogleaccount.html` und EN: behaupten noch, SerKal brauche Google Drive und Google Apps Script; das ist für den heutigen Desktop-Endnutzerweg veraltet.
-- `sitemap.xml`: enthält noch SKDEVHMB-Ziele und muss nach Abschluss der Seitenbereinigung gegen die tatsächlich gewünschten öffentlichen Ziele geprüft werden.
-
-`howtogetapi.html` und `howtogetapi-en.html` sind derzeit kleine Weiterleitungen zur neuen TMDB-Hilfe; solche Redirect-Seiten nicht unnötig in Vollseiten zurückverwandeln.
+- Die früheren Altseiten `howtogetarchivefolder.html`, `howtogetgoogleaccount.html` und `howtogetapi.html` sowie ihre englischen Fassungen wurden am 15.09.2026 entfernt.
+- Verweise auf frühere Dateinamen sind an ihrer Quelle auf die heutigen Hilfeseiten zu korrigieren. Nicht mehr benötigte Altseiten werden nicht dauerhaft als HTML-Weiterleitungen aufbewahrt.
+- `sitemap.xml`: enthält ausschließlich die tatsächlich gewünschten öffentlichen Zielseiten; Altseiten und Weiterleitungen gehören nicht hinein.
 
 ## 10. Index / Haustür
 

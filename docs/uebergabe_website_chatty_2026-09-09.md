@@ -53,9 +53,9 @@ Der Nachfolger soll mindestens folgende Dateien/Paare prüfen:
 - `privacy.html` / `privacy-en.html`: alte doppelte CSS-Struktur und alte Logo-Pfade.
 - `datenschutz.html`, `impressum.html`: deutlich älteres Layout; in die Gesamtstruktur einpassen, ohne rechtliche Inhalte leichtfertig zu verändern.
 - `werkstatt.html`: alte Navigation/Logo-Pfade. Historische Apps-Script-Erwähnungen dürfen als Geschichte bleiben, müssen aber eindeutig Geschichte sein.
-- `howtogetarchivefolder.html` / EN: alter Google-Drive-Ordner-ID-Endnutzerweg; für Desktop fachlich überholt und neu entscheiden/umleiten.
-- `howtogetgoogleaccount.html` / EN: behauptet noch Google Drive + Google Apps Script seien Voraussetzung; für Desktop veraltet.
-- `howtogetapi.html` / EN: derzeit bewusst Redirect zur TMDB-Hilfe; Redirect-Funktion erhalten, sofern kein guter Grund zur Änderung besteht.
+- Die früheren Altseiten `howtogetarchivefolder.html`, `howtogetgoogleaccount.html` und `howtogetapi.html` sowie ihre englischen Fassungen wurden am 15.09.2026 entfernt.
+- Verweise müssen unmittelbar auf die heutigen Zielseiten `help.html`, `google-kalender-hilfe.html` und `tmdb-hilfe.html` beziehungsweise deren englische Fassungen führen.
+- Nicht mehr benötigte Altseiten werden nicht dauerhaft als HTML-Weiterleitungen aufbewahrt. Falsche oder veraltete Verweise sind an ihrer Quelle zu korrigieren.
 - `sitemap.xml`: nach Bereinigung auf aktuelle öffentliche Seiten prüfen; enthält derzeit noch SKDEVHMB-Einträge.
 - `up/start`: Protokollbrücke zu SerKal. Schwarzes Brett beachten; Brücke nicht kaputtmodernisieren.
 
