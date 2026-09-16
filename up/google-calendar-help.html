@@ -176,33 +176,34 @@ h1 {
 </header>
 
 <main>
-  <h1>Which calendar option is right?</h1>
-  <p class="lead">You opened this page from <strong>“Open help”</strong> in the second step of SerKal's initial setup. Here is what the four choices mean.</p>
+  <h1>Google Calendar or local archive?</h1>
+  <p class="lead">SerKal's initial setup offers two clear choices. Your series archive works locally in both cases.</p>
 
   <section class="card">
-    <h2>The four choices</h2>
-    <p><strong>Google Calendar – automatically use the “SerKal” calendar</strong><br>
-    Recommended if SerKal should add episode dates directly to Google Calendar and update them later. SerKal uses an existing calendar named <strong>SerKal</strong> or creates it automatically. You do not have to enter a calendar ID.</p>
-    <p><strong>ICS file / another calendar</strong><br>
-    This option is intended for a future ICS export. The export is not active in the current version, so it does not create calendar entries yet.</p>
+    <h2>The two choices</h2>
+    <p><strong>Google Calendar (recommended)</strong><br>
+    Choose this if SerKal should add episode dates to Google Calendar and maintain them later. SerKal uses an existing calendar named <strong>SerKal</strong> or creates it automatically. You do not have to enter a calendar ID.</p>
     <p><strong>Do not use a calendar</strong><br>
-    SerKal manages your series and local archive without creating calendar entries.</p>
-    <p><strong>No idea what you want from me – do what you think. 😇</strong><br>
-    SerKal currently chooses the ICS route, which is not active yet. This option therefore does not create calendar entries at present. Choose the first option if you want dates added directly to Google Calendar.</p>
+    Choose this if you only want the local SerKal archive. Series and seasons can still be added, saved and managed; no Google sign-in and no calendar entries are required.</p>
   </section>
+
+  <div class="warn">
+    <strong>Current access status:</strong>
+    Google Calendar access is still in Google's testing and verification phase. Only Google accounts that have been added as SerKal test users can currently authorise the connection. If your account has not been approved yet, select <strong>Do not use a calendar</strong>; the local archive remains fully usable.
+  </div>
 
   <div class="notice">
     <strong>For Google Calendar:</strong>
-    Select the first option and continue with <strong>“Next”</strong> to the summary. Only <strong>“Save all”</strong> stores the TMDB and calendar settings together. You can change this choice later at any time via <strong>“Calendar”</strong>.
+    Select Google Calendar and continue with <strong>Next</strong> to the summary. <strong>Save all</strong> stores the TMDB and calendar settings together. You can change this choice later via <strong>Calendar</strong>.
   </div>
 
   <section class="card">
     <h2>What happens during Google sign-in</h2>
     <ol>
-      <li>Create the first actual calendar entry in SerKal.</li>
-      <li>For this first entry, SerKal opens the Google account selection in your browser.</li>
-      <li>Allow the access requested for SerKal.</li>
-      <li>Return to SerKal afterwards.</li>
+      <li>Add a season with <strong>Insert</strong>. The season is first stored in the local SerKal archive.</li>
+      <li>When SerKal creates the first calendar entry, it opens Google's account selection in your browser.</li>
+      <li>Choose an approved test account and allow the requested access.</li>
+      <li>Return to SerKal. Calendar dates are created in the separate <strong>SerKal</strong> calendar.</li>
     </ol>
     <p>That is normally all you need to do. SerKal finds the <strong>SerKal</strong> calendar itself or creates it automatically.</p>
   </section>
@@ -215,10 +216,11 @@ h1 {
   <section class="card">
     <h2>If the connection does not work</h2>
     <ul>
-      <li>First check that you are signed in to the intended Google account in your browser.</li>
-      <li>Start the connection again from SerKal and make sure you allow the requested access.</li>
-      <li>If you cancelled the process or denied access, you can simply start it again from SerKal.</li>
-      <li>If the problem remains, open the normal SerKal help page for current notes and further support.</li>
+      <li>Check whether your Google account has been added as an approved SerKal test user.</li>
+      <li>Make sure you are signed in to that same account in your browser.</li>
+      <li>If you cancelled the process or denied access, start the calendar operation again from SerKal.</li>
+      <li>A calendar error does not automatically mean that the local archive failed. Check whether the season appears in the archive on the right.</li>
+      <li>If your account is not approved yet, switch to <strong>Do not use a calendar</strong> and continue using the local archive.</li>
     </ul>
     </section>
 
