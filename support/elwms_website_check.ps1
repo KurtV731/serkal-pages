@@ -21,7 +21,16 @@ function Normalize-RelativePath {
 
     if ([string]::IsNullOrWhiteSpace($ref)) { return $null }
     if ($ref.StartsWith("#")) { return $null }
-    if ($ref -match '^(?i)(https?:|mailto:|tel:|javascript:|data:|blob:|ftp:)') { return $null }
+    # SerKal verwendet auf seinen Hilfeseiten bewusst Verweise wie
+    # "serkal://start/". Das ist weder ein Pfad innerhalb des Website-Ordners
+    # noch ein gewöhnlicher Weblink. Es handelt sich um das eigens für
+    # SerKal Desktop registrierte Übergabeprotokoll: Ein Klick übergibt den
+    # Benutzer von der Website zurück an die installierte Desktop-Anwendung.
+    # Deshalb darf die lokale Website-Prüfung solche Verweise nicht als
+    # fehlende Datei (MISSING_TARGET) behandeln. Die Ausnahme ist absichtlich
+    # nur auf das Protokoll "serkal:" begrenzt; sonstige unbekannte Protokolle
+    # werden dadurch nicht pauschal von der Prüfung ausgenommen.
+    if ($ref -match '^(?i)(https?:|mailto:|tel:|javascript:|data:|blob:|ftp:|serkal:)') { return $null }
     if ($ref.StartsWith("//")) { return $null }
 
     $withoutQuery = ($ref -split '[?#]', 2)[0]

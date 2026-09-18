@@ -7,7 +7,7 @@ rem ============================================================
 rem ELWMS WEBSITE CHECK - STARTER
 rem
 rem Optional:
-rem   elwms_website_check.bat "G:\Pfad\zum\Website-Root"
+rem   elwms_website_check.bat "C:\Pfad\zum\Website-Root"
 rem
 rem Ohne Parameter wird der bekannte SerKal-Pfad verwendet.
 rem ============================================================
@@ -27,7 +27,7 @@ if not exist "%PS_SCRIPT%" (
 if not "%~1"=="" (
     set "WEBSITE_ROOT=%~1"
 ) else (
-    set "WEBSITE_ROOT=G:\Meine Ablage\Serkal_Haupt\webpage\up"
+    set "WEBSITE_ROOT=C:\serkal-pages\up"
 )
 
 if not exist "%WEBSITE_ROOT%\" (
