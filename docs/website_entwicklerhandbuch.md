@@ -1,6 +1,6 @@
 # SerKal Website – Entwicklerhandbuch
 
-Stand: 09.09.2026
+Stand: 26.09.2026
 
 Dieses Dokument ist die dauerhafte Arbeitsgrundlage für den Website-Chatty. Für die unmittelbar offene Übernahmeaufgabe zusätzlich `docs/uebergabe_website_chatty_2026-09-09.md` lesen.
 
@@ -158,3 +158,29 @@ Verbindliche Reihenfolge:
 Der Nachfolger soll NICHT Seite für Seite bei Kurt nachfragen. Der Auftrag ist bereits erteilt: alle noch nicht erledigten Website-Seiten in einem zusammenhängenden Arbeitsgang auf den vereinbarten aktuellen Stand bringen, Inhalte fachlich vom alten Apps-Script-Endnutzerweg bereinigen, DE/EN konsistent machen, Navigation/Logos/Rückwege/Links prüfen und erst danach einen Gesamtstand zur Prüfung vorlegen.
 
 Die genaue Übergabe und Abnahmereihenfolge steht in `docs/uebergabe_website_chatty_2026-09-09.md`.
+
+
+## 12. Android-Entwicklung dokumentieren
+
+SerKal Android ist seit September 2026 ein eigener, früher Entwicklungszweig. Die Website stellt diese Arbeit nicht als bereits verfügbares Produkt dar, dokumentiert aber den tatsächlichen Weg in der Werkstatt.
+
+Dauerhafte Detailchronik:
+`docs/werkstatt/serkal-android-entwicklung.md`
+
+Verbindliche Dokumentationsregel für jeden neuen Android-Meilenstein:
+
+1. Zuerst den aktuellen technischen Stand im gemeinsamen Schwarzen Brett prüfen.
+2. Branch, Version, maßgeblichen Commit, Zweck und Abgrenzung in der Detailchronik ergänzen.
+3. Praktische Tests auf Pixel 8 und Samsung-Tablet mit ihren Ergebnissen festhalten.
+4. Die öffentliche Werkstattseite `up/werkstatt.html` in verständlicher, gekürzter Form fortführen.
+5. Trainings-, Vorschau- und Produktivstände eindeutig auseinanderhalten.
+6. Keine APK als öffentlichen Download anbieten, bevor CE, Installer und Kurt dafür einen ausdrücklich freigegebenen Veröffentlichungsweg festgelegt haben.
+
+Aktueller Android-Stand am 26.09.2026:
+
+- `android-training-0.0.1`: Installation, Sprachwechsel und lokales Speichern geübt; APK auf Pixel 8 und Samsung-Tablet installiert.
+- `android-preview-0.0.2`: erste dreigeteilte SerKal-Oberflächenstudie im Querformat; reine Darstellung ohne echten Archiv- oder Kalenderzugriff.
+- `android-preview-0.0.3`: kompaktere Größen und Abstände nach dem Gerätetest; Schrift grundsätzlich brauchbar.
+- Offen: störungsfreier Vollbildmodus, Skalierbarkeit, endgültige Reihenfolge der Arbeitsbereiche und später die Anbindung an das gemeinsame persönliche Archiv.
+
+Die Android-Vorschau ist kein Ersatz für SerKal Desktop. Insbesondere darf sie nicht den Eindruck erwecken, bereits TMDB, Archiv oder Kalender produktiv zu verändern. Die verbindliche Archivregel gilt plattformübergreifend: Pro Person nur ein gemeinsames SerKal-Archiv; keine getrennte Android-Archivinsel.
