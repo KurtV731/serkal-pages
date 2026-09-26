@@ -1,6 +1,6 @@
 # SerKal Website – Dokumentation
 
-Stand: 09.09.2026
+Stand: 26.09.2026
 
 Für einen neuen Website-Chatty ist die Reihenfolge eindeutig:
 
@@ -11,3 +11,12 @@ Für einen neuen Website-Chatty ist die Reihenfolge eindeutig:
 Wichtig: Die Website ist am 09.09.2026 noch NICHT fertig abgenommen. Der Nachfolger soll Kurt nicht zuerst nach Unterlagen oder nach einer Einzelaufgabe fragen; der Gesamtauftrag steht in der Übergabe.
 
 Weitere Dateien unter `docs/werkstatt/` enthalten fachliche Einzelnotizen. Bei Widersprüchen gelten der aktuelle GitHub-Stand, das schwarze Brett, das Website-Entwicklerhandbuch und die aktuelle Übergabe vor älteren Werkstattnotizen.
+
+
+## Fortlaufende Entwicklungsdokumentation
+
+- `werkstatt/serkal-android-entwicklung.md` – vollständige Chronik der Android-Trainings- und Präversionen, praktische Gerätetests, technische Abgrenzung, Archivregel und nächste Schritte.
+- `werkstatt/serkal-desktop-endnutzer-download.md` – fachliche Einzelnotiz zum Desktop-Download.
+- `werkstatt/google-kalender-hilfe-endnutzer.md` – fachliche Einzelnotiz zur Kalenderhilfe.
+
+Neue Android-Meilensteine werden gleichzeitig im Schwarzen Brett, in der Android-Chronik und gekürzt auf der öffentlichen Werkstattseite fortgeschrieben.
