@@ -54,6 +54,13 @@ h1{color:var(--blue);font-size:clamp(2.2rem,4.2vw,3.8rem);line-height:1.08;margi
 .site-footer{background:var(--header);border-top:1px solid #d5dae7;color:var(--muted);text-align:center;padding:28px 14px}
 .site-footer a{color:var(--blue);font-weight:800;text-decoration:none}
 @media(max-width:700px){.header-inner{grid-template-columns:1fr}.lang-switch{justify-content:flex-start}.button{width:100%;text-align:center}.tmdb-credit{align-items:flex-start;flex-direction:column}}
+
+.success{background:#eaf8ef;border:1px solid #b9dfc6;border-radius:14px;padding:16px 18px;margin:16px 0}
+.key-choice{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.key-box{border:1px solid var(--line);border-radius:14px;padding:16px;background:#fafbfe}
+.key-box.use{border:2px solid #4c9b68;background:#edf8f1}
+.key-box strong{display:block;color:var(--blue);margin-bottom:6px}
+@media(max-width:700px){.key-choice{grid-template-columns:1fr}}
 </style>
   <link rel="stylesheet" href="/serkal-shell.css">
   <link rel="icon" href="/icon/logo/serkallogo.png">
@@ -89,57 +96,85 @@ h1{color:var(--blue);font-size:clamp(2.2rem,4.2vw,3.8rem);line-height:1.08;margi
 
 <main>
   <h1>Dein eigener TMDB-Key für SerKal</h1>
-  <p class="lead">SerKal nutzt The Movie Database (TMDB), um Serien, Staffeln, Episoden, Beschreibungen und Bilder zu finden. Jeder SerKal-Benutzer verwendet dafür seinen eigenen kostenlosen TMDB-Developer-Zugang und seinen eigenen API-Key.</p>
+  <p class="lead">SerKal nutzt The Movie Database (TMDB), um Serien, Staffeln, Episoden, Beschreibungen und Bilder zu finden. Dafür benötigt jeder Benutzer einen eigenen kostenlosen TMDB-Developer-Zugang und einen persönlichen API-Schlüssel.</p>
 
-  <div class="notice"><strong>Wichtig:</strong> Mit SerKal wird kein gemeinsamer oder persönlicher API-Key des Entwicklers ausgeliefert. Dein TMDB-Key gehört nur dir.</div>
+  <div class="notice"><strong>Aktueller TMDB-Ablauf:</strong> TMDB hat die Beantragung geändert. Nach „Personal Use“ erscheint jetzt ein ausführliches Formular für den kostenlosen <strong>Free Developer Plan</strong>. Diese Anleitung beschreibt den praktisch geprüften Ablauf vom 19. Oktober 2026.</div>
 
   <section class="card">
-    <h2>1. API-Bereich öffnen</h2>
-    <p>Diese Anleitung setzt ein vorhandenes TMDB-Konto und die normale Anmeldung bei TMDB voraus. Öffne danach direkt die <a href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener">API-Einstellungen bei TMDB</a>.</p>
-    <p>Wähle in den Einstellungen links den Bereich <strong>API</strong>. Die Beantragung führst du am besten an einem Desktop-PC im Browser durch.</p>
+    <h2>1. Konto anmelden und API-Bereich öffnen</h2>
+    <p>Falls du noch kein TMDB-Konto besitzt, beginne mit <a href="https://www.themoviedb.org/signup" target="_blank" rel="noopener">TMDB-Konto erstellen</a>, bestätige deine E-Mail-Adresse und melde dich an.</p>
+    <p>Öffne anschließend die <a href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener">API-Einstellungen bei TMDB</a>. Die Beantragung funktioniert am zuverlässigsten an einem Desktop-PC im Browser.</p>
     <img class="help-image" src="/icon/help/tmdb-einstellungen-api.png" alt="API-Bereich in den TMDB-Einstellungen">
-    <p class="caption">Der Bereich API in den TMDB-Einstellungen.</p>
+    <p class="caption">In den Kontoeinstellungen links den Bereich „API“ auswählen.</p>
   </section>
 
   <section class="card">
-    <h2>2. Persönlichen Developer-Key beantragen</h2>
+    <h2>2. Kostenlose persönliche Nutzung auswählen</h2>
     <ol>
-      <li>Öffne bei TMDB deine <strong>Einstellungen</strong>.</li>
-      <li>Wähle links den Bereich <strong>API</strong>.</li>
-      <li>Beantrage dort einen API-Key und wähle die Nutzung als <strong>Developer</strong>.</li>
-      <li>Akzeptiere die TMDB-Nutzungsbedingungen und fülle das Formular mit deinen eigenen Angaben aus.</li>
+      <li>Wähle den kostenlosen <strong>Developer-Zugang</strong>.</li>
+      <li>Wähle <strong>Personal Use</strong>.</li>
+      <li>Bestätige die angezeigten Bedingungen. TMDB kann die persönliche Nutzung und die Bedingungen nacheinander abfragen.</li>
+      <li>Danach erscheint die Seite <strong>Manage API Services</strong> mit dem <strong>Developer Plan – Free – No monthly fee</strong>.</li>
     </ol>
-    <p>Für eine private SerKal-Nutzung können die Anwendungsangaben zum Beispiel so aussehen:</p>
+    <div class="warn"><strong>Keine Zahlung erforderlich:</strong> Für die hier beschriebene private SerKal-Nutzung bleibt der Developer Plan kostenlos.</div>
+  </section>
+
+  <section class="card">
+    <h2>3. Application Details ausfüllen</h2>
+    <p>Trage im Abschnitt <strong>Application Details</strong> Folgendes ein:</p>
     <div class="example">
-      <strong>Type of Use:</strong> Personal<br>
-      <strong>Application Name:</strong> SerKal<br>
-      <strong>Application URL:</strong> https://serkal.de<br>
-      <strong>Application Summary:</strong> Private Nutzung von SerKal zum Abrufen von Serien-, Staffel-, Episoden- und Bildinformationen aus TMDB.
+      <strong>Anwendungsname:</strong> SerKal<br>
+      <strong>Anwendungs-URL:</strong> https://serkal.de<br>
+      <strong>Nutzungsart:</strong> Desktop Application<br><br>
+      <strong>Anwendungsübersicht:</strong><br>
+      SerKal is a free, non-commercial desktop application for personal TV series management. It uses TMDB to search for TV series, seasons, and episodes and to display related information and poster images. SerKal helps users organize their series and add episode dates to their personal calendar.
     </div>
-    <p>Falls TMDB weitere persönliche Kontaktangaben verlangt, trägst du dort deine eigenen korrekten Angaben ein.</p>
+    <p>Den englischen Beschreibungstext kannst du vollständig kopieren und in das große Feld einfügen.</p>
   </section>
 
   <section class="card">
-    <h2>3. API-Key in SerKal eintragen</h2>
-    <p>Nach erfolgreicher Beantragung zeigt TMDB deinen persönlichen API-Key an. Kopiere den <strong>API Key (v3 auth)</strong> und trage ihn bei der SerKal-Einrichtung in das Feld <strong>TMDB-API-Key</strong> ein.</p>
-    <p>SerKal speichert diesen Schlüssel <strong>lokal auf deinem eigenen Rechner</strong>. Du musst ihn deshalb normalerweise nur einmal eintragen.</p>
-    <img class="help-image" src="/icon/help/tmdb-einrichtung-api-key.png" alt="Eingabefeld für den persönlichen TMDB-API-Key in SerKal">
-    <p class="caption">SerKal prüft den eingetragenen Schlüssel, bevor die Einrichtung fortgesetzt werden kann.</p>
+    <h2>4. Eigene Kontaktdaten eintragen</h2>
+    <p>TMDB verlangt anschließend deine eigenen korrekten Kontaktdaten: Vorname, Nachname, E-Mail-Adresse, Telefonnummer, Anschrift, Stadt und Postleitzahl.</p>
+    <div class="warn"><strong>Achtung bei der deutschen Übersetzung:</strong> Das Formular zeigt zweimal ein Feld mit der Bezeichnung <strong>„Land“</strong>. Das erste freie Textfeld meint tatsächlich <strong>Bundesland / Bundesstaat / Provinz / Region</strong> und ist ein Pflichtfeld. In Deutschland trägst du dort zum Beispiel „Rheinland-Pfalz“ ein. In Frankreich wäre es beispielsweise „Grand Est“. Das zweite Feld mit der Flagge ist das wirkliche Land.</div>
+    <ul>
+      <li><strong>Adresse 2 (optional)</strong> darf leer bleiben.</li>
+      <li>Falls dein Land keine passende Untergliederung verwendet, trage eine gebräuchliche Region ein; wenn das nicht möglich ist, verwende <strong>N/A</strong>.</li>
+      <li>Bestätige unten die Nutzungsbedingungen und sende das Formular ab.</li>
+    </ul>
   </section>
 
   <section class="card">
-    <h2>4. Deinen Schlüssel schützen</h2>
-    <div class="warn"><strong>Behandle den API-Key wie ein persönliches Zugangsmittel.</strong> Veröffentliche ihn nicht, zeige ihn nicht in Screenshots und gib ihn nicht an andere Benutzer weiter.</div>
-    <p>Jeder SerKal-Benutzer beantragt seinen eigenen Schlüssel. Dadurch muss niemand einen fremden Schlüssel teilen.</p>
+    <h2>5. Erlösende Zwischenmeldung öffnen</h2>
+    <div class="success"><strong>Erfolg:</strong> Nach dem Absenden erscheint unter „Subscription Details“ die Meldung: <em>You are currently on the Free Developer plan.</em></div>
+    <p>Klicke dort auf den blauen Link <strong>Access your API key details here.</strong> Erst dieser Link führt zu der Seite, auf der deine Schlüssel angezeigt werden.</p>
   </section>
 
   <section class="card">
-    <h2>Warum ist der TMDB-Key erforderlich?</h2>
-    <p>Ohne gültigen persönlichen TMDB-Key kann die Ersteinrichtung nicht abgeschlossen werden. SerKal benötigt ihn für <strong>TMDB-Suche, Serieninformationen, Bilder und die TMDB-gestützte Wartung</strong>.</p>
+    <h2>6. Den richtigen Schlüssel auswählen</h2>
+    <p>Ganz unten auf der neuen Seite stehen zwei verschiedene Zugangsdaten:</p>
+    <div class="key-choice">
+      <div class="key-box"><strong>API-Token für Lesezugriff</strong>Sehr lang und meist über mehrere Zeilen dargestellt. Diesen Token benötigt SerKal bei der normalen Einrichtung nicht.</div>
+      <div class="key-box use"><strong>API-Schlüssel</strong>Der kürzere Schlüssel darunter. <strong>Diesen Schlüssel kopierst du für SerKal.</strong></div>
+    </div>
+    <div class="warn"><strong>Niemals veröffentlichen:</strong> Zeige weder den vollständigen API-Token noch den vollständigen API-Schlüssel in Screenshots, E-Mails, Foren oder GitHub.</div>
+  </section>
+
+  <section class="card">
+    <h2>7. API-Schlüssel in SerKal eintragen</h2>
+    <p>Kopiere den kurzen <strong>API-Schlüssel</strong> und füge ihn bei der SerKal-Einrichtung in das Feld <strong>TMDB-API-Key</strong> ein.</p>
+    <p>SerKal prüft den Schlüssel und speichert ihn lokal auf deinem eigenen Rechner. Normalerweise musst du ihn deshalb nur einmal eintragen.</p>
+    <img class="help-image" src="/icon/help/tmdb-einrichtung-api-key.png" alt="Eingabefeld für den persönlichen TMDB-API-Schlüssel in SerKal">
+    <p class="caption">In dieses SerKal-Feld gehört der kurze API-Schlüssel – nicht der lange Lesetoken.</p>
+  </section>
+
+  <section class="card">
+    <h2>Warum ist der TMDB-Schlüssel erforderlich?</h2>
+    <p>Ohne gültigen persönlichen TMDB-Schlüssel kann die Ersteinrichtung nicht abgeschlossen werden. SerKal benötigt ihn für <strong>TMDB-Suche, Serieninformationen, Bilder und die TMDB-gestützte Wartung</strong>.</p>
   </section>
 
   <div class="actions">
-    <a class="button primary" href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener">TMDB-API öffnen</a>
+    <a class="button primary" href="https://www.themoviedb.org/signup" target="_blank" rel="noopener">TMDB-Konto erstellen</a>
+    <a class="button secondary" href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener">TMDB-API öffnen</a>
     <a class="button secondary" href="serkal://start/">Zurück zu SerKal</a>
   </div>
 
