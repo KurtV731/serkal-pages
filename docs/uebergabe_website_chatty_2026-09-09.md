@@ -79,7 +79,7 @@ Verbindliche Abfolge:
 - Vollständige Dateien ändern, Kurt keine Patchzeilen zum Einsetzen geben.
 - Kurt soll nicht zwischen Chattys vermitteln oder Branches verwalten müssen.
 - Git-Verwaltung übernimmt Chatty.
-- `C:\serkal-pages\up` ist Kurts lokale Website-Wahrheit.
+- `C:\ppd\serkal\serkal-pages\up` ist Kurts lokale Website-Wahrheit.
 - Live-Test benötigt Veröffentlichung: GitHub -> lokaler `up`-Ordner -> serkal.de.
 - Keine Website-Änderung an Desktop-Fachcode, Installer oder HASA-Quellcode.
 - `index.php` im Serverkontext gehört zur HASA-API und ist NICHT die Website-Startseite; nicht löschen oder als vermeintliche Ursache für die HTML-Haustür behandeln.

@@ -27,7 +27,7 @@ if not exist "%PS_SCRIPT%" (
 if not "%~1"=="" (
     set "WEBSITE_ROOT=%~1"
 ) else (
-    set "WEBSITE_ROOT=C:\serkal-pages\up"
+    for %%I in ("%SCRIPT_DIR%..\up") do set "WEBSITE_ROOT=%%~fI"
 )
 
 if not exist "%WEBSITE_ROOT%\" (

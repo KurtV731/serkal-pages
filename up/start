@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
   <title>SerKal Desktop starten</title>
   <link rel="icon" href="/icon/logo/serkallogo.png">
   <style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#f5f6fa;color:#1f2940;font:16px Arial,sans-serif}.fallback{display:none;max-width:420px;margin:24px;padding:20px;text-align:center;background:#fff;border:1px solid #d9deeb;border-radius:16px}.fallback img{width:54px}.fallback a{color:#31427f;font-weight:700}</style>

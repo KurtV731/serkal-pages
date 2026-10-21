@@ -2,8 +2,9 @@
 setlocal EnableExtensions
 title SERKAL - GitHub holen und serkal.de aktualisieren
 
-set "ROOT=C:\serkal-pages"
-set "UPLOAD_ROOT=C:\serkal-pages\up"
+set "ROOT=%~dp0"
+if "%ROOT:~-1%"=="\" set "ROOT=%ROOT:~0,-1%"
+set "UPLOAD_ROOT=%ROOT%\up"
 set "WINSCP_EXE=%ProgramFiles(x86)%\WinSCP\WinSCP.com"
 set "REMOTE_DIR=/"
 set "WINSCP_SCRIPT=%TEMP%\serkal_pull_upload.txt"
@@ -98,7 +99,7 @@ echo ============================================================
 echo   FERTIG
 echo ============================================================
 echo.
-echo GitHub-main wurde nach C:\serkal-pages geholt.
+echo GitHub-main wurde nach "%ROOT%" geholt.
 echo Der Ordner UP wurde mit serkal.de synchronisiert.
 echo.
 pause
@@ -106,11 +107,11 @@ endlocal
 exit /b 0
 
 :NO_GIT
-echo FEHLER: C:\serkal-pages ist kein Git-Repository.
+echo FEHLER: "%ROOT%" ist kein Git-Repository.
 goto FEHLER
 
 :NO_UP
-echo FEHLER: Website-Ordner C:\serkal-pages\up fehlt.
+echo FEHLER: Website-Ordner "%UPLOAD_ROOT%" fehlt.
 goto FEHLER
 
 :NO_WINSCP
@@ -120,7 +121,7 @@ echo "%WINSCP_EXE%"
 goto FEHLER
 
 :CD_ERROR
-echo FEHLER: Wechsel nach C:\serkal-pages fehlgeschlagen.
+echo FEHLER: Wechsel nach "%ROOT%" fehlgeschlagen.
 goto FEHLER
 
 :LOCAL_CHANGES

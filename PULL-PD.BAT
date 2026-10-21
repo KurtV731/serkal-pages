@@ -2,8 +2,9 @@
 setlocal EnableExtensions
 title SERKAL - GitHub holen und serkal.de aktualisieren
 
-set "ROOT=C:\serkal-pages"
-set "UPLOAD_ROOT=C:\serkal-pages\up"
+set "ROOT=%~dp0"
+if "%ROOT:~-1%"=="\" set "ROOT=%ROOT:~0,-1%"
+set "UPLOAD_ROOT=%ROOT%\up"
 set "INSTALLER=%UPLOAD_ROOT%\download\serkal-desktop.exe"
 set "CHECKSUM=%UPLOAD_ROOT%\download\serkal-desktop.sha256"
 set "DOWNLOAD_DE=%UPLOAD_ROOT%\download.html"

@@ -44,10 +44,10 @@ HASA wird als separates Projekt auf `hasa.html` geführt und darf nicht mit dem 
 ## Veröffentlichungsweg bei Kurt
 
 Website-Wahrheit lokal:
-`C:\serkal-pages\up`
+`C:\ppd\serkal\serkal-pages\up`
 
 Ablauf:
-GitHub -> `C:\serkal-pages\up` -> serkal.de
+GitHub -> `C:\ppd\serkal\serkal-pages\up` -> serkal.de
 
 Der aktuelle Pull-/Publish-Ablauf verwendet `SERKAL_pull_v2.bat`. Eine lokal abweichende EXE kann dabei absichtlich zugelassen sein. Deshalb vor dem Upload sicherstellen, dass genau das freigegebene Artefakt im lokalen Downloadordner liegt.
 

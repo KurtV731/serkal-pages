@@ -9,8 +9,9 @@ Dieses Dokument ist die dauerhafte Arbeitsgrundlage für den Website-Chatty. Fü
 - Website-Repository: `KurtV731/serkal-pages`.
 - Vor jeder SerKal-Arbeit zuerst das gemeinsame schwarze Brett in `KurtV731/serkal_desktop`, Datei `1 docs/schwarzes_brett.md`, lesen.
 - Immer vom aktuellen GitHub-Stand arbeiten. Keine alten Chat-Dateien, Cache-Fassungen oder erinnerte Dateiinhalte als Bearbeitungsbasis verwenden.
-- Lokale Website-Wahrheit bei Kurt ist `C:\serkal-pages\up`.
-- Veröffentlichungsweg: GitHub -> `C:\serkal-pages\up` -> serkal.de.
+- Verbindlicher lokaler Repositorypfad bei Kurt ist `C:\ppd\serkal\serkal-pages`.
+- Lokale Website-Wahrheit bei Kurt ist `C:\ppd\serkal\serkal-pages\up`.
+- Veröffentlichungsweg: GitHub -> `C:\ppd\serkal\serkal-pages\up` -> serkal.de.
 - Für die praktische Linkprüfung muss veröffentlicht werden; nur der Live-Stand zeigt den echten Webpfad zuverlässig.
 
 ## 2. Zuständigkeitsgrenzen
@@ -142,16 +143,13 @@ Noch sichtbar alte bzw. besonders prüfbedürftige Bereiche sind u. a.:
 
 ## 10. Index / Haustür
 
-`up/index.html` ist derzeit absichtlich eine Warn-/Umbauseite. Aktueller Hinweis: Website wurde umgebaut, einzelne Seiten/Verknüpfungen/Darstellungen können in den nächsten Tagen noch nicht perfekt sein.
+`up/index.html` ist die öffentliche Sprach- und Einstiegsauswahl für SerKal. Sie führt
+direkt zur deutschen Startseite `start.html` oder zur englischen Startseite
+`start-en.html`. Die frühere Warn-/Umbauseite ist nicht mehr der aktuelle Stand.
 
-Diese Datei bleibt bis zum Abschluss der Gesamtüberarbeitung die vorläufige Haustür. Nicht vorzeitig durch die endgültige Startseite ersetzen.
-
-Verbindliche Reihenfolge:
-1. gesamte Website fertigstellen;
-2. veröffentlichen und live prüfen;
-3. Kurt prüft die Website als Ganzes;
-4. Schlusskorrektur durchführen;
-5. erst danach endgültige `index.html` freigeben („Haustür auf“).
+Die Datei `up/start` ist davon zu unterscheiden: Sie ist keine normale Inhaltsseite,
+sondern ausschließlich die Komfort-Brücke zum installierten Programm über
+`serkal://start/` und soll deshalb nicht von Suchmaschinen indexiert werden.
 
 ## 11. Offener Gesamtauftrag
 

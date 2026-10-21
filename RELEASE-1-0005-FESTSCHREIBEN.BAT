@@ -2,7 +2,8 @@
 setlocal EnableExtensions
 title SerKal Desktop 1.0005 festschreiben
 
-set "ROOT=C:\serkal-pages"
+set "ROOT=%~dp0"
+if "%ROOT:~-1%"=="\" set "ROOT=%ROOT:~0,-1%"
 set "INSTALLER=%ROOT%\up\download\serkal-desktop.exe"
 set "CHECKSUM=%ROOT%\up\download\serkal-desktop.sha256"
 set "BRANCH=main"
