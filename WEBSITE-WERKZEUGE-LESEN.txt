@@ -1,0 +1,30 @@
+SERKAL-WEBSITE-WERKZEUGE – Stand 26.10.2026
+=================================================
+
+Verbindlicher Ordner:
+C:\ppd\serkal\serkal-pages
+
+1. PULL-PD.BAT
+   Hauptwerkzeug. Holt main von GitHub und synchronisiert den kompletten
+   Ordner up mit serkal.de. Dadurch werden auf GitHub entfernte Website-
+   Dateien auch auf dem Server entfernt. Der Installer wird vor dem Upload
+   anhand Groesse und SHA-256 geprueft.
+
+2. NUR-WEBSITE-HOCHLADEN.BAT
+   Sonderweg fuer reine Website-Aenderungen ohne Git-Pull und ohne Installer-
+   oder Programmpakete. Synchronisiert HTML, CSS, Bilder, robots.txt und
+   sitemap.xml. Nur verwenden, wenn der lokale Git-Stand bereits sauber ist.
+
+3. SERKAL_pull_v2.bat
+   Alter Dateiname aus Kompatibilitaetsgruenden. Startet nur noch PULL-PD.BAT.
+
+4. support\elwms_website_check.bat
+   Lokale Website-Pruefung. Kein Upload.
+
+Nicht mehr zum aktiven Werkzeugbestand gehoeren:
+- RELEASE-1-0005-FESTSCHREIBEN.BAT (Version 1.0005 ist abgeschlossen)
+- SERKAL-1-1-WEBSITE-VEROEFFENTLICHEN.BAT (alte spezielle Vorab-Routine)
+- Dateien mit (1) im Namen (Downloadkopien)
+
+Der Unterordner support enthaelt Diagnose- und historische Wartungswerkzeuge.
+Diese werden nicht fuer einen normalen Website-Upload gestartet.
