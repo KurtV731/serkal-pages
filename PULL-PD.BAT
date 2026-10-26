@@ -92,6 +92,8 @@ echo Downloadseiten verweisen auf serkal-desktop.exe.
 echo.
 
 echo [4/4] Suche gespeicherte WinSCP-Sitzung und synchronisiere UP...
+echo Lokaler Website-Ordner: "%UPLOAD_ROOT%"
+echo Zielordner auf dem Server: "%REMOTE_DIR%"
 echo.
 
 for /f "usebackq delims=" %%S in (`powershell -NoProfile -ExecutionPolicy Bypass -Command "$b='HKCU:\Software\Martin Prikryl\WinSCP 2\Sessions'; if(Test-Path $b){foreach($k in (Get-ChildItem $b)){try{$p=Get-ItemProperty $k.PSPath -ErrorAction Stop;if($p.HostName -eq '%WINSCP_HOST%' -and $p.UserName -eq '%WINSCP_USER%'){[Uri]::UnescapeDataString($k.PSChildName);break}}catch{}}}"`) do (
@@ -106,7 +108,9 @@ echo.
 > "%WINSCP_SCRIPT%" echo open "%WINSCP_SESSION%"
 >>"%WINSCP_SCRIPT%" echo option batch abort
 >>"%WINSCP_SCRIPT%" echo option confirm off
->>"%WINSCP_SCRIPT%" echo synchronize remote "%UPLOAD_ROOT%" "%REMOTE_DIR%"
+>>"%WINSCP_SCRIPT%" echo lcd "%UPLOAD_ROOT%"
+>>"%WINSCP_SCRIPT%" echo cd "%REMOTE_DIR%"
+>>"%WINSCP_SCRIPT%" echo synchronize remote -delete "." "."
 >>"%WINSCP_SCRIPT%" echo exit
 
 "%WINSCP_EXE%" /script="%WINSCP_SCRIPT%" /log="%WINSCP_LOG%"
