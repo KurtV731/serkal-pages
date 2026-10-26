@@ -110,7 +110,7 @@ echo.
 >>"%WINSCP_SCRIPT%" echo option confirm off
 >>"%WINSCP_SCRIPT%" echo lcd "%UPLOAD_ROOT%"
 >>"%WINSCP_SCRIPT%" echo cd "%REMOTE_DIR%"
->>"%WINSCP_SCRIPT%" echo synchronize remote -delete "." "."
+>>"%WINSCP_SCRIPT%" echo synchronize remote "." "."
 >>"%WINSCP_SCRIPT%" echo exit
 
 "%WINSCP_EXE%" /script="%WINSCP_SCRIPT%" /log="%WINSCP_LOG%"
