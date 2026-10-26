@@ -7,6 +7,8 @@ if "%ROOT:~-1%"=="\" set "ROOT=%ROOT:~0,-1%"
 set "UPLOAD_ROOT=%ROOT%\up"
 set "INSTALLER=%UPLOAD_ROOT%\download\serkal-desktop.exe"
 set "CHECKSUM=%UPLOAD_ROOT%\download\serkal-desktop.sha256"
+set "ANDROID=%UPLOAD_ROOT%\download\serkal-android.apk"
+set "ANDROID_CHECKSUM=%UPLOAD_ROOT%\download\serkal-android.sha256"
 set "DOWNLOAD_DE=%UPLOAD_ROOT%\download.html"
 set "DOWNLOAD_EN=%UPLOAD_ROOT%\download-en.html"
 set "WINSCP_EXE=%ProgramFiles(x86)%\WinSCP\WinSCP.com"
@@ -33,10 +35,10 @@ if not exist "%WINSCP_EXE%" goto NO_WINSCP
 cd /d "%ROOT%"
 if errorlevel 1 goto CD_ERROR
 
-rem Die lokale Installer-EXE darf bis zum Public Release bewusst neuer als GitHub sein.
+rem Die freigegebenen lokalen EXE-/APK-Artefakte duerfen bewusst neuer als GitHub sein.
 rem Alle anderen lokalen, vorgemerkten oder nicht erfassten Dateien bleiben ein Abbruchgrund.
 set "STATUS_FILE=%TEMP%\serkal_git_status.txt"
-git status --porcelain --untracked-files=all -- . ":(exclude)up/download/serkal-desktop.exe" ":(exclude)up/download/serkal-desktop.sha256" > "%STATUS_FILE%"
+git status --porcelain --untracked-files=all -- . ":(exclude)up/download/serkal-desktop.exe" ":(exclude)up/download/serkal-desktop.sha256" ":(exclude)up/download/serkal-android.apk" ":(exclude)up/download/serkal-android.sha256" > "%STATUS_FILE%"
 for %%F in ("%STATUS_FILE%") do if %%~zF GTR 0 goto LOCAL_CHANGES
 del /q "%STATUS_FILE%" >nul 2>nul
 
@@ -58,7 +60,7 @@ git lfs pull origin main
 if errorlevel 1 goto LFS_ERROR
 
 echo.
-echo [3/4] Pruefe Installer und Downloadseiten...
+echo [3/4] Pruefe Windows-Installer, Android-APK und Downloadseiten...
 echo.
 if not exist "%INSTALLER%" goto NO_INSTALLER
 
@@ -76,6 +78,21 @@ for /f "usebackq delims=" %%H in (`powershell -NoProfile -Command "(Get-FileHash
 if not defined ACTUAL_SHA256 goto CHECKSUM_INVALID
 if /i not "%ACTUAL_SHA256%"=="%EXPECTED_SHA256%" goto CHECKSUM_MISMATCH
 
+if not exist "%ANDROID%" goto NO_ANDROID
+for %%F in ("%ANDROID%") do set "ANDROID_SIZE=%%~zF"
+if not defined ANDROID_SIZE goto ANDROID_INVALID
+if %ANDROID_SIZE% LSS 1000000 goto ANDROID_INVALID
+if not exist "%ANDROID_CHECKSUM%" goto NO_ANDROID_CHECKSUM
+
+set "ANDROID_EXPECTED_SHA256="
+for /f "usebackq tokens=1" %%H in ("%ANDROID_CHECKSUM%") do if not defined ANDROID_EXPECTED_SHA256 set "ANDROID_EXPECTED_SHA256=%%H"
+if not defined ANDROID_EXPECTED_SHA256 goto ANDROID_CHECKSUM_INVALID
+
+set "ANDROID_ACTUAL_SHA256="
+for /f "usebackq delims=" %%H in (`powershell -NoProfile -Command "(Get-FileHash -Algorithm SHA256 -LiteralPath '%ANDROID%').Hash.ToLowerInvariant()"`) do set "ANDROID_ACTUAL_SHA256=%%H"
+if not defined ANDROID_ACTUAL_SHA256 goto ANDROID_CHECKSUM_INVALID
+if /i not "%ANDROID_ACTUAL_SHA256%"=="%ANDROID_EXPECTED_SHA256%" goto ANDROID_CHECKSUM_MISMATCH
+
 if not exist "%DOWNLOAD_DE%" goto NO_DOWNLOAD_PAGE
 if not exist "%DOWNLOAD_EN%" goto NO_DOWNLOAD_PAGE
 
@@ -83,12 +100,20 @@ findstr /C:"/download/serkal-desktop.exe" "%DOWNLOAD_DE%" >nul
 if errorlevel 1 goto DOWNLOAD_LINK_ERROR
 findstr /C:"/download/serkal-desktop.exe" "%DOWNLOAD_EN%" >nul
 if errorlevel 1 goto DOWNLOAD_LINK_ERROR
+findstr /C:"/download/serkal-android.apk" "%DOWNLOAD_DE%" >nul
+if errorlevel 1 goto DOWNLOAD_LINK_ERROR
+findstr /C:"/download/serkal-android.apk" "%DOWNLOAD_EN%" >nul
+if errorlevel 1 goto DOWNLOAD_LINK_ERROR
 
 echo Installer gefunden: "%INSTALLER%"
 echo Groesse: %INSTALLER_SIZE% Bytes
 echo SHA-256: %ACTUAL_SHA256%
 echo Pruefsumme stimmt mit serkal-desktop.sha256 ueberein.
-echo Downloadseiten verweisen auf serkal-desktop.exe.
+echo Android-APK gefunden: "%ANDROID%"
+echo Groesse: %ANDROID_SIZE% Bytes
+echo SHA-256: %ANDROID_ACTUAL_SHA256%
+echo Pruefsumme stimmt mit serkal-android.sha256 ueberein.
+echo Downloadseiten verweisen auf Windows-EXE und Android-APK.
 echo.
 
 echo [4/4] Suche gespeicherte WinSCP-Sitzung und synchronisiere UP...
@@ -123,7 +148,7 @@ echo ============================================================
 echo   FERTIG
 echo ============================================================
 echo.
-echo Website und SerKal-Installer wurden auf serkal.de uebertragen.
+echo Website, Windows-Installer und Android-APK wurden auf serkal.de uebertragen.
 echo.
 goto SUCCESS
 
@@ -148,7 +173,7 @@ goto FAIL
 
 :LOCAL_CHANGES
 echo FEHLER: Im Website-Repository liegen lokale Aenderungen ausserhalb
-echo der ausdruecklich erlaubten Datei up\download\serkal-desktop.exe.
+echo der ausdruecklich erlaubten Release-Dateien fuer Windows und Android.
 echo Bitte erst klaeren, bevor etwas veroeffentlicht wird.
 del /q "%STATUS_FILE%" >nul 2>nul
 goto FAIL
@@ -195,13 +220,38 @@ echo Vorhanden: %ACTUAL_SHA256%
 echo Es wurde nichts auf serkal.de hochgeladen.
 goto FAIL
 
+:NO_ANDROID
+echo FEHLER: Die freigegebene Android-APK fehlt:
+echo "%ANDROID%"
+goto FAIL
+
+:ANDROID_INVALID
+echo FEHLER: serkal-android.apk ist zu klein oder unvollstaendig.
+goto FAIL
+
+:NO_ANDROID_CHECKSUM
+echo FEHLER: Die Android-Pruefsumme fehlt:
+echo "%ANDROID_CHECKSUM%"
+goto FAIL
+
+:ANDROID_CHECKSUM_INVALID
+echo FEHLER: Die Android-SHA-256-Pruefsumme ist ungueltig oder konnte nicht gelesen werden.
+goto FAIL
+
+:ANDROID_CHECKSUM_MISMATCH
+echo FEHLER: serkal-android.apk stimmt nicht mit der festgeschriebenen Pruefsumme ueberein.
+echo Erwartet: %ANDROID_EXPECTED_SHA256%
+echo Vorhanden: %ANDROID_ACTUAL_SHA256%
+echo Es wurde nichts auf serkal.de hochgeladen.
+goto FAIL
+
 :NO_DOWNLOAD_PAGE
 echo FEHLER: Mindestens eine Downloadseite fehlt.
 goto FAIL
 
 :DOWNLOAD_LINK_ERROR
 echo FEHLER: Die Downloadseiten zeigen noch nicht beide auf:
-echo /download/serkal-desktop.exe
+echo /download/serkal-desktop.exe und /download/serkal-android.apk
 goto FAIL
 
 :NO_SAVED_SESSION
