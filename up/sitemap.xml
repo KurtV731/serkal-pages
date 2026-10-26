@@ -34,6 +34,18 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://serkal.de/download.html"/>
   </url>
   <url>
+    <loc>https://serkal.de/neu-in-1.2.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/neu-in-1.2.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/whats-new-1.2.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://serkal.de/neu-in-1.2.html"/>
+  </url>
+  <url>
+    <loc>https://serkal.de/whats-new-1.2.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/neu-in-1.2.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/whats-new-1.2.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://serkal.de/neu-in-1.2.html"/>
+  </url>
+  <url>
     <loc>https://serkal.de/help.html</loc>
     <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/help.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/help-en.html"/>
