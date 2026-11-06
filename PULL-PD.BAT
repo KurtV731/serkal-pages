@@ -136,6 +136,15 @@ echo.
 >>"%WINSCP_SCRIPT%" echo lcd "%UPLOAD_ROOT%"
 >>"%WINSCP_SCRIPT%" echo cd "%REMOTE_DIR%"
 >>"%WINSCP_SCRIPT%" echo synchronize remote "." "."
+rem Release-Kerndateien immer ausdruecklich ueberschreiben; Zeitstempel duerfen sie nicht auslassen.
+>>"%WINSCP_SCRIPT%" echo put -transfer=ascii "download.html" "download.html"
+>>"%WINSCP_SCRIPT%" echo put -transfer=ascii "download-en.html" "download-en.html"
+>>"%WINSCP_SCRIPT%" echo put -transfer=ascii "neu-in-1.2.html" "neu-in-1.2.html"
+>>"%WINSCP_SCRIPT%" echo put -transfer=ascii "whats-new-1.2.html" "whats-new-1.2.html"
+>>"%WINSCP_SCRIPT%" echo put -transfer=binary "download\serkal-desktop.exe" "download/serkal-desktop.exe"
+>>"%WINSCP_SCRIPT%" echo put -transfer=binary "download\serkal-desktop.sha256" "download/serkal-desktop.sha256"
+>>"%WINSCP_SCRIPT%" echo put -transfer=binary "download\serkal-android.apk" "download/serkal-android.apk"
+>>"%WINSCP_SCRIPT%" echo put -transfer=binary "download\serkal-android.sha256" "download/serkal-android.sha256"
 >>"%WINSCP_SCRIPT%" echo exit
 
 "%WINSCP_EXE%" /script="%WINSCP_SCRIPT%" /log="%WINSCP_LOG%"
