@@ -55,6 +55,16 @@ main{max-width:1280px;margin:0 auto;padding:38px 22px 52px}
 .site-footer{background:var(--header);border-top:1px solid #d5dae7;color:var(--muted);text-align:center;padding:18px 14px}.site-footer p{margin:5px 0}.site-footer a{color:var(--blue);font-weight:800;text-decoration:none}.site-footer a:hover{text-decoration:underline}
 @media(max-width:980px){.hero,.quick-grid{grid-template-columns:1fr}.hero-image{min-height:300px}.hero-image img{max-width:86%}.quick-grid{gap:14px}}
 @media(max-width:700px){.header-inner{grid-template-columns:1fr}.top-tools{justify-items:start}.main-nav{gap:12px 16px}.hero h1{font-size:clamp(2.35rem,12vw,3.4rem)}.button{width:100%;text-align:center}.example{grid-template-columns:1fr}.example-who{text-align:left}.example-who span{display:inline;margin-right:9px;font-size:1.8rem}.promise{grid-template-columns:1fr}}
+
+.tester-call{margin:0 0 48px;border-radius:0 0 28px 28px;overflow:hidden;background:linear-gradient(135deg,#19275c 0%,#31427f 55%,#5b70d6 100%);color:#fff;box-shadow:var(--shadow);position:relative}
+.tester-tape{height:22px;border-radius:18px 18px 0 0;background:repeating-linear-gradient(135deg,#17191d 0 22px,#ffd447 22px 44px)}
+.tester-inner{display:grid;grid-template-columns:1.25fr .75fr;gap:32px;align-items:center;padding:46px clamp(25px,5vw,55px)}
+.tester-stamp{display:inline-block;background:#ffd447;color:#15181f;font-weight:900;letter-spacing:.12em;padding:8px 14px;transform:rotate(-2deg);box-shadow:6px 6px 0 rgba(17,24,39,.4)}
+.tester-call h2{font-size:clamp(3rem,6vw,5.5rem);line-height:.9;letter-spacing:-.055em;text-transform:uppercase;margin:28px 0 20px;color:#fff}
+.tester-call h2 span{display:block;color:#ffe16f}.tester-lead{font-size:clamp(1.1rem,2vw,1.45rem);color:#eef1ff;max-width:720px;margin:0}.tester-count{display:flex;align-items:center;gap:16px;margin:27px 0 0}.tester-count strong{font-size:clamp(3rem,6vw,4.5rem);line-height:1;color:#ffe16f}.tester-count span{font-size:1.12rem;font-weight:800}.tester-phone{justify-self:center;width:min(250px,90%);min-height:390px;border:11px solid #10172d;border-radius:34px;background:#f7f8fb;color:var(--ink);padding:32px 18px 20px;transform:rotate(4deg);box-shadow:0 28px 50px rgba(7,17,47,.55)}
+.tester-phone h3{font-size:1.8rem;color:var(--blue);margin:0 0 18px}.tester-phone p{background:#fff;border:1px solid var(--line);border-radius:11px;padding:11px;margin:10px 0;font-size:.9rem}.tester-thanks{margin-top:18px;background:#df3f55;color:#fff;border-radius:16px;padding:13px;text-align:center;font-weight:900;transform:rotate(-3deg)}
+.tester-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:0 clamp(25px,5vw,55px) 38px}.tester-fact{background:#fff;color:var(--ink);border-radius:16px;padding:18px}.tester-fact strong{display:block;color:var(--blue);font-size:1.1rem;margin-bottom:4px}.tester-actions{display:flex;gap:12px;flex-wrap:wrap;padding:0 clamp(25px,5vw,55px) 48px}.tester-actions .button.primary{background:#ffd447;border-color:#ffd447;color:#18203a}.tester-actions .button.secondary{background:transparent;border-color:#fff;color:#fff}
+@media(max-width:800px){.tester-inner{grid-template-columns:1fr}.tester-call h2{font-size:clamp(3rem,14vw,4.6rem)}.tester-phone{min-height:auto}.tester-facts{grid-template-columns:1fr}.tester-actions .button{width:100%;text-align:center}}
 </style>
 <link rel="stylesheet" href="/serkal-shell.css">
 <link rel="icon" href="/icon/logo/serkallogo.png">
@@ -84,6 +94,34 @@ main{max-width:1280px;margin:0 auto;padding:38px 22px 52px}
       <div class="actions"><a class="button primary" href="/download.html">SerKal ausprobieren</a><a class="button secondary" href="#beispiele">Passt SerKal zu mir?</a></div>
     </div>
     <div class="hero-image"><img class="light" src="/icon/serkal_light.png" alt="SerKal in heller Darstellung"><img class="dark" src="/icon/serkal_dark.png" alt="SerKal in dunkler Darstellung"></div>
+  </section>
+
+  <section class="tester-call" aria-labelledby="tester-titel">
+    <div class="tester-tape" aria-hidden="true"></div>
+    <div class="tester-inner">
+      <div>
+        <span class="tester-stamp">WICHTIG · BITTE LESEN</span>
+        <h2 id="tester-titel">Help wanted<span>Tester gesucht!</span></h2>
+        <p class="tester-lead">Hilf mir, SerKal auf den Weg in den Google Play Store zu bringen. Du brauchst keine Fachkenntnisse – ich begleite dich Schritt für Schritt.</p>
+        <div class="tester-count"><strong>8–9</strong><span>weitere Android-Tester<br>werden noch gebraucht</span></div>
+      </div>
+      <div class="tester-phone" aria-label="SerKal auf Android">
+        <h3>SerKal</h3>
+        <p><strong>Special Ops: Lioness</strong><br>Staffel 3 · im Blick</p>
+        <p><strong>Ahsoka</strong><br>Staffel 2 · vorgemerkt</p>
+        <p><strong>Silo</strong><br>Nächster Termin im Kalender</p>
+        <div class="tester-thanks">Tester-Dankeschön:<br>SerKal lebenslang gratis</div>
+      </div>
+    </div>
+    <div class="tester-facts">
+      <div class="tester-fact"><strong>📱 Android-Gerät</strong>Smartphone oder Tablet und ein Google-Konto genügen.</div>
+      <div class="tester-fact"><strong>🗓️ 14 Tage</strong>Beim geschlossenen Test angemeldet bleiben und SerKal ausprobieren.</div>
+      <div class="tester-fact"><strong>💬 Ehrliche Rückmeldung</strong>Sag mir, was verständlich ist, was fehlt oder wo etwas hakt.</div>
+    </div>
+    <div class="tester-actions">
+      <a class="button primary" href="mailto:kp.vogelsaenger@serkal.de?subject=Ich%20möchte%20SerKal%20auf%20Android%20testen">Ich möchte mitmachen</a>
+      <a class="button secondary" href="/werkstatt.html">Warum ich deine Hilfe brauche</a>
+    </div>
   </section>
 
   <section aria-labelledby="nimmt-ab">
