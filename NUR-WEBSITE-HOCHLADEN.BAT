@@ -9,8 +9,8 @@ set "WINSCP_EXE=%ProgramFiles(x86)%\WinSCP\WinSCP.com"
 set "REMOTE_DIR=/"
 set "WINSCP_SCRIPT=%TEMP%\serkal_nur_website_upload.txt"
 set "WINSCP_LOG=%TEMP%\serkal_nur_website_upload.log"
-set "WINSCP_HOST=ftp.webspace.bz"
-set "WINSCP_USER=kd239663"
+set "WINSCP_HOST=w0223f39.kasserver.com"
+set "WINSCP_USER=w0223f39"
 set "WINSCP_SESSION="
 
 cls
