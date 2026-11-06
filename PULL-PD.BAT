@@ -12,7 +12,7 @@ set "ANDROID_CHECKSUM=%UPLOAD_ROOT%\download\serkal-android.sha256"
 set "DOWNLOAD_DE=%UPLOAD_ROOT%\download.html"
 set "DOWNLOAD_EN=%UPLOAD_ROOT%\download-en.html"
 set "WINSCP_EXE=%ProgramFiles(x86)%\WinSCP\WinSCP.com"
-set "REMOTE_DIR=/"
+set "REMOTE_DIR=/serkal.de/"
 set "WINSCP_SCRIPT=%TEMP%\serkal_pull_upload.txt"
 set "WINSCP_LOG=%TEMP%\serkal_pull_upload.log"
 
