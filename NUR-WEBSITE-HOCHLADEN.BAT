@@ -31,7 +31,7 @@ cd /d "%ROOT%"
 if errorlevel 1 goto CD_ERROR
 
 set "STATUS_FILE=%TEMP%\serkal_website_only_status.txt"
-git status --porcelain --untracked-files=all -- "up/" > "%STATUS_FILE%"
+git status --porcelain --untracked-files=all -- "up/" ":(exclude)up/download/serkal-desktop.exe" ":(exclude)up/download/serkal-desktop.sha256" ":(exclude)up/download/serkal-android.apk" ":(exclude)up/download/serkal-android.sha256" > "%STATUS_FILE%"
 for %%F in ("%STATUS_FILE%") do if %%~zF GTR 0 goto LOCAL_CHANGES
 del /q "%STATUS_FILE%" >nul 2>nul
 
