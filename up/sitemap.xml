@@ -144,5 +144,14 @@
   </url>
   <url>
     <loc>https://serkal.de/werkstatt.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/werkstatt.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/werkstatt-en.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://serkal.de/werkstatt.html"/>
+  </url>
+  <url>
+    <loc>https://serkal.de/werkstatt-en.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/werkstatt.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/werkstatt-en.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://serkal.de/werkstatt.html"/>
   </url>
 </urlset>
