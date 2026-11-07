@@ -3,23 +3,17 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://serkal.de/</loc>
-    <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/start.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/start-en.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://serkal.de/"/>
   </url>
 
   <!-- Deutsche und englische Hauptseiten -->
-  <url>
-    <loc>https://serkal.de/start.html</loc>
-    <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/start.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/start-en.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://serkal.de/start.html"/>
-  </url>
-  <url>
+<url>
     <loc>https://serkal.de/start-en.html</loc>
-    <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/start.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/start-en.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://serkal.de/start.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://serkal.de/"/>
   </url>
   <url>
     <loc>https://serkal.de/download.html</loc>
