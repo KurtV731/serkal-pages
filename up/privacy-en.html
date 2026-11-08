@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="description" content="Privacy policy for the SerKal website and SerKal applications.">
+<meta name="description" content="Current privacy policy for serkal.de and SerKal 1.2.4 on Windows and Android.">
 <title>SerKal – Privacy Policy</title>
 <link rel="canonical" href="https://serkal.de/privacy-en.html"><link rel="alternate" hreflang="de" href="https://serkal.de/privacy.html"><link rel="alternate" hreflang="en" href="https://serkal.de/privacy-en.html"><link rel="alternate" hreflang="x-default" href="https://serkal.de/privacy.html"><link rel="stylesheet" href="/serkal-shell.css"><link rel="icon" href="/icon/logo/serkallogo.png">
 <style>
@@ -35,32 +35,106 @@
     </div>
   </div>
 </header>
-<main><section class="hero"><h1>Privacy Policy</h1><p class="lead">This policy explains transparently which data is processed when you use serkal.de and SerKal. The website, public desktop release and development previews are described separately.</p><span class="status">Last updated: 8 October 2026</span></section>
-<nav class="toc" aria-label="Contents"><a href="#controller">Controller</a><a href="#website">Website</a><a href="#desktop">Desktop 1.1</a><a href="#google">Google Calendar</a><a href="#preview">Preview/Android</a><a href="#services">Third parties</a><a href="#rights">Your rights</a><a href="#deletion">Deletion</a></nav>
+<main>
+<section class="hero">
+  <h1>Privacy Policy</h1>
+  <p class="lead">This page explains in plain language which data the website and SerKal 1.2.4 for Windows and Android process, why Google and TMDB are used, and how you can delete data.</p>
+  <span class="status">Last updated: 8 November 2026 · SerKal 1.2.4</span>
+</section>
+<nav class="toc" aria-label="Contents">
+  <a href="#summary">Summary</a><a href="#controller">Controller</a><a href="#website">Website</a><a href="#serkal">SerKal 1.2.4</a><a href="#google">Google</a><a href="#tmdb">TMDB</a><a href="#storage">Storage &amp; deletion</a><a href="#rights">Your rights</a>
+</nav>
 
-<section class="policy"><h2>1. Scope and principle</h2><p>This Privacy Policy applies to the <strong>serkal.de</strong> website, the publicly available SerKal Desktop version 1.1 and – where explicitly identified – non-public development and Android preview versions.</p><div class="good"><strong>In short:</strong> SerKal does not operate a central user account or its own database containing your series. The public desktop release stores the archive, settings and Google access tokens locally on your device. Data leaves your device only where required for a feature you choose to use – in particular TMDB and Google Calendar – or where you place your archive folder inside a folder synchronized by another provider.</div></section>
+<section class="policy" id="summary">
+  <h2>1. Summary</h2>
+  <div class="good"><strong>In brief:</strong> SerKal does not operate a central SerKal user account or its own online database containing your series. Desktop and Android process your series archive locally. If you enable the Google features, the complete archive is stored in the SerKal-specific, normally hidden app-data area of your Google Drive. After changes, the complete archive is written back when the app closes normally. This is not continuous device synchronisation.</div>
+  <ul>
+    <li>Google associates the archive with your selected account and enables calendar entries initiated by you.</li>
+    <li>TMDB supplies search results, series information, images and provider information.</li>
+    <li>The website is hosted by ALL-INKL.COM. SerKal currently has no built-in advertising, analytics or payment services.</li>
+    <li>Your own notes remain part of your archive; when using the calendar feature, selected SerKal content may also appear in the calendar event.</li>
+  </ul>
+</section>
 
-<section class="policy" id="controller"><h2>2. Controller</h2><p><strong>Kurt Vogelsaenger</strong><br>Planiger Straße 26<br>55543 Bad Kreuznach<br>Germany</p><p>Phone: <a href="tel:+491727153997">+49 172 7153997</a><br>Email: <a href="mailto:k.vogelsaenger@t-online.de">k.vogelsaenger@t-online.de</a></p><p>You may contact this address at any time with “SerKal privacy” in the subject line. No data protection officer has been appointed because there is currently no statutory obligation to appoint one.</p></section>
+<section class="policy" id="controller">
+  <h2>2. Controller and contact</h2>
+  <p><strong>Kurt Vogelsaenger</strong><br>Planiger Straße 26<br>55543 Bad Kreuznach<br>Germany</p>
+  <p>Phone: <a href="tel:+491727153997">+49 172 7153997</a><br>Email: <a href="mailto:support@serkal.de">support@serkal.de</a></p>
+  <p>Further legal details are available in the <a href="/impressum.html">Legal Notice</a>.</p>
+</section>
 
-<section class="policy" id="website"><h2>3. Visiting serkal.de</h2><h3>Delivery and server logs</h3><p>Technically necessary connection data is processed when you access the website. This may include the IP address, date and time, requested file or URL, referrer URL, browser and operating-system details, HTTP status and amount of data transferred. It is used to deliver the pages, maintain stability, diagnose errors and prevent misuse.</p><p>The legal basis is Article 6(1)(f) GDPR. Our legitimate interest is the secure and reliable operation of this website. The hosting provider is <strong>INWX GmbH, Prinzessinnenstraße 30, 10969 Berlin, Germany</strong>; the hosting locations used for this service are in Germany. Server logs are retained only for as long as necessary for operation and security or as required by contractual or statutory obligations.</p><h3>Cloudflare</h3><p>Cloudflare is used for Domain Name System (DNS) and technical protection functions. Where requests are routed through Cloudflare proxy or security functions, Cloudflare processes the IP address and technical request information in particular in order to deliver content and mitigate attacks. The legal basis is Article 6(1)(f) GDPR. For processing outside the European Economic Area, the provider relies on the applicable data protection safeguards. See the <a href="https://www.cloudflare.com/privacypolicy/" rel="noopener noreferrer">Cloudflare Privacy Policy</a>.</p><h3>No website trackers</h3><p>As currently implemented, SerKal does not use analytics or advertising services, social-media pixels, externally loaded fonts, embedded videos or contact forms on this website. SerKal itself does not set cookies or write to browser Local Storage merely because you visit the site.</p><p>The website contains ordinary links to external sites such as TMDB. Only when you open such a link does the relevant provider receive technically necessary connection data; depending on your browser, the referring page may also be transmitted.</p></section>
+<section class="policy" id="website">
+  <h2>3. Visiting serkal.de</h2>
+  <p>The website is hosted by <strong>ALL-INKL.COM – Neue Medien Münnich, Hauptstraße 68, 02742 Friedersdorf, Germany</strong>. When a page is requested, the web server processes technically necessary connection and log data, in particular the IP address, time, requested file, amount of data transferred, status code and – if supplied by the browser – referrer, browser, operating system and language. This is necessary to deliver the website, detect errors and defend against attacks (Article 6(1)(f) GDPR).</p>
+  <p>According to the host, regular server log files are retained for up to seven days; entries affected by a specific attack may be kept longer for investigation. The website has no built-in analytics, advertising or payment services. External sites are opened only when you select a corresponding link.</p>
+</section>
 
-<section class="policy"><h2>4. Contacting us</h2><p>If you contact us by email or telephone, we process your contact details, the contents of your message and the accompanying data needed to respond. Processing takes place to answer your request (Article 6(1)(f) GDPR) or, if the request concerns a user or contractual relationship, under Article 6(1)(b) GDPR. The data is deleted once the request has been finally resolved, unless statutory retention obligations or legitimate reasons require further storage.</p></section>
+<section class="policy" id="serkal">
+  <h2>4. Processing in SerKal 1.2.4</h2>
+  <p>This information applies to the released Desktop and Android version 1.2.4. Features in later internal development versions are not described as available here.</p>
+  <table class="data-table">
+    <thead><tr><th>Data</th><th>Purpose</th><th>Location / recipient</th></tr></thead>
+    <tbody>
+      <tr><td>Series titles, seasons and episodes, TMDB identifiers, dates, descriptions, watched status, provider information and your own notes</td><td>Archive, search, display and calendar features</td><td>Locally on your device; when Google is connected, additionally as a complete archive in the Google Drive app-data area</td></tr>
+      <tr><td>Google account ID and email address</td><td>Recognise the selected account and associate the archive with it</td><td>Google account service; limited local storage</td></tr>
+      <tr><td>Calendar list and calendars and events created by SerKal</td><td>Select a target calendar and create, update or delete SerKal events</td><td>Google Calendar</td></tr>
+      <tr><td>Language, appearance, sorting, maintenance status and local access information</td><td>Retain settings and reuse authorised services</td><td>Locally in the respective app-data area</td></tr>
+      <tr><td>Search terms, series identifiers, language and country</td><td>Retrieve series search results, metadata, images and provider information</td><td>TMDB; standard connection data such as the IP address is also processed</td></tr>
+    </tbody>
+  </table>
+  <h3>Desktop and Android</h3>
+  <p>Both applications download the archive from the Google Drive app-data area, process it locally and, after changes, upload the complete state when the app closes normally. Android can also write the archive. There is no continuous real-time or background synchronisation between open devices; concurrent editing can therefore produce competing states.</p>
+  <p>The Desktop app stores settings and required Google access tokens as local application files. Android obtains Google access tokens via Google sign-in for the relevant session, retains limited account and display data locally, and protects the locally cached TMDB access credential using Android Keystore. SerKal does not store Google passwords.</p>
+</section>
 
-<section class="policy" id="desktop"><h2>5. Public SerKal Desktop version 1.1</h2><h3>Local data</h3><p>SerKal processes locally on your computer in particular:</p><ul><li>series and season titles, TMDB IDs, episode counts and broadcast dates;</li><li>German and English descriptions, your notes, watched information and status;</li><li>settings and TMDB credentials in the Electron user profile;</li><li>Google calendar ID and OAuth access and refresh tokens in <code>google_calendar_token.json</code>;</li><li>log files named <code>!!SERKAL_LOG_YYYY-MM-DD.txt</code> in the selected archive folder; they may contain process, series, calendar and error information.</li></ul><p>You choose the archive folder. If it is located in Google Drive, OneDrive, Dropbox or another synchronized folder, transmission is performed by that provider's synchronization client – not by a direct SerKal cloud feature. The provider's own privacy terms apply.</p><div class="note"><strong>Security notice:</strong> Public desktop files and OAuth tokens currently receive no additional file encryption from SerKal. Protection is provided in particular by your operating-system account, full-disk encryption and file permissions. Do not share these files.</div><p>SerKal does not automatically upload the local archive to a SerKal server. There is no fixed automatic deletion period for local archive and log files; you control retention by deleting them. Review logs before sending them to support.</p></section>
+<section class="policy" id="google">
+  <h2>5. Google account, Drive app data and Calendar</h2>
+  <p>Google features are used only after you sign in and grant access. SerKal requests permissions intended for the functions described here:</p>
+  <table class="data-table">
+    <thead><tr><th>Access</th><th>Purpose</th><th>Important</th></tr></thead>
+    <tbody>
+      <tr><td>OpenID, account ID and email address</td><td>Display the account and associate the archive with the correct Google account</td><td>No access to your Google password</td></tr>
+      <tr><td>Google Drive “app data”</td><td>Load and save the SerKal archive and related SerKal files</td><td>No general access to “My Drive” or other Drive files</td></tr>
+      <tr><td>Calendar list (read only)</td><td>Display available target calendars</td><td>This reads the calendar list, not all events in third-party calendars</td></tr>
+      <tr><td>Calendars created by the app</td><td>Create and manage SerKal calendars and SerKal events</td><td>SerKal manages calendar data it created</td></tr>
+    </tbody>
+  </table>
+  <p>Google's processing is additionally governed by the <a href="https://policies.google.com/privacy" rel="noopener noreferrer">Google Privacy Policy</a>. Google user data is used solely to provide the SerKal functions described above, not for advertising or sale.</p>
+</section>
 
-<section class="policy" id="google"><h2>6. Google Calendar in SerKal</h2><p>The connection is optional and uses Google's OAuth sign-in. SerKal has no field for your Google password and does not receive that password.</p><table class="data-table"><thead><tr><th>Access</th><th>Purpose</th></tr></thead><tbody><tr><td><code>calendar.calendarlist.readonly</code></td><td>List existing calendars to find the SerKal calendar.</td></tr><tr><td><code>calendar.calendars</code></td><td>Create and manage the calendar intended for SerKal.</td></tr><tr><td><code>calendar.events.owned</code></td><td>Read, create, change and delete series and episode events in calendars you own.</td></tr></tbody></table><p>The technical Google permissions are not limited exclusively to one calendar. SerKal uses them for the stated purpose: finding or creating the SerKal calendar and managing the intended series and episode events in it. The series, season, episode and date information needed for those events is transferred to Google and stored in your Google Calendar.</p><p>OAuth tokens and the calendar ID are stored locally. You may revoke SerKal's access in your <a href="https://myaccount.google.com/permissions" rel="noopener noreferrer">Google Account security settings</a>. Revocation does not delete existing calendar events or local SerKal files; these must be deleted separately.</p><p>SerKal's use and transfer of information received from Google APIs adheres to the <a href="https://developers.google.com/terms/api-services-user-data-policy" rel="noopener noreferrer">Google API Services User Data Policy</a>, including the Limited Use requirements. SerKal does not sell Google user data, use it for advertising or disclose it for unrelated purposes.</p></section>
+<section class="policy" id="tmdb">
+  <h2>6. TMDB and provider information</h2>
+  <p>When you search, SerKal sends the search text, language, country and, where applicable, series or season identifiers and the technical API credential to <strong>The Movie Database (TMDB)</strong>. TMDB supplies titles, descriptions, images, release dates and – where available – provider information based on JustWatch data. TMDB also processes standard connection data such as your IP address when content is requested. Your own notes are not sent to TMDB.</p>
+  <p>More information: <a href="https://www.themoviedb.org/privacy-policy" rel="noopener noreferrer">TMDB Privacy Policy</a>. SerKal is not endorsed or certified by TMDB.</p>
+</section>
 
-<section class="policy"><h2>7. TMDB</h2><p>To search for series, seasons, episodes and images, SerKal sends direct requests to <code>api.themoviedb.org</code>; images are loaded from <code>image.tmdb.org</code>. Search terms, TMDB IDs, language setting, API credentials and technically necessary connection data such as the IP address may be processed. The local SerKal archive is not automatically uploaded to TMDB as a whole.</p><p>The service is provided by The Movie Database (TMDB). The <a href="https://www.themoviedb.org/privacy-policy" rel="noopener noreferrer">TMDB Privacy Policy</a> also applies. SerKal uses TMDB data but is not an official TMDB product.</p></section>
+<section class="policy" id="legal-basis">
+  <h2>7. Purposes, legal bases and transfers</h2>
+  <p>App functions initiated by you are processed to provide SerKal (Article 6(1)(b) GDPR). Linking your Google account and the permissions granted for it are based on your deliberate authorisation, which you may revoke at Google at any time. Website security and error analysis are based on our legitimate interest in a secure, functional service (Article 6(1)(f) GDPR).</p>
+  <p>Google and TMDB may also process data outside the EU or EEA. Their respective terms and statutory transfer mechanisms apply to that processing. SerKal does not disclose your archive for advertising purposes and does not sell personal data.</p>
+</section>
 
-<section class="policy" id="preview"><h2>8. Development and Android preview versions</h2><div class="note"><strong>Important:</strong> This section applies only to versions explicitly identified as alpha, development or Android preview builds. The Google Drive functions below are not part of public Desktop version 1.1.</div><p>These preview builds may additionally use the Google permissions <code>drive.appdata</code>, <code>openid</code> and <code>userinfo.email</code>. SerKal then processes the Google account ID, email address and verification status to associate the account and can use only its own app data area (“appDataFolder”), which is not visible to other apps. This does not provide SerKal with general access to “My Drive”.</p><h3>Shared TMDB credentials</h3><p>A TMDB key may be stored in the app data area as <code>serkal-tmdb-key-v1.json</code> with a schema value and Google account ID. SerKal currently adds no end-to-end encryption to that cloud file. The Android app encrypts its local key cache with AES-GCM and Android Keystore; the desktop preview stores a local cache in <code>tmdb.json</code> and a separate Google token in <code>google_shared_key_token.json</code>.</p><h3>Archive snapshot</h3><p>The desktop preview may write <code>serkal-archive-v1.json</code> to the Google app data area. It may contain account and source ID, timestamp, title, year, season, TMDB ID, episode count, start and end dates, German and English descriptions, free-form notes and watched status. It excludes raw TXT lines, local file paths and API or OAuth credentials. Free-form notes may still contain personal or confidential information; enter only content that you want stored in your Google Account.</p><p>Android reads this snapshot into memory and discards it when the account changes. Writing from Android and protection against simultaneous writes have not yet been implemented.</p><p>There is currently no automatic expiry and no confirmed complete in-app deletion function for data in the Google app data area. Uninstalling the app alone does not delete this cloud data. Preview users may revoke Google access and contact the address above for version-specific deletion help. Until a verified deletion function exists, preview builds must not be advertised as automatically deleting cloud data.</p></section>
+<section class="policy" id="storage">
+  <h2>8. Storage and deletion</h2>
+  <h3>Local data</h3>
+  <p>Local settings, caches, access information and any local archive copies can be removed by deleting the SerKal app data or SerKal application folder. Uninstalling alone does not reliably remove all local files on every system.</p>
+  <h3>Google Drive app data</h3>
+  <p>Removing the app or revoking Google access stops future access, but does not automatically delete data already stored in the Drive app-data area. You can remove it in Google Drive under <em>Settings → Manage apps → SerKal → Options → Delete hidden app data</em>, where Google provides that option for the connection. Alternatively, contact <a href="mailto:support@serkal.de">support@serkal.de</a>; we can only assist with steps for which you are signed in and authorised.</p>
+  <h3>Google Calendar</h3>
+  <p>Calendar events are separate from the archive. Delete unwanted SerKal events or the calendar created by SerKal directly in Google Calendar. Deleting a series in SerKal may remove the episode events managed by SerKal when the app closes normally; for complete control, also review and delete the entries in Google Calendar.</p>
+  <div class="note"><strong>Important:</strong> Local data, Drive app data and calendar data are held in different places and must be handled separately for complete deletion.</div>
+</section>
 
-<section class="policy" id="services"><h2>9. Recipients, legal bases and international processing</h2><p>Data is disclosed only to providers needed for the relevant feature, in particular INWX (hosting), Cloudflare (DNS/security), Google (OAuth, Calendar and, for preview builds, app data) and TMDB (series metadata and images). SerKal does not sell personal data.</p><p>Depending on the feature, processing is based on your voluntary consent or activation (Article 6(1)(a) GDPR), provision of the function you request (Article 6(1)(b) GDPR), or our legitimate interest in a secure and functional service (Article 6(1)(f) GDPR).</p><p>Google, Cloudflare and TMDB may also process data outside the European Economic Area. Where required, this is based on an adequacy decision or appropriate safeguards, in particular Standard Contractual Clauses. Please also consult the respective provider's privacy information: <a href="https://policies.google.com/privacy" rel="noopener noreferrer">Google</a>, <a href="https://www.cloudflare.com/privacypolicy/" rel="noopener noreferrer">Cloudflare</a> and <a href="https://www.themoviedb.org/privacy-policy" rel="noopener noreferrer">TMDB</a>.</p></section>
+<section class="policy" id="security">
+  <h2>9. Security</h2>
+  <p>Connections to the website, Google and TMDB use encrypted HTTPS connections. Android protects the locally cached TMDB credential using Android Keystore; other local data relies on the protection of your device and user account. SerKal does not add separate end-to-end encryption to the series archive. No technical measure can guarantee absolute security.</p>
+</section>
 
-<section class="policy" id="deletion"><h2>10. Retention and deletion</h2><ul><li><strong>Website logs:</strong> only as long as necessary for operation, security or legal duties; details also depend on the hosting configuration.</li><li><strong>Contact requests:</strong> until finally resolved, then only where statutory or legitimate retention reasons apply.</li><li><strong>Local SerKal data:</strong> until you delete archive, log, settings and token files or reset SerKal accordingly.</li><li><strong>Google Calendar data:</strong> until you delete the relevant events or calendar in Google Calendar. Revoking permission does not delete them.</li><li><strong>Preview Google app data:</strong> no automatic period; uninstallation and permission revocation do not automatically delete it. Use deletion options in your Google Account or contact us for version-specific guidance.</li></ul></section>
-
-<section class="policy" id="rights"><h2>11. Your data protection rights</h2><p>Subject to the applicable statutory conditions, you have rights of access, rectification, erasure, restriction of processing, data portability and objection. You may withdraw consent at any time with future effect. Where processing is based on Article 6(1)(f) GDPR, you may object for reasons arising from your particular situation.</p><p>You may also lodge a complaint with a data protection supervisory authority. The authority responsible for the controller is the <a href="https://www.datenschutz.rlp.de/" rel="noopener noreferrer">State Commissioner for Data Protection and Freedom of Information of Rhineland-Palatinate</a>.</p><p>Much SerKal data exists only on your device or in your own Google Account. Because we do not possess a central copy, we cannot inspect or delete that data without your participation, but we will gladly provide concrete steps for your version.</p></section>
-
-<section class="policy"><h2>12. Security and changes</h2><p>The website and connections to Google and TMDB use encrypted HTTPS/TLS transport. Absolute security cannot be guaranteed. Keep your operating system and SerKal up to date, protect your user account and do not share token, archive or log files without checking them.</p><p>This policy will be updated when features, providers or legal requirements change. The current version is permanently available at <a href="https://serkal.de/privacy-en.html">https://serkal.de/privacy-en.html</a>.</p></section>
+<section class="policy" id="rights">
+  <h2>10. Your rights and changes</h2>
+  <p>Where the statutory conditions are met, you have rights of access, rectification, erasure, restriction, portability and objection. You may also lodge a complaint with a data protection supervisory authority. For questions or to exercise your rights, contact <a href="mailto:support@serkal.de">support@serkal.de</a>.</p>
+  <p>We update this policy when SerKal, its services or legal requirements change. The current version remains publicly accessible at this address without sign-in.</p>
+</section>
 </main><footer class="site-footer">
   <p><a href="/start-en.html">Start</a> · <a href="/download-en.html">Download</a> · <a href="/help-en.html">Help</a> · <a href="/faq-en.html">FAQ</a> · <a href="/about-en.html">About SerKal</a> · <span class="active">Legal</span> · <a href="/werkstatt-en.html">Workshop</a></p>
   <p>© SerKal – 2026</p>
