@@ -1,22 +1,21 @@
 # SerKal Website – Dokumentation
 
-Stand: 26.09.2026
+Stand: 20.11.2026
 
-Für einen neuen Website-Chatty ist die Reihenfolge eindeutig:
+Für einen neuen Website-Chatty gilt diese kurze Reihenfolge:
 
-1. `uebergabe_website_chatty_2026-09-09.md` – aktueller konkreter Arbeitsauftrag und Übergabe.
-2. `website_entwicklerhandbuch.md` – dauerhafte Website-Regeln, Architektur-/Arbeitsstand und bekannte Altlasten.
-3. Im Repository `KurtV731/serkal_desktop` zusätzlich vor jeder SerKal-Arbeit `1 docs/schwarzes_brett.md` lesen.
+1. Gemeinsames Schwarzes Brett lesen:  
+   https://github.com/KurtV731/serkal_desktop/blob/main/1%20docs/schwarzes_brett.md
+2. `website-uebergabe-2026-11-20.md` lesen – aktueller Stand, Veröffentlichung, Regeln und offene Live-Nachweise.
+3. `website_entwicklerhandbuch.md` nur für dauerhafte Architektur- und Arbeitsdetails heranziehen.
+4. Weitere historische Übergaben oder Werkstattnotizen nur öffnen, wenn der konkrete Auftrag sie benötigt.
 
-Wichtig: Die Website ist am 09.09.2026 noch NICHT fertig abgenommen. Der Nachfolger soll Kurt nicht zuerst nach Unterlagen oder nach einer Einzelaufgabe fragen; der Gesamtauftrag steht in der Übergabe.
-
-Weitere Dateien unter `docs/werkstatt/` enthalten fachliche Einzelnotizen. Bei Widersprüchen gelten der aktuelle GitHub-Stand, das schwarze Brett, das Website-Entwicklerhandbuch und die aktuelle Übergabe vor älteren Werkstattnotizen.
-
+Maßgeblich sind der aktuelle GitHub-Stand, das gemeinsame Schwarze Brett und die neue kompakte Übergabe. Die Übergabe vom 09.09.2026 und der Umzugs-Audit bleiben als Historie erhalten, sind aber keine Pflichtlektüre.
 
 ## Fortlaufende Entwicklungsdokumentation
 
-- `werkstatt/serkal-android-entwicklung.md` – vollständige Chronik der Android-Trainings- und Präversionen, praktische Gerätetests, technische Abgrenzung, Archivregel und nächste Schritte.
+- `werkstatt/serkal-android-entwicklung.md` – Android-Chronik und praktische Gerätetests.
 - `werkstatt/serkal-desktop-endnutzer-download.md` – fachliche Einzelnotiz zum Desktop-Download.
 - `werkstatt/google-kalender-hilfe-endnutzer.md` – fachliche Einzelnotiz zur Kalenderhilfe.
 
-Neue Android-Meilensteine werden gleichzeitig im Schwarzen Brett, in der Android-Chronik und gekürzt auf der öffentlichen Werkstattseite fortgeschrieben.
+Neue Meilensteine nur aus belegtem Programm-/Release-Stand übernehmen und gleichzeitig im gemeinsamen Schwarzen Brett sowie den betroffenen öffentlichen DE/EN-Seiten dokumentieren.
