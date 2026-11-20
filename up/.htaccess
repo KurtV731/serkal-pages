@@ -1,2 +1,15 @@
-# SerKal: eine eindeutige deutsche Hauptadresse
-Redirect 301 /start.html https://serkal.de/
+# SerKal: eine eindeutige Hauptadresse und HTTPS-Schutz
+RewriteEngine On
+
+# www dauerhaft auf die kanonische Adresse ohne www umleiten
+RewriteCond %{HTTP_HOST} ^www\.serkal\.de$ [NC]
+RewriteRule ^(.*)$ https://serkal.de/$1 [R=301,L]
+
+# Die frühere deutsche Startadresse auf die Hauptadresse zusammenführen
+RewriteRule ^start\.html$ https://serkal.de/ [R=301,L]
+
+<IfModule mod_headers.c>
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
