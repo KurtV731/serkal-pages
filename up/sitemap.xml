@@ -4,28 +4,28 @@
   <url>
     <loc>https://serkal.de/</loc>
     <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/start-en.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/home-en.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://serkal.de/"/>
   </url>
 
   <!-- Deutsche und englische Hauptseiten -->
 <url>
-    <loc>https://serkal.de/start-en.html</loc>
+    <loc>https://serkal.de/home-en.html</loc>
     <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/start-en.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/home-en.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://serkal.de/"/>
   </url>
   <url>
-    <loc>https://serkal.de/download.html</loc>
-    <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/download.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/download-en.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://serkal.de/download.html"/>
+    <loc>https://serkal.de/serkal-installieren.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/serkal-installieren.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/install-serkal.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://serkal.de/serkal-installieren.html"/>
   </url>
   <url>
-    <loc>https://serkal.de/download-en.html</loc>
-    <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/download.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/download-en.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://serkal.de/download.html"/>
+    <loc>https://serkal.de/install-serkal.html</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://serkal.de/serkal-installieren.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://serkal.de/install-serkal.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://serkal.de/serkal-installieren.html"/>
   </url>
   <url>
     <loc>https://serkal.de/neu-in-1.2.html</loc>

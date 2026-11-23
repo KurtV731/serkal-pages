@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SerKal – Download</title>
+  <link rel="canonical" href="https://serkal.de/serkal-installieren.html">
+  <link rel="alternate" hreflang="de" href="https://serkal.de/serkal-installieren.html">
+  <link rel="alternate" hreflang="en" href="https://serkal.de/install-serkal.html">
+  <link rel="alternate" hreflang="x-default" href="https://serkal.de/serkal-installieren.html">
+<style>
+:root {
+  --page:#f5f6fa; --header:#eef0f6; --ink:#1f2940; --muted:#596274;
+  --blue:#31427f; --blue2:#4c63b6; --line:#d9deeb; --card:#fff;
+  --soft:#eef2ff; --green:#23834a; --shadow:0 12px 28px rgba(42,55,105,.10);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--page);color:var(--ink);line-height:1.45}
+.site-header{background:var(--header);border-bottom:1px solid #d5dae7;padding:20px 18px 18px}
+.header-inner{max-width:1360px;margin:0 auto;display:grid;grid-template-columns:1fr auto;gap:22px;align-items:start}
+.brand-line{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}.brand{font-size:clamp(2rem,3vw,2.7rem);line-height:1;font-weight:800;color:var(--ink);letter-spacing:-.04em;text-decoration:none}.tagline{color:#3f4551;font-size:1.02rem}
+.top-tools{display:grid;gap:8px;justify-items:end}.top-icons{display:flex;gap:16px;align-items:center}.top-icons img{height:38px;width:auto;object-fit:contain;border-radius:9px}
+.lang-switch{display:flex;gap:8px}.lang-switch a,.lang-switch .active{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:24px;border-radius:999px;background:#fff;border:1px solid var(--line);color:var(--blue);font-size:.82rem;font-weight:800;text-decoration:none}.lang-switch .active{background:var(--blue);color:#fff}
+.main-nav{margin-top:14px;display:flex;gap:18px;flex-wrap:wrap}.main-nav a,.main-nav .active{color:var(--blue);font-weight:800;font-size:1rem;text-decoration:none}.main-nav .active{color:var(--ink)}.main-nav a:hover{text-decoration:underline}
+main{max-width:1280px;margin:0 auto;padding:28px 22px 34px}.hero{display:grid;grid-template-columns:1fr 430px;gap:34px;align-items:center;margin-bottom:18px}.hero h1{color:var(--blue);font-size:clamp(2.2rem,4vw,3.6rem);line-height:1.05;margin:0 0 14px;letter-spacing:-.04em}.hero p{color:var(--muted);font-size:1.12rem;margin:0;max-width:760px}.hero-image img{display:block;max-width:100%;border-radius:20px;border:1px solid rgba(49,66,127,.12);box-shadow:var(--shadow)}
+.platform-box{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 16px;margin:0 0 16px;box-shadow:var(--shadow)}.platform-box h2{margin:0 0 10px;color:var(--blue);font-size:1.08rem}.platforms{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}.platform{border:1px solid var(--line);border-radius:13px;padding:11px 10px;min-height:68px;background:#fff;display:flex;flex-direction:column;justify-content:center}.platform strong{font-size:.98rem}.platform span{font-size:.82rem;margin-top:3px}.platform.ready{border-color:#b8d9c4;background:#f4fbf6}.platform.ready span{color:var(--green);font-weight:800}.platform.future{opacity:.38;filter:grayscale(1);box-shadow:inset 0 0 18px rgba(80,88,110,.08)}
+.notice{background:var(--soft);border:1px solid #d8dff8;border-radius:16px;padding:13px 17px;margin:0 0 16px}.notice strong{color:var(--blue);font-size:1rem}.notice p{margin:4px 0 0;color:var(--muted);font-size:.94rem}.notice a{color:var(--blue);font-weight:800}
+.downloads{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:14px}.download-card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:16px 18px;box-shadow:var(--shadow)}.download-card h2{color:var(--blue);font-size:1.08rem;margin:0 0 5px}.download-card p{font-size:.91rem;color:var(--muted);margin:0 0 12px}.actions{display:flex;gap:9px;flex-wrap:wrap}.button{display:inline-block;text-decoration:none;border-radius:999px;padding:10px 17px;font-weight:800;font-size:.92rem;border:1px solid var(--blue2)}.button.primary{background:var(--blue2);color:#fff}.button.secondary{background:#fff;color:var(--blue)}.button.legacy{width:285px;padding:7px 12px;font-size:.78rem;line-height:1.15;text-align:center;background:#fff;color:var(--blue);font-weight:700}.action-separator{width:1px;height:34px;background:var(--line);align-self:center;flex:0 0 1px}.minor-link{font-size:.88rem;color:var(--blue);font-weight:800;text-decoration:none;align-self:center}
+.other-projects{display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:18px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 16px}.other-projects h2{margin:0;color:var(--blue);font-size:1rem}.other-projects p{margin:2px 0 0;color:var(--muted);font-size:.9rem}
+.site-footer{background:var(--header);border-top:1px solid #d5dae7;color:var(--muted);text-align:center;padding:18px 14px;font-size:.9rem}.site-footer p{margin:5px 0}.site-footer a{color:var(--blue);font-weight:800;text-decoration:none}
+@media(max-width:980px){.hero{grid-template-columns:1fr}.hero-image{display:none}.platforms{grid-template-columns:repeat(3,1fr)}.downloads{grid-template-columns:1fr}}
+@media(max-width:700px){.action-separator{display:none}.header-inner{grid-template-columns:1fr}.top-tools{justify-items:start}.platforms{grid-template-columns:1fr 1fr}.other-projects{align-items:flex-start;flex-direction:column}.button{width:100%;text-align:center}}
+</style>
+  <link rel="stylesheet" href="/serkal-shell.css">
+  <link rel="icon" href="/icon/logo/serkallogo.png">
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <div>
+      <div class="brand-line">
+        <a class="brand" href="/">SerKal</a>
+        <span class="tagline">Deine Serien im Blick – ohne alles im Kopf behalten zu müssen</span>
+      </div>
+      <nav class="main-nav" aria-label="Hauptnavigation">
+        <a href="/">Start</a>
+        <span class="active">Download</span>
+        <a href="/help.html">Hilfe</a>
+        <a href="/faq.html">FAQ</a>
+        <a href="/about.html">Über SerKal</a>
+        <a href="/legal.html">Rechtliches</a>
+        <a href="/werkstatt.html">Werkstatt</a>
+      </nav>
+    </div>
+    <div class="top-tools">
+      <div class="top-icons" aria-label="Projektlogos">
+        <img src="/icon/logo/serkallogo.png" alt="SerKal">
+        <img src="/icon/logo/chatgptlogo.png" alt="ChatGPT">
+        <img src="/icon/logo/tmdblogo.png" alt="TMDB">
+      </div>
+      <div class="lang-switch" aria-label="Sprachwahl"><span class="active">🇩🇪 DE</span><a href="/install-serkal.html">🇬🇧 EN</a></div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div>
+      <h1>SerKal herunterladen</h1>
+      <p>SerKal Desktop 1.2.6 ist jetzt für Windows verfügbar. Die Android-Fassung bleibt bei 1.2.4; beide arbeiten weiterhin mit demselben Archiv- und Kalenderkonzept.</p>
+    </div>
+    <div class="hero-image">
+      <img src="/icon/serkal_light.png" alt="SerKal Oberfläche">
+    </div>
+  </section>
+
+  <section class="platform-box" aria-label="Plattformstatus">
+    <h2>SerKal für deine Plattform</h2>
+    <div class="platforms">
+      <div class="platform ready"><strong>Windows</strong><span>✓ verfügbar</span></div>
+      <div class="platform ready"><strong>Android</strong><span>✓ verfügbar</span></div>
+      <div class="platform future"><strong>Linux</strong><span>geplant</span></div>
+      <div class="platform future"><strong>iPhone / iPad</strong><span>geplant</span></div>
+      <div class="platform future"><strong>macOS</strong><span>geplant</span></div>
+    </div>
+  </section>
+
+  <div class="notice">
+    <strong>Vor der Installation: eigener TMDB-Key</strong>
+    <p>Für TMDB-Suche, Bilder und die TMDB-Wartung benötigt jeder Benutzer ein kostenloses TMDB-Konto und einen eigenen Developer-API-Key. Ohne gültigen Key bleiben Archiv und lokale Funktionen verfügbar. <a href="/tmdb-hilfe.html">TMDB-Key vorbereiten</a>.</p>
+  </div>
+
+  <div class="notice">
+    <strong>Hinweis zur Google-Anmeldung in Desktop 1.2.6</strong>
+    <p>Das neue separate Google-Browserfenster kann den kleineren SerKal-Hinweis verdecken. Falls nötig, das Google-Fenster kurz zur Seite schieben.</p>
+  </div>
+
+  <section class="downloads" aria-label="SerKal Downloads">
+    <div class="download-card">
+      <h2>SerKal Desktop 1.2.6 für Windows</h2>
+      <p>Die veröffentlichte Windows-Fassung als eigenständiges Programm mit Installer.</p>
+      <div class="actions">
+        <a class="button primary" href="/download/serkal-desktop.exe" download>Windows-Version herunterladen</a>
+        <a class="minor-link" href="/installation.html">Installationshilfe</a>
+        <a class="minor-link" href="/download/serkal-desktop.sha256">SHA-256</a><a class="minor-link" href="/neu-in-1.2.html">Was ist neu in 1.2?</a>
+        <span class="action-separator" aria-hidden="true"></span>
+        <a class="button legacy" href="/download/serkal.zip" download>Ehemalige letzte Version 2.5<br>als Apps-Script-Version laden</a>
+      </div>
+    </div>
+    <div class="download-card">
+      <h2>SerKal 1.2.4 für Android</h2>
+      <p>Die erste öffentliche Android-Fassung als signierte APK. Android kann beim ersten direkten APK-Download die Erlaubnis zur Installation aus dieser Quelle verlangen.</p>
+      <div class="actions">
+        <a class="button primary" href="/download/serkal-android.apk" download>Android-APK herunterladen</a>
+        <a class="minor-link" href="/download/serkal-android.sha256">SHA-256</a><a class="minor-link" href="/neu-in-1.2.html">Verbesserungen ansehen</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p><a href="/">Start</a> · <span class="active">Download</span> · <a href="/help.html">Hilfe</a> · <a href="/faq.html">FAQ</a> · <a href="/about.html">Über SerKal</a> · <a href="/legal.html">Rechtliches</a> · <a href="/werkstatt.html">Werkstatt</a></p>
+  <p class="footer-legal"><a href="/impressum.html">Impressum</a> · <a href="/privacy.html">Datenschutz</a></p>
+  <p>© SerKal – 2026</p>
+  <p class="footer-languages"><span class="active">Deutsch</span> · <a href="/install-serkal.html">English</a></p>
+</footer>
+</body>
+</html>
