@@ -99,8 +99,8 @@ h1{color:var(--blue);font-size:clamp(2.2rem,4.2vw,3.8rem);line-height:1.08;margi
 </header>
 
 <main>
-  <h1>Dein eigener TMDB-Key für SerKal</h1>
-  <p class="lead">SerKal nutzt The Movie Database (TMDB), um Serien, Staffeln, Episoden, Beschreibungen und Bilder zu finden. Dafür benötigt jeder Benutzer einen eigenen kostenlosen TMDB-Developer-Zugang und einen persönlichen API-Schlüssel.</p>
+  <h1>Dein eigener API-Key von TMDB</h1>
+  <p class="lead">SerKal nutzt The Movie Database (TMDB), um Serien, Staffeln, Episoden, Beschreibungen und Bilder zu finden. Dafür benötigt jeder Benutzer einen eigenen kostenlosen TMDB-Developer-Zugang und einen persönlichen API-Key von TMDB. Ohne gültigen API-Key funktioniert die Seriensuche nicht.</p>
 
   <div class="notice"><strong>Aktueller TMDB-Ablauf:</strong> TMDB hat die Beantragung geändert. Nach „Personal Use“ erscheint jetzt ein ausführliches Formular für den kostenlosen <strong>Free Developer Plan</strong>. Diese Anleitung beschreibt den praktisch geprüften Ablauf vom 19. Oktober 2026.</div>
 
@@ -133,7 +133,9 @@ h1{color:var(--blue);font-size:clamp(2.2rem,4.2vw,3.8rem);line-height:1.08;margi
       <strong>Anwendungsübersicht:</strong><br>
       SerKal is a free, non-commercial desktop application for personal TV series management. It uses TMDB to search for TV series, seasons, and episodes and to display related information and poster images. SerKal helps users organize their series and add episode dates to their personal calendar.
     </div>
-    <p>Den englischen Beschreibungstext kannst du vollständig kopieren und in das große Feld einfügen.</p>\n    <img class="help-image" src="/icon/help/tmdb-application-details-2026.jpg" alt="Neues TMDB-Formular für den kostenlosen Developer Plan">\n    <p class="caption">Das neue Formular: Developer Plan kostenlos, Nutzungsart „Desktop Application“.</p>
+    <p>Den englischen Beschreibungstext kannst du vollständig kopieren und in das große Feld einfügen.</p>
+    <img class="help-image" src="/icon/help/tmdb-application-details-2026.jpg" alt="Neues TMDB-Formular für den kostenlosen Developer Plan">
+    <p class="caption">Das neue Formular: Developer Plan kostenlos, Nutzungsart „Desktop Application“.</p>
   </section>
 
   <section class="card">
@@ -150,30 +152,34 @@ h1{color:var(--blue);font-size:clamp(2.2rem,4.2vw,3.8rem);line-height:1.08;margi
   <section class="card">
     <h2>5. Erlösende Zwischenmeldung öffnen</h2>
     <div class="success"><strong>Erfolg:</strong> Nach dem Absenden erscheint unter „Subscription Details“ die Meldung: <em>You are currently on the Free Developer plan.</em></div>
-    <p>Klicke dort auf den blauen Link <strong>Access your API key details here.</strong> Erst dieser Link führt zu der Seite, auf der deine Schlüssel angezeigt werden.</p>\n    <img class="help-image" src="/icon/help/tmdb-free-developer-plan-2026.jpg" alt="Bestätigung des kostenlosen TMDB Developer Plans mit Link zu den API-Schlüsseln">\n    <p class="caption">Die erfolgreiche Zwischenmeldung. Der blaue Link öffnet die Schlüsselübersicht.</p>
+    <p>Klicke dort auf den blauen Link <strong>Access your API key details here.</strong> Erst dieser Link führt zu der Seite, auf der deine API-Zugangsdaten angezeigt werden.</p>
+    <img class="help-image" src="/icon/help/tmdb-free-developer-plan-2026.jpg" alt="Bestätigung des kostenlosen TMDB Developer Plans mit Link zu den API-Zugangsdaten">
+    <p class="caption">Die erfolgreiche Zwischenmeldung. Der blaue Link öffnet die Übersicht der API-Zugangsdaten.</p>
   </section>
 
   <section class="card">
-    <h2>6. Den richtigen Schlüssel auswählen</h2>
+    <h2>6. Den richtigen API-Key auswählen</h2>
     <p>Ganz unten auf der neuen Seite stehen zwei verschiedene Zugangsdaten:</p>
     <div class="key-choice">
       <div class="key-box"><strong>API-Token für Lesezugriff</strong>Sehr lang und meist über mehrere Zeilen dargestellt. Diesen Token benötigt SerKal bei der normalen Einrichtung nicht.</div>
-      <div class="key-box use"><strong>API-Schlüssel</strong>Der kürzere Schlüssel darunter. <strong>Diesen Schlüssel kopierst du für SerKal.</strong></div>
+      <div class="key-box use"><strong>API Key</strong>Die kürzere Zeichenfolge darunter. <strong>Diesen API-Key kopierst du für SerKal.</strong></div>
     </div>
-    <img class="help-image" src="/icon/help/tmdb-api-key-choice-2026.jpg" alt="Unterschied zwischen API-Token für Lesezugriff und kurzem API-Schlüssel">\n    <p class="caption">Oben der lange Lesetoken, unten der kurze API-Schlüssel für SerKal. Die Werte sind im Beispiel vollständig verdeckt.</p>\n    <div class="warn"><strong>Niemals veröffentlichen:</strong> Zeige weder den vollständigen API-Token noch den vollständigen API-Schlüssel in Screenshots, E-Mails, Foren oder GitHub.</div>
+    <img class="help-image" src="/icon/help/tmdb-api-key-choice-2026.jpg" alt="Unterschied zwischen API-Token für Lesezugriff und kurzem API-Key">
+    <p class="caption">Oben der lange Lesetoken, unten der kurze API-Key für SerKal. Die Werte sind im Beispiel vollständig verdeckt.</p>
+    <div class="warn"><strong>Niemals veröffentlichen:</strong> Zeige weder den vollständigen API-Token noch den vollständigen API-Key in Screenshots, E-Mails, Foren oder GitHub.</div>
   </section>
 
   <section class="card">
-    <h2>7. API-Schlüssel in SerKal eintragen</h2>
-    <p>Kopiere den kurzen <strong>API-Schlüssel</strong> und füge ihn bei der SerKal-Einrichtung in das Feld <strong>TMDB-API-Key</strong> ein.</p>
-    <p>SerKal prüft den Schlüssel und speichert ihn lokal auf deinem eigenen Rechner. Normalerweise musst du ihn deshalb nur einmal eintragen.</p>
-    <img class="help-image" src="/icon/help/tmdb-einrichtung-api-key.png" alt="Eingabefeld für den persönlichen TMDB-API-Schlüssel in SerKal">
-    <p class="caption">In dieses SerKal-Feld gehört der kurze API-Schlüssel – nicht der lange Lesetoken.</p>
+    <h2>7. API-Key in SerKal eintragen</h2>
+    <p>Kopiere die kürzere Zeichenfolge unter <strong>API Key</strong> und füge ihn bei der SerKal-Einrichtung in das Feld <strong>API-Key</strong> ein.</p>
+    <p>SerKal prüft und speichert deinen API-Key. Wenn du ihn in SerKal über Google gespeichert hast, kann SerKal ihn auf weiteren eigenen Geräten mit demselben Google-Konto automatisch übernehmen. Du brauchst den API-Key nur einmal bei TMDB zu beantragen.</p>
+    <img class="help-image" src="/icon/help/tmdb-einrichtung-api-key.png" alt="Eingabefeld für den persönlichen API-Key in SerKal">
+    <p class="caption">In dieses SerKal-Feld gehört der kurze API-Key – nicht der lange Lesetoken.</p>
   </section>
 
   <section class="card">
-    <h2>Warum ist der TMDB-Schlüssel erforderlich?</h2>
-    <p>Ohne gültigen persönlichen TMDB-Schlüssel kann die Ersteinrichtung nicht abgeschlossen werden. SerKal benötigt ihn für <strong>TMDB-Suche, Serieninformationen, Bilder und die TMDB-gestützte Wartung</strong>.</p>
+    <h2>Warum ist der API-Key erforderlich?</h2>
+    <p>Ohne gültigen persönlichen API-Key kann die Ersteinrichtung nicht abgeschlossen werden. SerKal benötigt ihn für <strong>TMDB-Suche, Serieninformationen, Bilder und die TMDB-gestützte Wartung</strong>.</p>
   </section>
 
   <div class="actions">
