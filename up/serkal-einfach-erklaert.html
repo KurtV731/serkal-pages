@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wie SerKal funktioniert – einfach erklärt</title>
+  <link rel="canonical" href="https://serkal.de/serkal-einfach-erklaert.html">
+  <link rel="alternate" hreflang="de" href="https://serkal.de/serkal-einfach-erklaert.html">
+  <link rel="alternate" hreflang="en" href="https://serkal.de/how-serkal-works.html">
+  <link rel="alternate" hreflang="x-default" href="https://serkal.de/serkal-einfach-erklaert.html">
+
+<style>
+
+:root {
+  --page: #f5f6fa;
+  --header: #eef0f6;
+
+  --ink: #1f2940;
+  --muted: #596274;
+
+  --blue: #31427f;
+  --blue2: #4c63b6;
+
+  --line: #d9deeb;
+  --card: #ffffff;
+  --soft: #eef2ff;
+
+  --warn-bg: #fff3cd;
+  --warn-line: #ffeeba;
+
+  --shadow: 0 18px 48px rgba(42, 55, 105, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--page);
+  color: var(--ink);
+  line-height: 1.55;
+}
+
+.site-header {
+  background: var(--header);
+  border-bottom: 1px solid #d5dae7;
+  padding: 26px 18px 24px;
+}
+
+.header-inner {
+  max-width: 1360px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 22px;
+  align-items: start;
+}
+
+.brand-line {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.brand {
+  font-size: clamp(2rem, 3vw, 2.7rem);
+  line-height: 1;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.04em;
+  text-decoration: none;
+}
+
+.tagline {
+  color: #3f4551;
+  font-size: 1.08rem;
+}
+
+.top-tools {
+  display: grid;
+  gap: 10px;
+  justify-items: end;
+}
+
+.top-icons {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+
+.top-icons img {
+  height: 42px;
+  width: auto;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+.lang-switch {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.lang-switch a,
+.lang-switch .active {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  height: 24px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  color: var(--blue);
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.lang-switch .active {
+  background: var(--blue);
+  color: #ffffff;
+}
+
+.main-nav {
+  margin-top: 18px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.main-nav a,
+.main-nav .active {
+  color: var(--blue);
+  font-weight: 800;
+  font-size: 1.02rem;
+  text-decoration: none;
+}
+
+.main-nav a:hover {
+  text-decoration: underline;
+}
+
+.main-nav .active {
+  color: var(--ink);
+  cursor: default;
+}
+
+main {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 54px 22px 70px;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 0.92fr 1.08fr;
+  gap: 56px;
+  align-items: center;
+  margin-bottom: 52px;
+}
+
+.hero-text h1 {
+  color: var(--blue);
+  font-size: clamp(2.35rem, 4.6vw, 4.2rem);
+  line-height: 1.08;
+  margin: 0 0 22px;
+  letter-spacing: -0.04em;
+}
+
+.hero-text p {
+  color: var(--muted);
+  font-size: clamp(1.08rem, 1.55vw, 1.32rem);
+  max-width: 640px;
+  margin: 0 0 24px;
+}
+
+.notice {
+  background: var(--soft);
+  border: 1px solid #d8dff8;
+  border-radius: 18px;
+  padding: 18px 22px;
+  margin: 22px 0 28px;
+}
+
+.notice strong {
+  display: block;
+  color: var(--blue);
+  font-size: 1.08rem;
+  margin-bottom: 6px;
+}
+
+.notice p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+.actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.button {
+  display: inline-block;
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 14px 24px;
+  font-weight: 800;
+  font-size: 1.04rem;
+  border: 1px solid var(--blue2);
+}
+
+.button.primary {
+  background: var(--blue2);
+  color: #ffffff;
+}
+
+.button.secondary {
+  background: #ffffff;
+  color: var(--blue);
+}
+
+.hero-image {
+  position: relative;
+  min-height: 360px;
+}
+
+.hero-image.single {
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-image img {
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(49, 66, 127, 0.10);
+}
+
+.hero-image.single img {
+  max-width: 100%;
+}
+
+.hero-image .light {
+  position: absolute;
+  max-width: 78%;
+  right: 0;
+  top: 0;
+  opacity: 0.9;
+}
+
+.hero-image .dark {
+  position: absolute;
+  max-width: 78%;
+  left: 0;
+  top: 76px;
+  z-index: 2;
+}
+
+.grid2,
+.grid3 {
+  display: grid;
+  gap: 22px;
+  margin: 28px 0;
+}
+
+.grid2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.card,
+.listbox {
+  background: var(--card);
+  padding: 22px 24px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  margin-bottom: 18px;
+  box-shadow: 0 10px 28px rgba(42, 55, 105, 0.08);
+}
+
+.card h2,
+.card h3,
+.listbox h2,
+.listbox h3 {
+  margin-top: 0;
+  color: var(--blue);
+}
+
+.card p,
+.listbox p,
+.listbox li {
+  font-size: 15px;
+}
+
+.code {
+  background: #f4f7fc;
+  padding: 10px;
+  border-radius: 8px;
+  font-family: Consolas, monospace;
+  border: 1px solid #dfe5f2;
+}
+
+.warn {
+  background: var(--warn-bg);
+  border: 1px solid var(--warn-line);
+  padding: 14px 16px;
+  border-radius: 14px;
+  margin: 14px 0 18px;
+}
+
+.site-footer {
+  background: var(--header);
+  border-top: 1px solid #d5dae7;
+  color: var(--muted);
+  text-align: center;
+  padding: 30px 14px;
+}
+
+.site-footer a {
+  color: var(--blue);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 980px) {
+  .hero,
+  .grid2,
+  .grid3 {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-image {
+    min-height: 300px;
+  }
+
+  .hero-image img {
+    max-width: 86%;
+  }
+}
+
+@media (max-width: 700px) {
+  .header-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .top-tools {
+    justify-items: start;
+  }
+
+  .main-nav {
+    gap: 12px 16px;
+  }
+
+  .button {
+    width: 100%;
+    text-align: center;
+  }
+
+  .hero-text h1 {
+    font-size: clamp(2.35rem, 12vw, 3.4rem);
+  }
+}
+
+</style>
+
+
+<!--
+SERKAL WEBSITE REGEL:
+
+Auch wenn es vielleicht als Zeichen moderner Fortschritte der Programmierung gilt,
+und auch wenn es vielleicht so geht und funktioniert:
+
+Ich möchte strukturierte Angaben haben, wo ich in jeder Zeile eindeutig lesen kann,
+was hier los ist, was hier Sache ist, und das gegebenenfalls auch nacheditieren kann.
+
+Verbindlich:
+- keine unnötigen Bandwurm-Zeilen
+- keine eigenmächtigen Designwechsel
+- Header, Footer, Farben und Grundoptik auf allen Seiten einheitlich halten
+- Änderungen an der Gestaltung erst als Vorschlag kennzeichnen
+- große HTML-Dateien möglichst als Datei liefern, nicht als Volltext im Chat
+-->
+
+
+<style>
+
+/* ============================================================
+   SERKAL – VERBINDLICHER WEBSITE-KOPF / FUSS
+   Vorlage: /, Stand 07.08.2026
+   ============================================================ */
+
+.site-header {
+  background: #eef0f6;
+  border-bottom: 1px solid #d5dae7;
+  padding: 26px 18px 24px;
+}
+
+.header-inner {
+  max-width: 1360px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 22px;
+  align-items: start;
+}
+
+.brand-line {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.brand {
+  font-size: clamp(2rem, 3vw, 2.7rem);
+  line-height: 1;
+  font-weight: 800;
+  color: #1f2940;
+  letter-spacing: -0.04em;
+  text-decoration: none;
+}
+
+.tagline {
+  color: #3f4551;
+  font-size: 1.08rem;
+}
+
+.top-tools {
+  display: grid;
+  gap: 10px;
+  justify-items: end;
+}
+
+.top-icons {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+
+.top-icons img {
+  height: 42px;
+  width: auto;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+.lang-switch {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.lang-switch a,
+.lang-switch .active {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  height: 24px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid #d9deeb;
+  color: #31427f;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.lang-switch .active {
+  background: #31427f;
+  color: #ffffff;
+}
+
+.main-nav {
+  margin-top: 18px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.main-nav a,
+.main-nav .active {
+  color: #31427f;
+  font-weight: 800;
+  font-size: 1.02rem;
+  text-decoration: none;
+}
+
+.main-nav a:hover {
+  text-decoration: underline;
+}
+
+.main-nav .active {
+  color: #1f2940;
+  cursor: default;
+}
+
+.site-footer {
+  background: #eef0f6;
+  border-top: 1px solid #d5dae7;
+  color: #596274;
+  text-align: center;
+  padding: 30px 14px;
+}
+
+.site-footer a {
+  color: #31427f;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 700px) {
+  .header-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .top-tools {
+    justify-items: start;
+  }
+
+  .main-nav {
+    gap: 12px 16px;
+  }
+}
+
+</style>
+  <link rel="stylesheet" href="/serkal-shell.css">
+  <link rel="icon" href="/icon/logo/serkallogo.png">
+<style>
+.story-intro {max-width: 780px;margin: 0 auto 28px;text-align:left}
+.story-intro h1 {font-size:clamp(2rem,5vw,3rem);line-height:1.12}
+.story-flow {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:stretch;margin:24px 0}
+.story-flow .card {margin:0;padding:20px;position:relative}
+.story-flow .card .symbol {display:block;font-size:2rem;line-height:1.2;margin-bottom:8px}
+.story-flow .account {grid-column:2;background:#e9edff}
+.story-flow .source {grid-column:1;grid-row:2}
+.story-flow .app {grid-column:2;grid-row:2;background:#e9edff}
+.story-flow .calendar {grid-column:3;grid-row:2}
+.story-flow .drive {grid-column:2;grid-row:3}
+.story-flow .link-label {font-size:.92rem;font-weight:700;color:#31427f}
+.story-steps {display:grid;gap:14px;margin:22px 0}
+.story-steps .card h2 {margin-top:0;font-size:1.4rem}
+.story-steps p {margin:.45em 0}
+.story-steps .card {padding:20px}
+.story-intro p,.story-steps p,.story-flow p {font-size:1.12rem;line-height:1.6}
+@media(max-width:800px){.story-flow{grid-template-columns:1fr}.story-flow .card{grid-column:auto;grid-row:auto}}
+</style>
+</head>
+
+<body>
+
+
+<header class="site-header">
+  <div class="header-inner">
+    <div>
+      <div class="brand-line">
+        <a class="brand" href="/">SerKal</a>
+        <span class="tagline">Deine Serien im Blick – ohne alles im Kopf behalten zu müssen</span>
+      </div>
+      <nav class="main-nav" aria-label="Hauptnavigation">
+        <a href="/">Start</a>
+        <a href="/serkal-installieren.html">Download</a>
+        <span class="active">Hilfe</span>
+        <a href="/faq.html">FAQ</a>
+        <a href="/about.html">Über SerKal</a>
+        <a href="/legal.html">Rechtliches</a>
+        <a href="/werkstatt.html">Werkstatt</a>
+      </nav>
+    </div>
+    <div class="top-tools">
+      <div class="top-icons" aria-label="Projektlogos">
+        <img src="/icon/logo/serkallogo.png" alt="SerKal">
+        <img src="/icon/logo/chatgptlogo.png" alt="ChatGPT">
+        <img src="/icon/logo/tmdblogo.png" alt="TMDB">
+      </div>
+      <div class="lang-switch" aria-label="Sprachwahl"><span class="active">🇩🇪 DE</span><a href="/how-serkal-works.html">🇬🇧 EN</a></div>
+    </div>
+  </div>
+</header>
+
+
+<main>
+<section class="story-intro"><h1>Wie SerKal funktioniert – einfach erklärt</h1><p>Stell dir vor, du möchtest wissen, wann deine Lieblingsserie weitergeht. Du willst aber nicht jeden Tag nachsehen. SerKal übernimmt diese Arbeit. Dafür arbeiten mehrere Dienste zusammen. Jeder hat seine eigene Aufgabe.</p></section>
+<section class="story-flow" aria-label="Die Dienste im Überblick">
+<article class="card account"><span class="symbol" aria-hidden="true">🔑</span><h2>Dein Google-Konto</h2><p>Dein persönlicher Zugang. Du erlaubst SerKal, die beiden Google-Dienste zu nutzen.</p><p class="link-label">↓ Anmeldung und Erlaubnis</p></article>
+<article class="card source"><span class="symbol" aria-hidden="true">🎬</span><h2>TMDB</h2><p>Das Film- und Serienlexikon. Es liefert Titel, Staffeln, Folgen und bekannte Termine.</p><p class="link-label">Informationen → SerKal</p></article>
+<article class="card app"><span class="symbol" aria-hidden="true">📱</span><h2>SerKal</h2><p>Dein Serienassistent. Er sucht, merkt sich deine Auswahl und hält die Termine aktuell.</p><p class="link-label">↓ Archiv · → Termine</p></article>
+<article class="card calendar"><span class="symbol" aria-hidden="true">📅</span><h2>Google Kalender</h2><p>Dein Terminkalender. Hier siehst du die von SerKal eingetragenen Folgentermine.</p><p class="link-label">← Termine von SerKal</p></article>
+<article class="card drive"><span class="symbol" aria-hidden="true">📁</span><h2>Google Drive</h2><p>Dein persönlicher Speicher. Dort liegt die Google-Kopie deines SerKal-Archivs im eigenen App-Datenbereich.</p><p class="link-label">↕ Archiv laden und beim Beenden speichern</p></article>
+</section>
+<section class="story-steps">
+<article class="card"><h2>1. Die beiden Zugänge</h2><p>Du brauchst für die vollständige Google-gestützte Nutzung ein Google-Konto und einen persönlichen TMDB-API-Key. Der TMDB-Key ist der Zugangsschlüssel zum Serienlexikon. Er ist unabhängig von deinem Google-Passwort. Wenn du noch keinen Key hast, musst du ihn einmal bei TMDB beantragen. <a href="/tmdb-hilfe.html">So bekommst du deinen TMDB-Key.</a></p></article>
+<article class="card"><h2>2. SerKal mit Google verbinden</h2><p>Öffne SerKal und wähle dein Google-Konto. Google fragt dich, ob SerKal die erforderlichen Dienste nutzen darf. Bestätige die gewünschten Berechtigungen. SerKal bekommt dabei kein Google-Passwort. Google Drive wird für das Archiv benötigt; Google Kalender für die Termine. Wenn du auf einem zweiten Gerät dieselben SerKal-Daten verwenden möchtest, wähle dasselbe Google-Konto.</p></article>
+<article class="card"><h2>3. Den TMDB-Key eingeben</h2><p>Trage deinen TMDB-Key in SerKal ein, wenn das Programm danach fragt. Damit kann SerKal bei TMDB nach Serien suchen. Wenn bei deinem Google-Konto bereits ein gültiger SerKal-TMDB-Key gespeichert wurde, kann SerKal ihn von dort übernehmen. Die Google-Anmeldung allein ersetzt den TMDB-Key nicht.</p></article>
+<article class="card"><h2>4. Eine Serie aussuchen</h2><p>Nehmen wir als Beispiel eine erfundene Serie namens „Die Sternenreise“. Du gibst den Titel ein. SerKal fragt TMDB, findet die Serie und zeigt ihre Staffeln. Du wählst die Staffel und fügst sie zum SerKal-Archiv hinzu. Dieses Archiv ist deine persönliche Serienliste.</p></article>
+<article class="card"><h2>5. Die Termine landen im Kalender</h2><p>Wenn du Google Kalender eingerichtet hast und SerKal die passenden Rechte hat, trägt SerKal die bekannten Termine dort ein. Kennt TMDB zunächst nur den Staffelstart, kann SerKal zunächst diesen Termin führen. Bei der Wartung fragt SerKal erneut nach und kann die Termine aktualisieren, sobald weitere Folgendaten bekannt sind.</p></article>
+<article class="card"><h2>6. Beim regulären Beenden speichern</h2><p>SerKal arbeitet während der Sitzung auf deinem Gerät. Beim Start lädt es bei aktiver Google-Verbindung den Archivstand aus Google Drive. Wenn du SerKal mit Speichern beendest, wird der geänderte Archivstand zurückgeschrieben. Öffne danach SerKal auf deinem anderen Gerät mit demselben Konto, um diesen Stand zu laden. Es findet kein laufender Abgleich zwischen gleichzeitig geöffneten Geräten statt.</p></article>
+<article class="card"><h2>7. Wenn etwas fehlt</h2><p>Google verbunden, aber keine Seriensuche? Prüfe den TMDB-Key. Serien im Archiv, aber keine Termine? Prüfe die Google-Kalender-Verbindung und den ausgewählten Kalender. Wenn TMDB noch keinen Termin kennt, kann SerKal keinen konkreten Folgetermin anzeigen. Ein erfolgreicher Google-Login allein bedeutet noch nicht, dass das Archiv fertig geladen ist.</p></article>
+</section>
+<div class="actions"><a class="button secondary" href="/help.html">Zur Hilfe</a> <a class="button secondary" href="/tmdb-hilfe.html">TMDB-Key Hilfe</a> <a class="button secondary" href="/google-kalender-hilfe.html">Google-Kalender Hilfe</a></div>
+</main>
+
+<footer class="site-footer">
+  <p><a href="/">Start</a> · <a href="/serkal-installieren.html">Download</a> · <span class="active">Hilfe</span> · <a href="/faq.html">FAQ</a> · <a href="/about.html">Über SerKal</a> · <a href="/legal.html">Rechtliches</a> · <a href="/werkstatt.html">Werkstatt</a></p>
+  <p class="footer-legal"><a href="/impressum.html">Impressum</a> · <a href="/privacy.html">Datenschutz</a></p>
+  <p>© SerKal – 2026</p>
+  <p class="footer-languages"><span class="active">Deutsch</span> · <a href="/how-serkal-works.html">English</a></p>
+</footer>
+
+</body>
+</html>
