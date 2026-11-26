@@ -113,3 +113,7 @@ Neuere Freigaben ausschließlich aus dem gemeinsamen Schwarzen Brett und dem bel
 - Wenn möglich selbst über GitHub arbeiten.
 - Keine Versprechen für „später“ oder „morgen“ abgeben. Entweder jetzt erledigen oder ehrlich als offen kennzeichnen.
 - Nach Änderungen immer unterscheiden: Quelle fertig · lokal vorhanden · hochgeladen · live geprüft.
+
+## Google Search Console – Bestätigungsdatei
+
+Die Datei `up/google911c81a59d3d0a4d.html` bestätigt die Inhaberschaft von serkal.de für Google Search Console. **Dateiname, Inhalt und Speicherort beibehalten.** Nach Website-Uploads muss sie weiterhin direkt unter https://serkal.de/google911c81a59d3d0a4d.html abrufbar sein. Die Datei bei Aufräumarbeiten und Veröffentlichungen im Ordner `up` belassen.
