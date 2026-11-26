@@ -11,6 +11,14 @@ RewriteRule ^start-en\.html$ https://serkal.de/home-en.html [R=301,L]
 RewriteRule ^download\.html$ https://serkal.de/serkal-installieren.html [R=301,L]
 RewriteRule ^download-en\.html$ https://serkal.de/install-serkal.html [R=301,L]
 
+# Alte englische Startadressen
+RewriteRule ^index-en(?:\.html)?$ https://serkal.de/home-en.html [R=301,L]
+
+# Dauerhaft entfernte Inhalte ohne entsprechenden Nachfolger
+RewriteRule ^skdevhmb/?$ - [G,L]
+RewriteRule ^helpfordevelopement\.the\.half\.mailbox/sk25/sk25-index\.html$ - [G,L]
+RewriteRule ^download/doku\.pdf$ - [G,L]
+
 <IfModule mod_headers.c>
   Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
   Header always set X-Content-Type-Options "nosniff"
