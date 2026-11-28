@@ -17,15 +17,6 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'GET') {
     reply(405, ['error' => 'method_not_allowed']);
 }
 
-$token = trim((string) @file_get_contents(__DIR__ . '/privat/tmdb-pilot-token.txt'));
-if (!preg_match('/\A[a-f0-9]{64}\z/i', $token)) {
-    reply(503, ['error' => 'pilot_not_configured']);
-}
-if (!hash_equals('Bearer ' . $token, $_SERVER['HTTP_AUTHORIZATION'] ?? '')) {
-    header('WWW-Authenticate: Bearer');
-    reply(401, ['error' => 'unauthorized']);
-}
-
 $route = $_GET['route'] ?? '';
 $language = $_GET['language'] ?? 'de-DE';
 if (!in_array($language, ['de-DE', 'en-US'], true)) {
